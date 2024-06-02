@@ -9,21 +9,23 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+    @IBOutlet weak var Username: UITextField!
+    @IBOutlet weak var Password: UITextField!
+    @IBOutlet weak var loginBtn: UIButton!
     
+    override func viewDidLoad() {
+            super.viewDidLoad()
+       
+        loginBtn.layer.cornerRadius = loginBtn.frame.height / 2
+        Username.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        Password.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
+        Username.layer.borderColor = UIColor.gray.cgColor
+        Username.layer.borderWidth = 1.0
+        Username.layer.cornerRadius = 10
+        Password.layer.borderColor = UIColor.gray.cgColor
+        Password.layer.borderWidth = 1.0
+        Password.layer.cornerRadius = 10
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        }
     }
-    */
-
-}
