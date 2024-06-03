@@ -35,7 +35,7 @@ class BrandsViewController: UIViewController , UICollectionViewDataSource, UICol
 extension BrandsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: (collectionView.bounds.width*0.45), height: (collectionView.bounds.width*0.85))
+            return CGSize(width: (collectionView.bounds.width*0.45), height: (collectionView.bounds.width*0.65))
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
