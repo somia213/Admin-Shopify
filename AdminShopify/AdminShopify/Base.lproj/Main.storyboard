@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -83,7 +84,7 @@
                                     <constraint firstAttribute="height" constant="140" id="sd4-mM-qth"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" disabledBackground="square.and.arrow.up.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CFn-ND-1v9">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CFn-ND-1v9">
                                 <rect key="frame" x="46" y="466" width="305" height="56"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <constraints>
@@ -135,13 +136,85 @@
             </objects>
             <point key="canvasLocation" x="1245.0381679389313" y="-37.323943661971832"/>
         </scene>
+        <!--Brands View Controller-->
+        <scene sceneID="ZY1-aK-toy">
+            <objects>
+                <viewController id="nvV-kt-nxB" customClass="BrandsViewController" customModule="AdminShopify" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6bz-rs-6wS">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Fly-10-G69">
+                                <rect key="frame" x="16" y="242" width="361" height="576"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="48p-Ul-Rvc">
+                                    <size key="itemSize" width="292" height="261"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BrandCell" id="9NV-KX-aWe" customClass="BrandsCollectionViewCell" customModule="AdminShopify" customModuleProvider="target">
+                                        <rect key="frame" x="34.666666666666664" y="0.0" width="292" height="261"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="tBy-Gn-1rz">
+                                            <rect key="frame" x="0.0" y="0.0" width="292" height="261"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3CD-AY-d0i">
+                                                    <rect key="frame" x="0.0" y="0.0" width="292" height="261"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="3CD-AY-d0i" secondAttribute="trailing" id="8vB-0Y-3s9"/>
+                                                <constraint firstAttribute="bottom" secondItem="3CD-AY-d0i" secondAttribute="bottom" id="GY7-pJ-3tn"/>
+                                                <constraint firstItem="3CD-AY-d0i" firstAttribute="top" secondItem="tBy-Gn-1rz" secondAttribute="top" id="bvp-G5-YMs"/>
+                                                <constraint firstItem="3CD-AY-d0i" firstAttribute="leading" secondItem="tBy-Gn-1rz" secondAttribute="leading" id="vlT-XL-TMP"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="292" height="261"/>
+                                        <connections>
+                                            <outlet property="brandImage" destination="3CD-AY-d0i" id="GZ3-xU-J4f"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Brands" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2b-Ny-nf0">
+                                <rect key="frame" x="73" y="116" width="244" height="78"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="Zxc-5W-aDz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="eUA-F6-bpS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Fly-10-G69" firstAttribute="bottom" secondItem="eUA-F6-bpS" secondAttribute="bottom" id="4NU-P3-VjH"/>
+                            <constraint firstItem="c2b-Ny-nf0" firstAttribute="leading" secondItem="eUA-F6-bpS" secondAttribute="leading" constant="73" id="86J-N3-jYF"/>
+                            <constraint firstItem="eUA-F6-bpS" firstAttribute="trailing" secondItem="Fly-10-G69" secondAttribute="trailing" constant="16" id="Jz9-yH-Azy"/>
+                            <constraint firstItem="c2b-Ny-nf0" firstAttribute="top" secondItem="eUA-F6-bpS" secondAttribute="top" constant="57" id="LZj-hU-Q1u"/>
+                            <constraint firstItem="eUA-F6-bpS" firstAttribute="trailing" secondItem="c2b-Ny-nf0" secondAttribute="trailing" constant="76" id="WMI-f9-2zH"/>
+                            <constraint firstItem="Fly-10-G69" firstAttribute="top" secondItem="c2b-Ny-nf0" secondAttribute="bottom" constant="48" id="f7A-4e-kHR"/>
+                            <constraint firstItem="Fly-10-G69" firstAttribute="leading" secondItem="eUA-F6-bpS" secondAttribute="leading" constant="16" id="hvo-VE-KMr"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="brandsCollectionView" destination="Fly-10-G69" id="duW-fk-5bn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hih-YF-57g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1990.0763358778624" y="-32.394366197183103"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="f2P-NS-PZy"/>
     </designables>
     <resources>
         <image name="orangeBag" width="1000" height="1000"/>
-        <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

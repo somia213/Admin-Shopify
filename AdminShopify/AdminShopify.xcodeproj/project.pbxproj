@@ -17,6 +17,8 @@
 		04073B8A2C0AF18E00F1C6C2 /* AdminShopifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B892C0AF18E00F1C6C2 /* AdminShopifyTests.swift */; };
 		04073B942C0AF18E00F1C6C2 /* AdminShopifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B932C0AF18E00F1C6C2 /* AdminShopifyUITests.swift */; };
 		04073B962C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */; };
+		042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */; };
+		042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */; };
 		04A714BD2C0BE187000F75D6 /* admin.json in Resources */ = {isa = PBXBuildFile; fileRef = 04A714BC2C0BE187000F75D6 /* admin.json */; };
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
 		04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */; };
@@ -56,6 +58,8 @@
 		04073B8F2C0AF18E00F1C6C2 /* AdminShopifyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdminShopifyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04073B932C0AF18E00F1C6C2 /* AdminShopifyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminShopifyUITests.swift; sourceTree = "<group>"; };
 		04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminShopifyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsViewController.swift; sourceTree = "<group>"; };
+		042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
 		04A714BC2C0BE187000F75D6 /* admin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = admin.json; path = ../../../../../../../Downloads/admin.json; sourceTree = "<group>"; };
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -150,6 +154,31 @@
 			path = AdminShopifyUITests;
 			sourceTree = "<group>";
 		};
+		042D78BD2C0D173700CE84C2 /* BrandScreen */ = {
+			isa = PBXGroup;
+			children = (
+				042D78BF2C0D175900CE84C2 /* View */,
+				042D78BE2C0D174600CE84C2 /* Viewmodel */,
+			);
+			path = BrandScreen;
+			sourceTree = "<group>";
+		};
+		042D78BE2C0D174600CE84C2 /* Viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Viewmodel;
+			sourceTree = "<group>";
+		};
+		042D78BF2C0D175900CE84C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */,
+				042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04A714BE2C0BE2DC000F75D6 /* LoginScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +238,7 @@
 		04DB7B262C0BA59600D6C3DE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				042D78BD2C0D173700CE84C2 /* BrandScreen */,
 				04A714BE2C0BE2DC000F75D6 /* LoginScreen */,
 			);
 			path = Models;
@@ -436,6 +466,8 @@
 				04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */,
 				04073B742C0AF18B00F1C6C2 /* ViewController.swift in Sources */,
 				04073B702C0AF18B00F1C6C2 /* AppDelegate.swift in Sources */,
+				042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */,
+				042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */,
 				04073B722C0AF18B00F1C6C2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
