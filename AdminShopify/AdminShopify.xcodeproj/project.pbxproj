@@ -17,8 +17,12 @@
 		04073B8A2C0AF18E00F1C6C2 /* AdminShopifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B892C0AF18E00F1C6C2 /* AdminShopifyTests.swift */; };
 		04073B942C0AF18E00F1C6C2 /* AdminShopifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B932C0AF18E00F1C6C2 /* AdminShopifyUITests.swift */; };
 		04073B962C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */; };
+		041E45FB2C0EF25C0071556C /* AllProductsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E45FA2C0EF25C0071556C /* AllProductsTableViewCell.xib */; };
+		041E45FC2C0EF25C0071556C /* AllProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E45F92C0EF25C0071556C /* AllProductsTableViewCell.swift */; };
+		041E45FE2C0EF61C0071556C /* AllProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */; };
 		042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */; };
 		042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */; };
+		04A4C4272C0E4B7300EB7AFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */; };
 		04A714BD2C0BE187000F75D6 /* admin.json in Resources */ = {isa = PBXBuildFile; fileRef = 04A714BC2C0BE187000F75D6 /* admin.json */; };
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
 		04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */; };
@@ -58,8 +62,12 @@
 		04073B8F2C0AF18E00F1C6C2 /* AdminShopifyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdminShopifyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04073B932C0AF18E00F1C6C2 /* AdminShopifyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminShopifyUITests.swift; sourceTree = "<group>"; };
 		04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminShopifyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		041E45F92C0EF25C0071556C /* AllProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductsTableViewCell.swift; sourceTree = "<group>"; };
+		041E45FA2C0EF25C0071556C /* AllProductsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AllProductsTableViewCell.xib; sourceTree = "<group>"; };
+		041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductsViewController.swift; sourceTree = "<group>"; };
 		042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsViewController.swift; sourceTree = "<group>"; };
 		042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
+		04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04A714BC2C0BE187000F75D6 /* admin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = admin.json; path = ../../../../../../../Downloads/admin.json; sourceTree = "<group>"; };
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -121,8 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				04DB7B282C0BA60E00D6C3DE /* Assets */,
-				04DB7B272C0BA59F00D6C3DE /* Modules */,
-				04DB7B262C0BA59600D6C3DE /* Models */,
+				04DB7B262C0BA59600D6C3DE /* Modules */,
 				04DB7B212C0BA55000D6C3DE /* Servies */,
 				04DB7B1E2C0BA4DD00D6C3DE /* Utilities */,
 				04073B6F2C0AF18B00F1C6C2 /* AppDelegate.swift */,
@@ -154,6 +161,32 @@
 			path = AdminShopifyUITests;
 			sourceTree = "<group>";
 		};
+		041E45F62C0EF1BE0071556C /* AllProducts */ = {
+			isa = PBXGroup;
+			children = (
+				041E45F82C0EF1F20071556C /* view */,
+				041E45F72C0EF1CE0071556C /* viewModel */,
+			);
+			path = AllProducts;
+			sourceTree = "<group>";
+		};
+		041E45F72C0EF1CE0071556C /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		041E45F82C0EF1F20071556C /* view */ = {
+			isa = PBXGroup;
+			children = (
+				041E45F92C0EF25C0071556C /* AllProductsTableViewCell.swift */,
+				041E45FA2C0EF25C0071556C /* AllProductsTableViewCell.xib */,
+				041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		042D78BD2C0D173700CE84C2 /* BrandScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +210,14 @@
 				042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		04A4C4252C0E4B6100EB7AFE /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		04A714BE2C0BE2DC000F75D6 /* LoginScreen */ = {
@@ -214,7 +255,7 @@
 		04DB7B212C0BA55000D6C3DE /* Servies */ = {
 			isa = PBXGroup;
 			children = (
-				04DB7B252C0BA58600D6C3DE /* Networking */,
+				04A4C4252C0E4B6100EB7AFE /* Networking */,
 				04DB7B222C0BA55700D6C3DE /* Connectivity */,
 			);
 			path = Servies;
@@ -228,25 +269,12 @@
 			path = Connectivity;
 			sourceTree = "<group>";
 		};
-		04DB7B252C0BA58600D6C3DE /* Networking */ = {
+		04DB7B262C0BA59600D6C3DE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
-		04DB7B262C0BA59600D6C3DE /* Models */ = {
-			isa = PBXGroup;
-			children = (
+				041E45F62C0EF1BE0071556C /* AllProducts */,
 				042D78BD2C0D173700CE84C2 /* BrandScreen */,
 				04A714BE2C0BE2DC000F75D6 /* LoginScreen */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		04DB7B272C0BA59F00D6C3DE /* Modules */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -393,6 +421,7 @@
 				04073B7C2C0AF18E00F1C6C2 /* Assets.xcassets in Resources */,
 				04073B7F2C0AF18E00F1C6C2 /* Base in Resources */,
 				04073B772C0AF18C00F1C6C2 /* Base in Resources */,
+				041E45FB2C0EF25C0071556C /* AllProductsTableViewCell.xib in Resources */,
 				04A714BD2C0BE187000F75D6 /* admin.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,10 +489,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041E45FC2C0EF25C0071556C /* AllProductsTableViewCell.swift in Sources */,
 				04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */,
 				04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */,
+				04A4C4272C0E4B7300EB7AFE /* NetworkManager.swift in Sources */,
 				04073B7A2C0AF18C00F1C6C2 /* AdminShopify.xcdatamodeld in Sources */,
 				04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */,
+				041E45FE2C0EF61C0071556C /* AllProductsViewController.swift in Sources */,
 				04073B742C0AF18B00F1C6C2 /* ViewController.swift in Sources */,
 				04073B702C0AF18B00F1C6C2 /* AppDelegate.swift in Sources */,
 				042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */,
