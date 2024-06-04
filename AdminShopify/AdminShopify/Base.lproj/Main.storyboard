@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eu0-Ne-v0T">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bMW-Kr-ucL">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -239,20 +239,20 @@
         <!--Tab Bar Controller-->
         <scene sceneID="irE-XS-HT4">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Mi3-Le-X7g" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBar" automaticallyAdjustsScrollViewInsets="NO" id="Mi3-Le-X7g" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="ZVc-cW-uIm"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Qta-VI-D7a">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" systemColor="systemOrangeColor"/>
-                        <color key="selectedImageTintColor" systemColor="systemOrangeColor"/>
+                        <color key="tintColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="nvV-kt-nxB" kind="relationship" relationship="viewControllers" id="Hj8-Ad-4VO"/>
                         <segue destination="vlj-WC-ZeJ" kind="relationship" relationship="viewControllers" id="eE7-BD-TLT"/>
-                        <segue destination="mOv-Tk-EBp" kind="relationship" relationship="viewControllers" id="hOZ-s3-YBm"/>
+                        <segue destination="mOv-Tk-EBp" kind="relationship" relationship="viewControllers" id="60k-VR-TA9"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n7H-3I-SiT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -342,20 +342,66 @@
         <!--Fixed Price-->
         <scene sceneID="SnT-mF-UGd">
             <objects>
-                <viewController id="mOv-Tk-EBp" sceneMemberID="viewController">
+                <viewController id="mOv-Tk-EBp" customClass="PriceRulesViewController" customModule="AdminShopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6me-5M-la5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price Rules" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p45-uZ-YIh">
+                                <rect key="frame" x="84" y="74" width="247" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="kTV-85-6Dg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="33"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eL5-KM-ehm">
+                                <rect key="frame" x="16" y="133" width="361" height="573"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mOv-Tk-EBp" id="JZG-1y-cuM"/>
+                                    <outlet property="delegate" destination="mOv-Tk-EBp" id="dRl-ud-Xwo"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9FN-aV-tZn">
+                                <rect key="frame" x="279" y="723" width="64" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="DtJ-cn-hFK"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="addIcon"/>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Hbn-Pf-zPS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9FN-aV-tZn" firstAttribute="leading" secondItem="Hbn-Pf-zPS" secondAttribute="leading" constant="279" id="4uS-fq-7My"/>
+                            <constraint firstItem="Hbn-Pf-zPS" firstAttribute="trailing" secondItem="9FN-aV-tZn" secondAttribute="trailing" constant="50" id="61H-Ea-Ald"/>
+                            <constraint firstItem="Hbn-Pf-zPS" firstAttribute="trailing" secondItem="eL5-KM-ehm" secondAttribute="trailing" constant="16" id="9Y7-E9-Zpa"/>
+                            <constraint firstItem="eL5-KM-ehm" firstAttribute="top" secondItem="p45-uZ-YIh" secondAttribute="bottom" constant="29" id="FBk-gT-gfC"/>
+                            <constraint firstItem="eL5-KM-ehm" firstAttribute="leading" secondItem="Hbn-Pf-zPS" secondAttribute="leading" constant="16" id="TBq-vd-bbj"/>
+                            <constraint firstItem="p45-uZ-YIh" firstAttribute="leading" secondItem="6me-5M-la5" secondAttribute="leading" constant="84" id="f4b-fW-idU"/>
+                            <constraint firstItem="p45-uZ-YIh" firstAttribute="top" secondItem="6me-5M-la5" secondAttribute="top" constant="74" id="hY8-bS-nim"/>
+                            <constraint firstAttribute="bottom" secondItem="9FN-aV-tZn" secondAttribute="bottom" constant="75" id="jY5-PQ-bf8"/>
+                            <constraint firstAttribute="trailing" secondItem="p45-uZ-YIh" secondAttribute="trailing" constant="62" id="pzc-la-L3l"/>
+                            <constraint firstItem="9FN-aV-tZn" firstAttribute="top" secondItem="eL5-KM-ehm" secondAttribute="bottom" constant="17" id="uRi-cV-dX5"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Fixed Price" image="tag.fill" catalog="system" id="ZMH-u4-5In"/>
+                    <connections>
+                        <outlet property="addNewPriceRule" destination="DtJ-cn-hFK" id="Wf5-yL-OMc"/>
+                        <outlet property="priceRulesTable" destination="eL5-KM-ehm" id="eeV-i2-xvT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4S-2q-4nH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3843" y="657"/>
+            <point key="canvasLocation" x="3844" y="652"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="f2P-NS-PZy"/>
+    </designables>
     <resources>
         <image name="Eo_circle_orange_letter-b.svg-2" width="25" height="25"/>
         <image name="addIcon" width="40" height="40"/>

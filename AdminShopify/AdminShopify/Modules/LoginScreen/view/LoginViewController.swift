@@ -44,10 +44,12 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonTapped(_ sender: UIButton) {
         if Username.text == "admin" && Password.text == "1234" {
-            let vc = storyboard?.instantiateViewController(withIdentifier: "BrandsViewController") as! BrandsViewController
-            vc.modalPresentationStyle = .fullScreen
-            vc.modalTransitionStyle = .crossDissolve
-            self.present(vc, animated: true)
+            
+            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+
+            tabBarVC.modalPresentationStyle = .fullScreen
+            tabBarVC.modalTransitionStyle = .crossDissolve
+            self.present(tabBarVC, animated: true)
         } else {
             let alert = UIAlertController(title: "Login Failed", message: "Username or Password is incorrect", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

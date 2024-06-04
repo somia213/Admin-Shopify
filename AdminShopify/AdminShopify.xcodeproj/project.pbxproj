@@ -22,6 +22,9 @@
 		041E45FE2C0EF61C0071556C /* AllProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */; };
 		042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */; };
 		042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */; };
+		0441FCEB2C0F18CD008959B8 /* PriceRulesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0441FCEA2C0F18CD008959B8 /* PriceRulesTableViewCell.xib */; };
+		0441FCEC2C0F18CD008959B8 /* PriceRulesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCE92C0F18CD008959B8 /* PriceRulesTableViewCell.swift */; };
+		0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */; };
 		04A4C4272C0E4B7300EB7AFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */; };
 		04A714BD2C0BE187000F75D6 /* admin.json in Resources */ = {isa = PBXBuildFile; fileRef = 04A714BC2C0BE187000F75D6 /* admin.json */; };
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
@@ -67,6 +70,9 @@
 		041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductsViewController.swift; sourceTree = "<group>"; };
 		042D78C22C0D19E500CE84C2 /* BrandsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsViewController.swift; sourceTree = "<group>"; };
 		042D78C42C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
+		0441FCE92C0F18CD008959B8 /* PriceRulesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRulesTableViewCell.swift; sourceTree = "<group>"; };
+		0441FCEA2C0F18CD008959B8 /* PriceRulesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PriceRulesTableViewCell.xib; sourceTree = "<group>"; };
+		0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRulesViewController.swift; sourceTree = "<group>"; };
 		04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04A714BC2C0BE187000F75D6 /* admin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = admin.json; path = ../../../../../../../Downloads/admin.json; sourceTree = "<group>"; };
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -212,6 +218,32 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		0441FCE62C0F1881008959B8 /* PriceRules */ = {
+			isa = PBXGroup;
+			children = (
+				0441FCE82C0F18A0008959B8 /* view */,
+				0441FCE72C0F1893008959B8 /* viewModel */,
+			);
+			path = PriceRules;
+			sourceTree = "<group>";
+		};
+		0441FCE72C0F1893008959B8 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		0441FCE82C0F18A0008959B8 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				0441FCE92C0F18CD008959B8 /* PriceRulesTableViewCell.swift */,
+				0441FCEA2C0F18CD008959B8 /* PriceRulesTableViewCell.xib */,
+				0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		04A4C4252C0E4B6100EB7AFE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +304,7 @@
 		04DB7B262C0BA59600D6C3DE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				0441FCE62C0F1881008959B8 /* PriceRules */,
 				041E45F62C0EF1BE0071556C /* AllProducts */,
 				042D78BD2C0D173700CE84C2 /* BrandScreen */,
 				04A714BE2C0BE2DC000F75D6 /* LoginScreen */,
@@ -421,6 +454,7 @@
 				04073B7C2C0AF18E00F1C6C2 /* Assets.xcassets in Resources */,
 				04073B7F2C0AF18E00F1C6C2 /* Base in Resources */,
 				04073B772C0AF18C00F1C6C2 /* Base in Resources */,
+				0441FCEB2C0F18CD008959B8 /* PriceRulesTableViewCell.xib in Resources */,
 				041E45FB2C0EF25C0071556C /* AllProductsTableViewCell.xib in Resources */,
 				04A714BD2C0BE187000F75D6 /* admin.json in Resources */,
 			);
@@ -499,7 +533,9 @@
 				04073B742C0AF18B00F1C6C2 /* ViewController.swift in Sources */,
 				04073B702C0AF18B00F1C6C2 /* AppDelegate.swift in Sources */,
 				042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */,
+				0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */,
 				042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */,
+				0441FCEC2C0F18CD008959B8 /* PriceRulesTableViewCell.swift in Sources */,
 				04073B722C0AF18B00F1C6C2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
