@@ -11,6 +11,8 @@ class EditableProductDetailsViewController: UIViewController {
 
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
+    @IBOutlet weak var sizeStackView: UIStackView!
+    @IBOutlet weak var scrollableStackView: UIScrollView!
     var arrProductImg = [UIImage(named: "addidus") , UIImage(named: "unnamed") , UIImage(named: "lock") ,UIImage(named: "addidus") ,UIImage(named: "unnamed") ]
     var timer : Timer?
     var currentCellIndex = 0
@@ -19,6 +21,12 @@ class EditableProductDetailsViewController: UIViewController {
 
         pageController.numberOfPages = arrProductImg.count
         startTimer()
+        let sizes = ["Small", "Medium", "Large", "XL", "XXL", "XXXL", "US 6", "US 8", "US 10", "US 12"]
+            
+            for size in sizes {
+                addSize(size: size)
+            }
+        
     }
     
     func startTimer(){
@@ -34,6 +42,34 @@ class EditableProductDetailsViewController: UIViewController {
        imgCollectionView.scrollToItem(at: IndexPath(item: currentCellIndex, section: 0), at: .centeredHorizontally, animated: true)
        pageController.currentPage = currentCellIndex
     }
+    
+    func addSize(size: String) {
+        let newSizeView = UIView()
+        newSizeView.backgroundColor = UIColor.white
+        
+        newSizeView.layer.shadowColor = UIColor.gray.cgColor
+        newSizeView.layer.shadowOpacity = 0.5
+        newSizeView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        newSizeView.layer.shadowRadius = 4
+        
+        let newSizeLabel = UILabel()
+        newSizeLabel.text = size
+        newSizeLabel.textColor = UIColor.black
+        
+        newSizeView.addSubview(newSizeLabel)
+        
+        newSizeLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            newSizeLabel.topAnchor.constraint(equalTo: newSizeView.topAnchor, constant: 8),
+            newSizeLabel.leadingAnchor.constraint(equalTo: newSizeView.leadingAnchor, constant: 8),
+            newSizeLabel.trailingAnchor.constraint(equalTo: newSizeView.trailingAnchor, constant: -8),
+            newSizeLabel.bottomAnchor.constraint(equalTo: newSizeView.bottomAnchor, constant: -8)
+        ])
+        
+        sizeStackView.addArrangedSubview(newSizeView)
+    }
+
+
 
 }
 
