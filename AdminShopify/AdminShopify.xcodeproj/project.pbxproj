@@ -31,6 +31,8 @@
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
 		04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */; };
 		04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B232C0BA56E00D6C3DE /* Connectivity.swift */; };
+		04F79A992C10F74F00A0205E /* EditableProductDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F79A982C10F74F00A0205E /* EditableProductDetailsViewController.swift */; };
+		04F79A9B2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F79A9A2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift */; };
 		780C55FCA666FFAE267545B5 /* Pods_AdminShopify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B1FA838A84AB78B10A81B3 /* Pods_AdminShopify.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +82,8 @@
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04DB7B232C0BA56E00D6C3DE /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
+		04F79A982C10F74F00A0205E /* EditableProductDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableProductDetailsViewController.swift; sourceTree = "<group>"; };
+		04F79A9A2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableProductDetailsCollectionViewCell.swift; sourceTree = "<group>"; };
 		5C7D75F5837A942C57070C14 /* Pods-AdminShopify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminShopify.debug.xcconfig"; path = "Target Support Files/Pods-AdminShopify/Pods-AdminShopify.debug.xcconfig"; sourceTree = "<group>"; };
 		D4B1FA838A84AB78B10A81B3 /* Pods_AdminShopify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdminShopify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9E17E58945CE9921ABD960A /* Pods-AdminShopify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminShopify.release.xcconfig"; path = "Target Support Files/Pods-AdminShopify/Pods-AdminShopify.release.xcconfig"; sourceTree = "<group>"; };
@@ -330,6 +334,7 @@
 		04DB7B262C0BA59600D6C3DE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				04F79A952C10F6F400A0205E /* EditableProductDetais */,
 				040908402C1033050064E40B /* AvaliableBrandProduct */,
 				0441FCE62C0F1881008959B8 /* PriceRules */,
 				041E45F62C0EF1BE0071556C /* AllProducts */,
@@ -353,6 +358,31 @@
 				04A714BC2C0BE187000F75D6 /* admin.json */,
 			);
 			path = "Lottie Files";
+			sourceTree = "<group>";
+		};
+		04F79A952C10F6F400A0205E /* EditableProductDetais */ = {
+			isa = PBXGroup;
+			children = (
+				04F79A972C10F71900A0205E /* viewmodel */,
+				04F79A962C10F71200A0205E /* view */,
+			);
+			path = EditableProductDetais;
+			sourceTree = "<group>";
+		};
+		04F79A962C10F71200A0205E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				04F79A982C10F74F00A0205E /* EditableProductDetailsViewController.swift */,
+				04F79A9A2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		04F79A972C10F71900A0205E /* viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewmodel;
 			sourceTree = "<group>";
 		};
 		D7852775953376E6663C127C /* Pods */ = {
@@ -555,8 +585,10 @@
 				04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */,
 				04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */,
 				04A4C4272C0E4B7300EB7AFE /* NetworkManager.swift in Sources */,
+				04F79A992C10F74F00A0205E /* EditableProductDetailsViewController.swift in Sources */,
 				04073B7A2C0AF18C00F1C6C2 /* AdminShopify.xcdatamodeld in Sources */,
 				04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */,
+				04F79A9B2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift in Sources */,
 				041E45FE2C0EF61C0071556C /* AllProductsViewController.swift in Sources */,
 				04073B742C0AF18B00F1C6C2 /* ViewController.swift in Sources */,
 				04073B702C0AF18B00F1C6C2 /* AppDelegate.swift in Sources */,
