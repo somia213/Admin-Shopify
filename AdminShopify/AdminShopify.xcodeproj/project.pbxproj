@@ -17,6 +17,7 @@
 		04073B8A2C0AF18E00F1C6C2 /* AdminShopifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B892C0AF18E00F1C6C2 /* AdminShopifyTests.swift */; };
 		04073B942C0AF18E00F1C6C2 /* AdminShopifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B932C0AF18E00F1C6C2 /* AdminShopifyUITests.swift */; };
 		04073B962C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */; };
+		040908442C10334E0064E40B /* AvaliableProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040908432C10334E0064E40B /* AvaliableProductViewController.swift */; };
 		041E45FB2C0EF25C0071556C /* AllProductsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E45FA2C0EF25C0071556C /* AllProductsTableViewCell.xib */; };
 		041E45FC2C0EF25C0071556C /* AllProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E45F92C0EF25C0071556C /* AllProductsTableViewCell.swift */; };
 		041E45FE2C0EF61C0071556C /* AllProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */; };
@@ -65,6 +66,7 @@
 		04073B8F2C0AF18E00F1C6C2 /* AdminShopifyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdminShopifyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04073B932C0AF18E00F1C6C2 /* AdminShopifyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminShopifyUITests.swift; sourceTree = "<group>"; };
 		04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminShopifyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		040908432C10334E0064E40B /* AvaliableProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvaliableProductViewController.swift; sourceTree = "<group>"; };
 		041E45F92C0EF25C0071556C /* AllProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductsTableViewCell.swift; sourceTree = "<group>"; };
 		041E45FA2C0EF25C0071556C /* AllProductsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AllProductsTableViewCell.xib; sourceTree = "<group>"; };
 		041E45FD2C0EF61C0071556C /* AllProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductsViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +167,30 @@
 				04073B952C0AF18E00F1C6C2 /* AdminShopifyUITestsLaunchTests.swift */,
 			);
 			path = AdminShopifyUITests;
+			sourceTree = "<group>";
+		};
+		040908402C1033050064E40B /* AvaliableBrandProduct */ = {
+			isa = PBXGroup;
+			children = (
+				040908422C1033260064E40B /* view */,
+				040908412C10331A0064E40B /* viewmodel */,
+			);
+			path = AvaliableBrandProduct;
+			sourceTree = "<group>";
+		};
+		040908412C10331A0064E40B /* viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewmodel;
+			sourceTree = "<group>";
+		};
+		040908422C1033260064E40B /* view */ = {
+			isa = PBXGroup;
+			children = (
+				040908432C10334E0064E40B /* AvaliableProductViewController.swift */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 		041E45F62C0EF1BE0071556C /* AllProducts */ = {
@@ -304,6 +330,7 @@
 		04DB7B262C0BA59600D6C3DE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				040908402C1033050064E40B /* AvaliableBrandProduct */,
 				0441FCE62C0F1881008959B8 /* PriceRules */,
 				041E45F62C0EF1BE0071556C /* AllProducts */,
 				042D78BD2C0D173700CE84C2 /* BrandScreen */,
@@ -523,6 +550,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040908442C10334E0064E40B /* AvaliableProductViewController.swift in Sources */,
 				041E45FC2C0EF25C0071556C /* AllProductsTableViewCell.swift in Sources */,
 				04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */,
 				04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */,
