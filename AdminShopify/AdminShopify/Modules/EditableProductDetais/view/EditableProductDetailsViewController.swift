@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditableProductDetailsViewController: UIViewController {
+class EditableProductDetailsViewController: UIViewController , AddNewProductView {
     
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
@@ -20,13 +20,19 @@ class EditableProductDetailsViewController: UIViewController {
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     
     @IBAction func backBtn(_ sender: Any) {
+        navigateBack()
     }
+    
+    var presenter: AddNewProductPresenter!
+
     var arrProductImg = [UIImage(named: "addidus") , UIImage(named: "unnamed") , UIImage(named: "lock") ,UIImage(named: "addidus") ,UIImage(named: "unnamed") ]
     var timer : Timer?
     var currentCellIndex = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        presenter = AddNewProductPresenter(view: self)
+
         pageController.numberOfPages = arrProductImg.count
         startTimer()
         let sizes = ["Small", "Medium", "Large", "XL", "XXL", "XXXL", "US 6", "US 8", "US 10", "US 12"]
@@ -41,6 +47,10 @@ class EditableProductDetailsViewController: UIViewController {
         }
     
     }
+    
+    func navigateBack() {
+           dismiss(animated: true, completion: nil)
+       }
     
     func startTimer(){
         timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector:#selector(moveToNextProductImg) , userInfo: nil, repeats: true)
@@ -132,7 +142,6 @@ extension EditableProductDetailsViewController : UICollectionViewDelegate , UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // to size the cell
         CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     

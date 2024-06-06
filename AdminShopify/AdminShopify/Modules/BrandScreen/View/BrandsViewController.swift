@@ -43,7 +43,7 @@ extension BrandsViewController: UICollectionViewDelegateFlowLayout {
         }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil) // Replace "Main" with the name of
+        let storyboard = UIStoryboard(name: "Main", bundle: nil) 
                 let availableProduct = storyboard.instantiateViewController(withIdentifier: "AvaliableProductViewController") as! AvaliableProductViewController
         
                 availableProduct.modalPresentationStyle = .fullScreen

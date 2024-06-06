@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wpw-B3-JFH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nvV-kt-nxB">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -253,6 +253,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="addIcon"/>
+                                <connections>
+                                    <action selector="addProduct:" destination="wpw-B3-JFH" eventType="touchUpInside" id="HcK-IB-VZq"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Slv-bA-yEy">
                                 <rect key="frame" x="16" y="59" width="64" height="54"/>
@@ -261,6 +264,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="back-arrow"/>
+                                <connections>
+                                    <action selector="backBtn:" destination="wpw-B3-JFH" eventType="touchUpInside" id="ecn-at-jW1"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Knx-nO-QZt"/>
@@ -286,7 +292,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="1cj-5M-Jyh"/>
                     <connections>
-                        <outlet property="addProduct" destination="1Xx-L6-Ndb" id="sQ1-cr-wQm"/>
                         <outlet property="avaliableProductTableView" destination="JzM-Fn-Tnp" id="xhb-b2-SVN"/>
                     </connections>
                 </viewController>
@@ -598,10 +603,10 @@
             </objects>
             <point key="canvasLocation" x="4932" y="-32"/>
         </scene>
-        <!--View Controller-->
+        <!--Add New Product View Controller-->
         <scene sceneID="AwX-HI-jT8">
             <objects>
-                <viewController id="PAJ-LH-2yS" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddNewProductViewController" id="PAJ-LH-2yS" customClass="AddNewProductViewController" customModule="AdminShopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="w9d-rP-4Nc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -616,6 +621,7 @@
                                 <buttonConfiguration key="configuration" style="plain" image="back-arrow"/>
                                 <connections>
                                     <action selector="backBtn:" destination="gSH-JM-P0g" eventType="touchUpInside" id="asi-vW-mO7"/>
+                                    <action selector="backButtonTapped:" destination="PAJ-LH-2yS" eventType="touchUpInside" id="xQl-55-vBY"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Product" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOT-9W-P3Y">
@@ -823,6 +829,15 @@
                             <constraint firstItem="Zhh-HB-KoF" firstAttribute="leading" secondItem="Xb9-JG-FEf" secondAttribute="leading" constant="11" id="zga-Qo-L3y"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addProductColor" destination="P2i-NF-CQm" id="eaY-Tu-SRj"/>
+                        <outlet property="addProductDescription" destination="KEo-Uh-ezx" id="a9m-S4-VPr"/>
+                        <outlet property="addProductImageURL" destination="eEK-4r-8dh" id="3HU-VN-EBd"/>
+                        <outlet property="addProductPrice" destination="k5w-2h-dsw" id="RzP-1z-d3J"/>
+                        <outlet property="addProductSize" destination="rHa-lt-sIC" id="zXt-WA-xzU"/>
+                        <outlet property="addProductTitle" destination="eVA-fU-abl" id="SRB-gx-bRj"/>
+                        <outlet property="addProductType" destination="gv5-ay-8Vh" id="Sei-0F-RTo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NZz-6o-nuG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

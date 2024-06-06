@@ -7,18 +7,35 @@
 
 import UIKit
 
-class AvaliableProductViewController: UIViewController {
+class AvaliableProductViewController: UIViewController , AddNewProductView {
 
     @IBOutlet weak var avaliableProductTableView: UITableView!
-    @IBOutlet weak var addProduct: UIButton!
+    
+    var presenter: AddNewProductPresenter!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        presenter = AddNewProductPresenter(view: self)
 
         let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
         avaliableProductTableView.register(cell, forCellReuseIdentifier: "allProductCell")
         avaliableProductTableView.backgroundColor = UIColor.systemGray6
     }
-
+    
+    @IBAction func backBtn(_ sender: Any) {
+        navigateBack()
+    }
+    func navigateBack() {
+           dismiss(animated: true, completion: nil)
+       }
+    
+    @IBAction func addProduct(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let addProduct = storyboard.instantiateViewController(withIdentifier: "AddNewProductViewController") as! AddNewProductViewController
+               addProduct.modalPresentationStyle = .fullScreen
+                self.present(addProduct, animated: true, completion: nil)
+    }
 }
 
 extension AvaliableProductViewController : UITableViewDataSource{
