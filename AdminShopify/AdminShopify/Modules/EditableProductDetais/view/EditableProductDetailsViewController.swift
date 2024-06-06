@@ -11,8 +11,8 @@ class EditableProductDetailsViewController: UIViewController {
 
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
+    @IBOutlet weak var sizeScrollable: UIScrollView!
     @IBOutlet weak var sizeStackView: UIStackView!
-    @IBOutlet weak var scrollableStackView: UIScrollView!
     var arrProductImg = [UIImage(named: "addidus") , UIImage(named: "unnamed") , UIImage(named: "lock") ,UIImage(named: "addidus") ,UIImage(named: "unnamed") ]
     var timer : Timer?
     var currentCellIndex = 0
@@ -26,7 +26,6 @@ class EditableProductDetailsViewController: UIViewController {
             for size in sizes {
                 addSize(size: size)
             }
-        
     }
     
     func startTimer(){
@@ -49,7 +48,7 @@ class EditableProductDetailsViewController: UIViewController {
         
         newSizeView.layer.shadowColor = UIColor.gray.cgColor
         newSizeView.layer.shadowOpacity = 0.5
-        newSizeView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        newSizeView.layer.shadowOffset = CGSize(width: 4, height: 2)
         newSizeView.layer.shadowRadius = 4
         
         let newSizeLabel = UILabel()
@@ -68,8 +67,8 @@ class EditableProductDetailsViewController: UIViewController {
         
         sizeStackView.addArrangedSubview(newSizeView)
     }
-
-
+    
+   
 
 }
 
