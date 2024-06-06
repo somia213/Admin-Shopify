@@ -125,7 +125,16 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         
         colorView.addArrangedSubview(newColorView)
     }
+    
+    @IBAction func addVariant(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newVarient = storyboard.instantiateViewController(withIdentifier: "AddNewVarientViewController") as! AddNewVarientViewController
+        
+        newVarient.modalPresentationStyle = .fullScreen
 
+                self.present(newVarient, animated: true, completion: nil)
+    }
+    
 }
 
 extension EditableProductDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
