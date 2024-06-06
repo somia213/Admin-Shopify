@@ -38,12 +38,14 @@ extension AvaliableProductViewController : UITableViewDataSource{
     
 }
 
-extension AvaliableProductViewController : UITableViewDelegate {
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        <#code#>
-//    }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
+
+extension AvaliableProductViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let editableViewController = storyboard.instantiateViewController(withIdentifier: "editProductDestails") as? EditableProductDetailsViewController {
+            editableViewController.modalPresentationStyle = .fullScreen
+            present(editableViewController, animated: true, completion: nil)
+        }
+    }
 }
+

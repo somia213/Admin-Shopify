@@ -17,9 +17,10 @@ class EditableProductDetailsViewController: UIViewController {
     @IBOutlet weak var colorView: UIStackView!
     @IBOutlet weak var productPrice: UILabel!
 
-    @IBOutlet weak var productDescription: UITextView!
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     
+    @IBAction func backBtn(_ sender: Any) {
+    }
     var arrProductImg = [UIImage(named: "addidus") , UIImage(named: "unnamed") , UIImage(named: "lock") ,UIImage(named: "addidus") ,UIImage(named: "unnamed") ]
     var timer : Timer?
     var currentCellIndex = 0
@@ -38,6 +39,7 @@ class EditableProductDetailsViewController: UIViewController {
         for color in colors {
             addColor(color: color)
         }
+    
     }
     
     func startTimer(){
