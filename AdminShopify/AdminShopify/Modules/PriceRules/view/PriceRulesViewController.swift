@@ -29,6 +29,27 @@ class PriceRulesViewController: UIViewController {
                 self.present(addPriceRule, animated: true, completion: nil)
     }
     
+    private func showAlertToAddCoupon() {
+        let alertController = UIAlertController(title: "Add Coupon", message: "Enter your coupon code:", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Coupon Code"
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let doneAction = UIAlertAction(title: "Done", style: .default) { (action) in
+            if let textField = alertController.textFields?.first, let couponCode = textField.text {
+                print("Entered coupon code: \(couponCode)")
+            }
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(doneAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+
+    
 }
 
 extension PriceRulesViewController : UITableViewDataSource{
@@ -47,6 +68,11 @@ extension PriceRulesViewController : UITableViewDataSource{
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            showAlertToAddCoupon()
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
 }
 
 extension PriceRulesViewController : UITableViewDelegate {
