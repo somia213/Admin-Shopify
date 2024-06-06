@@ -16,7 +16,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     @IBOutlet weak var addProductSize: UITextField!
     @IBOutlet weak var addProductImageURL: UITextField!
     @IBOutlet weak var addProductDescription: UITextField!
-    
+    @IBOutlet weak var addProductBrand: UITextField!
     
     var presenter: AddNewProductPresenter!
     override func viewDidLoad() {
