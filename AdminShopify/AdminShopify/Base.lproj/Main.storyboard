@@ -400,11 +400,11 @@
                                     <color key="baseBackgroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yv-W4-8gW">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" ambiguous="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yv-W4-8gW">
                                 <rect key="frame" x="0.0" y="460" width="393" height="83"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="w8G-E2-GLV">
-                                        <rect key="frame" x="0.0" y="29" width="393" height="45"/>
+                                    <stackView opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="w8G-E2-GLV">
+                                        <rect key="frame" x="0.0" y="19" width="393" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="Oaz-ec-zVA"/>
                                         </constraints>
@@ -412,11 +412,10 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="w8G-E2-GLV" firstAttribute="top" secondItem="4dk-De-TUs" secondAttribute="top" constant="19" id="5wS-Wy-dCH"/>
-                                    <constraint firstItem="w8G-E2-GLV" firstAttribute="top" secondItem="2Yv-W4-8gW" secondAttribute="centerY" id="UhR-So-A2M"/>
                                     <constraint firstAttribute="bottom" secondItem="w8G-E2-GLV" secondAttribute="bottom" constant="20" id="V1L-R0-CFX"/>
+                                    <constraint firstAttribute="width" constant="393" id="Xy9-pD-V4j"/>
                                     <constraint firstAttribute="trailing" secondItem="w8G-E2-GLV" secondAttribute="trailing" constant="20" id="ZF9-TK-cH8"/>
                                     <constraint firstItem="w8G-E2-GLV" firstAttribute="leading" secondItem="2Yv-W4-8gW" secondAttribute="leading" id="fKi-f5-qKV"/>
-                                    <constraint firstItem="w8G-E2-GLV" firstAttribute="centerX" secondItem="2Yv-W4-8gW" secondAttribute="centerX" id="mia-pr-ut2"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="F19-sZ-jfV"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="4dk-De-TUs"/>
@@ -473,7 +472,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="703-a6-Zhs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4942.7480916030536" y="-32.394366197183103"/>
+            <point key="canvasLocation" x="5211" y="-32"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="X6S-oA-Pe2">
@@ -673,10 +672,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
