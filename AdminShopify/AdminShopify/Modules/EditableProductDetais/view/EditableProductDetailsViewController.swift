@@ -11,12 +11,14 @@ class EditableProductDetailsViewController: UIViewController {
     
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
-    
     @IBOutlet weak var sizeScrollable: UIScrollView!
     @IBOutlet weak var sizeStackView: UIStackView!
-    
     @IBOutlet weak var colorScrollStackView: UIScrollView!
     @IBOutlet weak var colorView: UIStackView!
+    @IBOutlet weak var productPrice: UILabel!
+
+    @IBOutlet weak var productDescription: UITextView!
+    @IBOutlet weak var productAvailabilityInStore: UILabel!
     
     var arrProductImg = [UIImage(named: "addidus") , UIImage(named: "unnamed") , UIImage(named: "lock") ,UIImage(named: "addidus") ,UIImage(named: "unnamed") ]
     var timer : Timer?
