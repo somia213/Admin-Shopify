@@ -12,8 +12,6 @@ class PriceRulesViewController: UIViewController {
     
     @IBOutlet weak var priceRulesTable: UITableView!
     
-    @IBOutlet weak var addNewPriceRule: NSLayoutConstraint!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,7 +20,15 @@ class PriceRulesViewController: UIViewController {
         priceRulesTable.backgroundColor = UIColor.systemGray6
     }
     
+    @IBAction func addNewPriceRule(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let addPriceRule = storyboard.instantiateViewController(withIdentifier: "AddNewPriceRuleViewController") as! AddNewPriceRuleViewController
+        
+        addPriceRule.modalPresentationStyle = .fullScreen
 
+                self.present(addPriceRule, animated: true, completion: nil)
+    }
+    
 }
 
 extension PriceRulesViewController : UITableViewDataSource{
