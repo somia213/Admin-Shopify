@@ -8,27 +8,27 @@
 import Foundation
 
 struct SmartCollectionsResponse: Codable {
-    let smartCollections: [SmartCollection]
+    let smart_collections: [SmartCollection] 
 }
 
 struct SmartCollection: Codable {
     let id: Int
     let handle: String
     let title: String
-    let updatedAt: String
-    let bodyHtml: String
-    let publishedAt: String
-    let sortOrder: String
-    let templateSuffix: String?
+    let updated_at: String
+    let body_html: String
+    let published_at: String
+    let sort_order: String
+    let template_suffix: String?
     let disjunctive: Bool
     let rules: [Rule]
-    let publishedScope: String
-    let adminGraphqlApiId: String
+    let published_scope: String
+    let admin_graphql_api_id: String
     let image: Image
 }
 
 struct Image: Codable {
-    let createdAt: String
+    let created_at: String
     let alt: String?
     let width: Int
     let height: Int
@@ -40,4 +40,3 @@ struct Rule: Codable {
     let relation: String
     let condition: String
 }
-

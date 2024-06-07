@@ -6,27 +6,53 @@
 //
 
 import UIKit
+import Kingfisher
 
 class BrandsViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate{
     
     @IBOutlet weak var brandCollectionView: UICollectionView!
+    
+    var brandViewModel: BrandViewModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         brandCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
-
         
-    }
+        brandViewModel = BrandViewModel()
+        brandViewModel = BrandViewModel()
+                brandViewModel.dataUpdated = { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.brandCollectionView.reloadData()
+                    }
+                }
+                brandViewModel.noInternetConnection = { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.showNoInternetAlert()
+                    }
+                }
+                brandViewModel.fetchData()
+            }
+    
+    func showNoInternetAlert() {
+            let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 12
+        return brandViewModel.numberOfCollections()
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandCell", for: indexPath) as! BrandsCollectionViewCell
+            let brand = brandViewModel.collection(at: indexPath.row)
             
-            cell.brandImage.image = UIImage(named: "addidus")
+            if let imageUrl = URL(string: brand.image.src) {
+                    cell.brandImage.kf.setImage(with: imageUrl)
+                }
+            
             return cell
         }
 
