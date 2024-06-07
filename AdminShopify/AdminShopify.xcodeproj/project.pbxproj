@@ -31,6 +31,9 @@
 		0441FCEC2C0F18CD008959B8 /* PriceRulesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCE92C0F18CD008959B8 /* PriceRulesTableViewCell.swift */; };
 		0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */; };
 		04685EB62C12E59300AA390E /* SmartCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04685EB52C12E59300AA390E /* SmartCollection.swift */; };
+		048B6C002C136CAC00546854 /* BrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6BFF2C136CAC00546854 /* BrandViewModel.swift */; };
+		048B6C022C136D1B00546854 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6C012C136D1B00546854 /* Endpoint.swift */; };
+		048B6C042C136E4900546854 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6C032C136E4900546854 /* Secrets.swift */; };
 		04A4C4272C0E4B7300EB7AFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */; };
 		04A714BD2C0BE187000F75D6 /* admin.json in Resources */ = {isa = PBXBuildFile; fileRef = 04A714BC2C0BE187000F75D6 /* admin.json */; };
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
@@ -87,6 +90,9 @@
 		0441FCEA2C0F18CD008959B8 /* PriceRulesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PriceRulesTableViewCell.xib; sourceTree = "<group>"; };
 		0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRulesViewController.swift; sourceTree = "<group>"; };
 		04685EB52C12E59300AA390E /* SmartCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollection.swift; sourceTree = "<group>"; };
+		048B6BFF2C136CAC00546854 /* BrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViewModel.swift; sourceTree = "<group>"; };
+		048B6C012C136D1B00546854 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		048B6C032C136E4900546854 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04A714BC2C0BE187000F75D6 /* admin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = admin.json; path = ../../../../../../../Downloads/admin.json; sourceTree = "<group>"; };
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +169,7 @@
 				04073B7D2C0AF18E00F1C6C2 /* LaunchScreen.storyboard */,
 				04073B802C0AF18E00F1C6C2 /* Info.plist */,
 				04073B782C0AF18C00F1C6C2 /* AdminShopify.xcdatamodeld */,
+				048B6C032C136E4900546854 /* Secrets.swift */,
 			);
 			path = AdminShopify;
 			sourceTree = "<group>";
@@ -318,6 +325,7 @@
 		042D78BE2C0D174600CE84C2 /* Viewmodel */ = {
 			isa = PBXGroup;
 			children = (
+				048B6BFF2C136CAC00546854 /* BrandViewModel.swift */,
 			);
 			path = Viewmodel;
 			sourceTree = "<group>";
@@ -369,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */,
+				048B6C012C136D1B00546854 /* Endpoint.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -684,11 +693,14 @@
 				04F79A992C10F74F00A0205E /* EditableProductDetailsViewController.swift in Sources */,
 				04073B7A2C0AF18C00F1C6C2 /* AdminShopify.xcdatamodeld in Sources */,
 				04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */,
+				048B6C002C136CAC00546854 /* BrandViewModel.swift in Sources */,
+				048B6C022C136D1B00546854 /* Endpoint.swift in Sources */,
 				040A19872C12617800F49FE5 /* AddNewVarientViewController.swift in Sources */,
 				04F79A9B2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift in Sources */,
 				041E45FE2C0EF61C0071556C /* AllProductsViewController.swift in Sources */,
 				04073B742C0AF18B00F1C6C2 /* ViewController.swift in Sources */,
 				040A197B2C1236AC00F49FE5 /* AddProductTitle.swift in Sources */,
+				048B6C042C136E4900546854 /* Secrets.swift in Sources */,
 				04073B702C0AF18B00F1C6C2 /* AppDelegate.swift in Sources */,
 				042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */,
 				040A197D2C12397B00F49FE5 /* BackVC.swift in Sources */,
