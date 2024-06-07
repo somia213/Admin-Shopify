@@ -20,8 +20,7 @@ class BrandsViewController: UIViewController , UICollectionViewDataSource, UICol
         // Do any additional setup after loading the view.
         brandCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         
-        brandViewModel = BrandViewModel()
-        brandViewModel = BrandViewModel()
+                brandViewModel = BrandViewModel()
                 brandViewModel.dataUpdated = { [weak self] in
                     DispatchQueue.main.async {
                         self?.brandCollectionView.reloadData()
@@ -70,11 +69,12 @@ extension BrandsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil) 
-                let availableProduct = storyboard.instantiateViewController(withIdentifier: "AvaliableProductViewController") as! AvaliableProductViewController
+        let availableProduct = storyboard.instantiateViewController(withIdentifier: "AvaliableProductViewController") as! AvaliableProductViewController
         
-                availableProduct.modalPresentationStyle = .fullScreen
-
-                self.present(availableProduct, animated: true, completion: nil)
+        availableProduct.modalPresentationStyle = .fullScreen
+        let selectedBrand = brandViewModel.collection(at: indexPath.row)
+        availableProduct.brandTitle = selectedBrand.title
+        self.present(availableProduct, animated: true, completion: nil)
         
     }
 

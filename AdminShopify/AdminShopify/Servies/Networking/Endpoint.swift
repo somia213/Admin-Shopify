@@ -24,6 +24,7 @@ extension Endpoint {
 
 enum ShopifyEndpoint {
     case smartCollections
+    case addProduct
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -31,6 +32,9 @@ extension ShopifyEndpoint: Endpoint {
         switch self {
         case .smartCollections:
             return "/admin/api/2024-04/smart_collections.json"
+        case .addProduct:
+            return "/admin/api/2024-01/products.json"
         }
     }
 }
+

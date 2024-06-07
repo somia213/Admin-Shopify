@@ -10,13 +10,24 @@ import UIKit
 class AvaliableProductViewController: UIViewController , AddNewProductView {
 
     @IBOutlet weak var avaliableProductTableView: UITableView!
+    var brandTitle: String?
     
     var presenter: AddNewProductPresenter!
+    var viewModel: BrandProductViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         presenter = AddNewProductPresenter(view: self)
+        viewModel = BrandProductViewModel()
+        
+        viewModel.dataUpdated = { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.avaliableProductTableView.reloadData()
+                    }
+                }
+
+                viewModel.fetchData()
 
         let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
         avaliableProductTableView.register(cell, forCellReuseIdentifier: "allProductCell")
@@ -40,16 +51,32 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
 
 extension AvaliableProductViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        guard let brandTitle = brandTitle else { return 0 }
+        return viewModel.products(forVendor: brandTitle).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allProductCell", for: indexPath) as! AllProductsTableViewCell
-        cell.productItemImg.image = UIImage(named: "unnamed")
-        cell.productItemDescription.text = "the shirt are one of most high brand all over the world"
-        cell.productItemCountInStore.text = "19"+"In store"
-        cell.productItemPrice.text = "200$"
         
+        guard let brandTitle = brandTitle else { return cell }
+                let products = viewModel.products(forVendor: brandTitle)
+                let product = products[indexPath.row]
+        
+        if let imageUrl = URL(string: product.images.first!.src) {
+                cell.productItemImg.kf.setImage(with: imageUrl)
+            }
+        cell.productItemDescription.text = product.body_html
+        if let inventoryQuantity = product.variants.first?.inventory_quantity {
+            cell.productItemCountInStore.text = "\(inventoryQuantity) In store"
+        } else {
+            cell.productItemCountInStore.text = "Unavailable"
+        }
+
+        if let price = product.variants.first?.price {
+            cell.productItemPrice.text = "\(price)$"
+        } else {
+            cell.productItemPrice.text = "Price Unavailable"
+        }
         return cell
     }
     

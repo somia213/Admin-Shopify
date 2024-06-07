@@ -13,7 +13,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="allProductCell" rowHeight="117" id="KGk-i7-Jjw" customClass="AllProductsTableViewCell" customModule="AdminShopify" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="390" height="117"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="390" height="117"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -25,22 +25,26 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The description of product item" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCN-7D-0BQ">
-                        <rect key="frame" x="123" y="0.0" width="247" height="63"/>
+                        <rect key="frame" x="123" y="0.0" width="247" height="57"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="57" id="c6q-17-Xr1"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="19 In Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nkw-hO-amR">
-                        <rect key="frame" x="123" y="56" width="247" height="21"/>
+                        <rect key="frame" x="123" y="50" width="247" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="OQI-Et-owV"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="iNU-C1-N2D"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="220.00$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X39-sN-e7N">
-                        <rect key="frame" x="123" y="85" width="236" height="21"/>
+                        <rect key="frame" x="123" y="79" width="236" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="cJd-Ce-9b3"/>
                         </constraints>
@@ -51,14 +55,14 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="PCN-7D-0BQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6kb-0t-ws5"/>
+                    <constraint firstItem="Nkw-hO-amR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="50" id="8Uy-np-0Yj"/>
                     <constraint firstItem="PCN-7D-0BQ" firstAttribute="leading" secondItem="3jL-75-xgK" secondAttribute="trailing" constant="8" symbolic="YES" id="9xF-bz-5Hu"/>
                     <constraint firstAttribute="bottom" secondItem="X39-sN-e7N" secondAttribute="bottom" constant="17" id="DGe-1c-Frd"/>
                     <constraint firstAttribute="trailing" secondItem="X39-sN-e7N" secondAttribute="trailing" constant="31" id="DxQ-f5-u1s"/>
-                    <constraint firstItem="X39-sN-e7N" firstAttribute="top" secondItem="PCN-7D-0BQ" secondAttribute="bottom" constant="22" id="EVX-3B-ILH"/>
                     <constraint firstItem="X39-sN-e7N" firstAttribute="leading" secondItem="3jL-75-xgK" secondAttribute="trailing" constant="8" symbolic="YES" id="If9-a8-mhR"/>
+                    <constraint firstItem="X39-sN-e7N" firstAttribute="top" secondItem="PCN-7D-0BQ" secondAttribute="bottom" constant="22" id="KO8-tP-Mtu"/>
                     <constraint firstItem="3jL-75-xgK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="S37-9v-eWi"/>
                     <constraint firstItem="3jL-75-xgK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="UYn-ga-y32"/>
-                    <constraint firstItem="Nkw-hO-amR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="56" id="Z2Y-t9-pYQ"/>
                     <constraint firstAttribute="trailing" secondItem="PCN-7D-0BQ" secondAttribute="trailing" constant="20" symbolic="YES" id="fDM-Tb-lwj"/>
                     <constraint firstAttribute="trailing" secondItem="Nkw-hO-amR" secondAttribute="trailing" constant="20" symbolic="YES" id="g3d-F6-AM7"/>
                     <constraint firstAttribute="bottom" secondItem="3jL-75-xgK" secondAttribute="bottom" id="oq4-Hr-wqk"/>
