@@ -10,7 +10,7 @@ import Foundation
 
 class BrandProductViewModel {
     private let networkManager: NetworkServicing
-    private var products: [Product] = []
+     var products: [Product] = []
 
     var dataUpdated: (() -> Void)?
 
@@ -18,12 +18,12 @@ class BrandProductViewModel {
         self.networkManager = networkManager
     }
 
-    func fetchData() {
-        networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.addProduct) { [weak self] (response: BrandProductResponse?) in
+    func fetchData(forBrand brand: String) {
+        networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.productsByBrand(brand: brand)) { [weak self] (response: BrandProductResponse?) in
             guard let self = self else { return }
             if let response = response {
                 self.products = response.products
-                print("================================ /( response.products)")
+                print("================================ \(response.products)")
                 self.dataUpdated?()
             } else {
                 print("Failed to fetch products.")
@@ -33,9 +33,5 @@ class BrandProductViewModel {
 
     func numberOfProducts() -> Int {
         return products.count
-    }
-
-    func products(forVendor vendor: String) -> [Product] {
-        return products.filter { $0.vendor == vendor }
     }
 }

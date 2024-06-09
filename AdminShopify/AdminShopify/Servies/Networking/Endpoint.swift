@@ -25,6 +25,7 @@ extension Endpoint {
 enum ShopifyEndpoint {
     case smartCollections
     case addProduct
+    case productsByBrand(brand: String)
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -34,7 +35,8 @@ extension ShopifyEndpoint: Endpoint {
             return "/admin/api/2024-04/smart_collections.json"
         case .addProduct:
             return "/admin/api/2024-01/products.json"
+        case .productsByBrand(let brand):
+            return "/admin/api/2024-04/products.json?vendor=\(brand)"
         }
     }
 }
-

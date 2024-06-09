@@ -22,17 +22,20 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
         viewModel = BrandProductViewModel()
         
         viewModel.dataUpdated = { [weak self] in
-                    DispatchQueue.main.async {
-                        self?.avaliableProductTableView.reloadData()
-                    }
-                }
+            DispatchQueue.main.async {
+                self?.avaliableProductTableView.reloadData()
+            }
+        }
 
-                viewModel.fetchData()
+        if let brandTitle = brandTitle {
+            viewModel.fetchData(forBrand: brandTitle)
+        }
 
         let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
         avaliableProductTableView.register(cell, forCellReuseIdentifier: "allProductCell")
         avaliableProductTableView.backgroundColor = UIColor.systemGray6
     }
+
     
     @IBAction func backBtn(_ sender: Any) {
         navigateBack()
@@ -49,22 +52,20 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
     }
 }
 
-extension AvaliableProductViewController : UITableViewDataSource{
+extension AvaliableProductViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let brandTitle = brandTitle else { return 0 }
-        return viewModel.products(forVendor: brandTitle).count
+        return viewModel.numberOfProducts()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allProductCell", for: indexPath) as! AllProductsTableViewCell
         
-        guard let brandTitle = brandTitle else { return cell }
-                let products = viewModel.products(forVendor: brandTitle)
-                let product = products[indexPath.row]
+        let products = viewModel.products 
+        let product = products[indexPath.row]
         
         if let imageUrl = URL(string: product.images.first!.src) {
-                cell.productItemImg.kf.setImage(with: imageUrl)
-            }
+            cell.productItemImg.kf.setImage(with: imageUrl)
+        }
         cell.productItemDescription.text = product.body_html
         if let inventoryQuantity = product.variants.first?.inventory_quantity {
             cell.productItemCountInStore.text = "\(inventoryQuantity) In store"
@@ -79,8 +80,8 @@ extension AvaliableProductViewController : UITableViewDataSource{
         }
         return cell
     }
-    
 }
+
 
 
 extension AvaliableProductViewController: UITableViewDelegate {
