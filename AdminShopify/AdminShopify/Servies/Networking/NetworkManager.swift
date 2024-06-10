@@ -45,36 +45,54 @@ class NetworkManager: NetworkServicing {
 
     
     func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
-            guard let requestData = try? JSONEncoder().encode(product) else {
-                print("Failed to encode product data.")
-                completionHandler(.failure(NetworkError.failedToAddProduct))
-                return
-            }
-            
-            guard let url = URL(string: endpoint.url) else {
-                print("Invalid URL: \(endpoint.url)")
-                completionHandler(.failure(NetworkError.unknownError))
-                return
-            }
-            
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = HTTPMethod.post.rawValue
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = requestData
-
-            AF.request(urlRequest).response { response in
-                if let error = response.error {
-                    print("Request failed with error: \(error.localizedDescription)")
-                    completionHandler(.failure(error))
-                    return
-                }
-                
-                if let statusCode = response.response?.statusCode, 200 ..< 300 ~= statusCode {
-                    completionHandler(.success(true))
-                } else {
-                    print("Request failed with status code: \(response.response?.statusCode ?? -1)")
-                    completionHandler(.failure(NetworkError.failedToAddProduct))
-                }
-            }
+        guard let requestData = try? JSONEncoder().encode(product) else {
+            print("Failed to encode product data.")
+            completionHandler(.failure(NetworkError.failedToAddProduct))
+            return
         }
-    }
+        
+        if let jsonString = String(data: requestData, encoding: .utf8) {
+            print("JSON data being sent to API:")
+            print(jsonString)
+        } else {
+            print("Failed to convert JSON data to string.")
+        }
+        
+        guard let url = URL(string: endpoint.url) else {
+            print("Invalid URL: \(endpoint.url)")
+            completionHandler(.failure(NetworkError.unknownError))
+            return
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.post.rawValue
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = requestData
+
+        AF.request(urlRequest).response { response in
+               if let error = response.error {
+                   print("Request failed with error: \(error.localizedDescription)")
+                   completionHandler(.failure(error))
+                   return
+               }
+               
+               if let statusCode = response.response?.statusCode, 200 ..< 300 ~= statusCode {
+                   print("Product added successfully.")
+                   completionHandler(.success(true))
+               } else {
+                   if let responseData = response.data {
+                       let errorMessage = String(data: responseData, encoding: .utf8) ?? "Unknown error"
+                       print("Request failed with status code: \(response.response?.statusCode ?? -1), Error: \(errorMessage)")
+                   } else {
+                       print("Request failed with status code: \(response.response?.statusCode ?? -1)")
+                   }
+                   completionHandler(.failure(NetworkError.failedToAddProduct))
+               }
+               
+               if let responseData = response.data {
+                   print("Response from Shopify API:")
+                   print(String(data: responseData, encoding: .utf8) ?? "Unable to print response data.")
+               }
+           }
+       }
+}

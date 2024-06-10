@@ -20,9 +20,8 @@ class AddProductViewModel {
     }
     
     func addProduct(product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
-            networkManager.addProductToAPI(endpoint: ShopifyEndpoint.addProduct, product: product) { result in
-                completionHandler(result)
-            }
+        networkManager.addProductToAPI(endpoint: ShopifyEndpoint.addProduct, product: product) { result in
+            completionHandler(result)
         }
+    }
 }
-

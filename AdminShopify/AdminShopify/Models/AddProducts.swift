@@ -8,25 +8,38 @@
 import Foundation
 
 struct AddProductRequest: Codable {
-    let product: AddProductData
+    let products: [ProductResponse]
 }
 
-struct AddProductData: Codable {
+struct ProductResponse: Codable {
     let title: String
-    let body_html: String
     let vendor: String
+    let body_html: String
     let variants: [AddProductVariant]
+    let options: [OneOption]
     let images: [AddProductImage]
+    let image: AddProductImage?
 }
 
 struct AddProductVariant: Codable {
     let title: String
-    let price: String
-    let inventory_quantity: Int
-    let option1: String
-    let option2: String
+       let price: String
+       let option1: String
+       let option2: String
+       let inventory_quantity: Int?
+       let old_inventory_quantity: Int?
+}
+
+struct OneOption : Codable{
+    let name: String
+       let position: Int?
+       let values: [String]
 }
 
 struct AddProductImage: Codable {
-    let src: String
+   
+        let src: String
+        
 }
+
+

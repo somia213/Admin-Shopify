@@ -12,8 +12,7 @@ class AllProductsViewController: UIViewController {
     @IBOutlet weak var ProductSearch: UISearchBar!
     
     @IBOutlet weak var productTableView: UITableView!
-    
-    @IBOutlet weak var addProductBtn: UIButton!
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +20,16 @@ class AllProductsViewController: UIViewController {
         productTableView.register(cell, forCellReuseIdentifier: "allProductCell")
         productTableView.backgroundColor = UIColor.systemGray6
     }
+    
+    @IBAction func addnewProduct(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newVarient = storyboard.instantiateViewController(withIdentifier: "AddNewProductViewController") as! AddNewProductViewController
+        
+                 newVarient.modalPresentationStyle = .fullScreen
 
+                self.present(newVarient, animated: true, completion: nil)
+    }
+    
 }
 
 extension AllProductsViewController : UITableViewDataSource{
