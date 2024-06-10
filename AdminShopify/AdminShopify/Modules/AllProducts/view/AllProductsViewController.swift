@@ -6,20 +6,34 @@
 //
 
 import UIKit
+import Kingfisher
 
 class AllProductsViewController: UIViewController {
 
     @IBOutlet weak var ProductSearch: UISearchBar!
     
     @IBOutlet weak var productTableView: UITableView!
+    
+    var productsViewModel: ProductsViewModel!
  
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
-        productTableView.register(cell, forCellReuseIdentifier: "allProductCell")
-        productTableView.backgroundColor = UIColor.systemGray6
+        let networkManager = NetworkManager()
+                productsViewModel = ProductsViewModel(networkManager: networkManager)
+                productsViewModel.getAllProducts { [weak self] success in
+                    if success {
+                        self?.productTableView.reloadData()
+                    } else {
+                        print("Error!!!!")
+                    }
+                }
+               let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
+               productTableView.register(cell, forCellReuseIdentifier: "allProductCell")
+               productTableView.backgroundColor = UIColor.systemGray6
+        
+                ProductSearch.delegate = self
     }
+    
     
     @IBAction func addnewProduct(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -32,21 +46,34 @@ class AllProductsViewController: UIViewController {
     
 }
 
-extension AllProductsViewController : UITableViewDataSource{
+extension AllProductsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        return productsViewModel.filteredProducts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allProductCell", for: indexPath) as! AllProductsTableViewCell
-        cell.productItemImg.image = UIImage(named: "unnamed")
-        cell.productItemDescription.text = "the shirt are one of most high brand all over the world"
-        cell.productItemCountInStore.text = "19"+"In store"
-        cell.productItemPrice.text = "200$"
+        
+        let product = productsViewModel.filteredProducts[indexPath.row]
+        
+        cell.productItemDescription.text = product.title
+        cell.productItemCountInStore.text = "\(product.variants.first?.inventory_quantity ?? 0) In store"
+        cell.productItemPrice.text = "\(product.variants.first?.price ?? "")"
+        
+        if let imageUrlString = product.images.first?.src, let imageUrl = URL(string: imageUrlString) {
+            cell.productItemImg.kf.setImage(with: imageUrl)
+        }
         
         return cell
     }
-    
+}
+
+
+extension AllProductsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        productsViewModel.filterProducts(searchText: searchText)
+        productTableView.reloadData()
+    }
 }
 
 extension AllProductsViewController : UITableViewDelegate {

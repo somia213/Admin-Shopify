@@ -31,6 +31,8 @@
 		0441FCEB2C0F18CD008959B8 /* PriceRulesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0441FCEA2C0F18CD008959B8 /* PriceRulesTableViewCell.xib */; };
 		0441FCEC2C0F18CD008959B8 /* PriceRulesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCE92C0F18CD008959B8 /* PriceRulesTableViewCell.swift */; };
 		0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */; };
+		0447F8702C171F4900C22A58 /* AllProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447F86F2C171F4900C22A58 /* AllProductViewModel.swift */; };
+		0447F8722C1726CA00C22A58 /* AllProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447F8712C1726CA00C22A58 /* AllProducts.swift */; };
 		04685EB62C12E59300AA390E /* SmartCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04685EB52C12E59300AA390E /* SmartCollection.swift */; };
 		048B6C002C136CAC00546854 /* BrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6BFF2C136CAC00546854 /* BrandViewModel.swift */; };
 		048B6C022C136D1B00546854 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6C012C136D1B00546854 /* Endpoint.swift */; };
@@ -95,6 +97,8 @@
 		0441FCE92C0F18CD008959B8 /* PriceRulesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRulesTableViewCell.swift; sourceTree = "<group>"; };
 		0441FCEA2C0F18CD008959B8 /* PriceRulesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PriceRulesTableViewCell.xib; sourceTree = "<group>"; };
 		0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRulesViewController.swift; sourceTree = "<group>"; };
+		0447F86F2C171F4900C22A58 /* AllProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductViewModel.swift; sourceTree = "<group>"; };
+		0447F8712C1726CA00C22A58 /* AllProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProducts.swift; sourceTree = "<group>"; };
 		04685EB52C12E59300AA390E /* SmartCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollection.swift; sourceTree = "<group>"; };
 		048B6BFF2C136CAC00546854 /* BrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViewModel.swift; sourceTree = "<group>"; };
 		048B6C012C136D1B00546854 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -287,17 +291,10 @@
 		041E45F62C0EF1BE0071556C /* AllProducts */ = {
 			isa = PBXGroup;
 			children = (
+				0447F86E2C171F2700C22A58 /* ViewModel */,
 				041E45F82C0EF1F20071556C /* view */,
-				041E45F72C0EF1CE0071556C /* viewModel */,
 			);
 			path = AllProducts;
-			sourceTree = "<group>";
-		};
-		041E45F72C0EF1CE0071556C /* viewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = viewModel;
 			sourceTree = "<group>";
 		};
 		041E45F82C0EF1F20071556C /* view */ = {
@@ -362,12 +359,21 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		0447F86E2C171F2700C22A58 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0447F86F2C171F4900C22A58 /* AllProductViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		04685EB42C12E2A000AA390E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				04685EB52C12E59300AA390E /* SmartCollection.swift */,
 				048B6C052C13780A00546854 /* BrandProducts.swift */,
 				040B27BB2C14428A00ACBC2B /* AddProducts.swift */,
+				0447F8712C1726CA00C22A58 /* AllProducts.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -713,6 +719,7 @@
 				048B6C002C136CAC00546854 /* BrandViewModel.swift in Sources */,
 				048B6C022C136D1B00546854 /* Endpoint.swift in Sources */,
 				040A19872C12617800F49FE5 /* AddNewVarientViewController.swift in Sources */,
+				0447F8702C171F4900C22A58 /* AllProductViewModel.swift in Sources */,
 				04F8BEF72C13A08A0031979A /* Secrits.swift in Sources */,
 				04F79A9B2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift in Sources */,
 				048B6C062C13780A00546854 /* BrandProducts.swift in Sources */,
@@ -723,6 +730,7 @@
 				04073B702C0AF18B00F1C6C2 /* AppDelegate.swift in Sources */,
 				042D78C32C0D19E500CE84C2 /* BrandsViewController.swift in Sources */,
 				040A197D2C12397B00F49FE5 /* BackVC.swift in Sources */,
+				0447F8722C1726CA00C22A58 /* AllProducts.swift in Sources */,
 				0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */,
 				042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */,
 				04F8BEF52C1389CE0031979A /* BrandProductViewModel.swift in Sources */,

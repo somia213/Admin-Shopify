@@ -50,6 +50,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                   switch result {
                   case .success(let success):
                       print("Product added successfully: \(success)")
+                      self?.showSuccessAlert()
                       self?.navigateBack()
                   case .failure(let error):
                       print("Failed to add product: \(error.localizedDescription)")
@@ -59,6 +60,14 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                   }
               }
           }
+    
+    func showSuccessAlert() {
+        let alert = UIAlertController(title: "Success", message: "Product added successfully.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            self.navigateBack()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
           
     func constructProduct() -> AddProductRequest {
             let sizesOption = OneOption(name: "Size", position: nil, values: variants.map { $0.title.components(separatedBy: " / ").first ?? "" })
