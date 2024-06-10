@@ -8,6 +8,10 @@
 import Foundation
 import Alamofire
 
+enum NetworkError: Error {
+    case failedToAddProduct
+    case unknownError
+}
 
 protocol NetworkServicing {
     func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void)
@@ -63,7 +67,7 @@ class NetworkManager: NetworkServicing {
                 completionHandler(.failure(NetworkError.unknownError))
                 return
             }
-            
+            HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = HTTPMethod.post.rawValue
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

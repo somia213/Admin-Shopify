@@ -21,7 +21,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     var viewModel: AddProductViewModel!
     var presenter: AddNewProductPresenter!
     
-    var variants: [AddProductVariant] = []
+    var variants: [VariantRequest] = []
        var images: [String] = []
     
     override func viewDidLoad() {
@@ -45,54 +45,72 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     }
     
     @IBAction func sendAddProduct(_ sender: Any) {
-        let product = constructProduct()
-              viewModel.addProduct(product: product) { [weak self] result in
-                  switch result {
-                  case .success(let success):
-                      print("Product added successfully: \(success)")
-                      self?.showSuccessAlert()
-                      self?.navigateBack()
-                  case .failure(let error):
-                      print("Failed to add product: \(error.localizedDescription)")
-                      let alert = UIAlertController(title: "Error", message: "Failed to add product. Please try again later.", preferredStyle: .alert)
-                      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                      self?.present(alert, animated: true, completion: nil)
-                  }
-              }
-          }
-    
-    func showSuccessAlert() {
-        let alert = UIAlertController(title: "Success", message: "Product added successfully.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-            self.navigateBack()
-        }))
-        present(alert, animated: true, completion: nil)
-    }
-          
-    func constructProduct() -> AddProductRequest {
-            let sizesOption = OneOption(name: "Size", position: nil, values: variants.map { $0.title.components(separatedBy: " / ").first ?? "" })
-            let colorsOption = OneOption(name: "Color", position: nil, values: variants.map { $0.title.components(separatedBy: " / ").last ?? "" })
-            
-        let product = ProductResponse(
-                  title: addProductTitle.text ?? "",
-                  vendor: addProductVendor.text ?? "",
-                  body_html: addProductDescription.text ?? "",
-                  variants: variants,
-                  options: [sizesOption, colorsOption],
-                  images: images.map { AddProductImage(src: $0) },
-                  image: nil
-              )
-            
-            return AddProductRequest(products: [product])
+        let productRequest = constructProduct()
+            let productData = productRequest.product
+            viewModel.addProduct(product: productData) { [weak self] result in
+                switch result {
+                case .success(let success):
+                    print("Product added successfully: \(success)")
+                    self?.showSuccessAlert()
+                case .failure(let error):
+                    print("Failed to add product: \(error.localizedDescription)")
+                    self?.showErrorAlert()
+                }
+            }
         }
-    }
 
-    extension AddNewProductViewController: AddVariantDelegate {
-        func addVariant(variant: AddProductVariant) {
-            variants.append(variant)
+    func constructProduct() -> AddProductRequest {
+        var variantsData: [VariantRequest] = []
+        for variant in variants {
+            let variantTitle = "\(variant.option1) / \(variant.option2)"
+            let sku = "AD-03-\(variant.option2.lowercased())-\(variant.option1.lowercased())"
+            let variantData = VariantRequest(
+                title: variantTitle,
+                price: variant.price,
+                option1: variant.option1,
+                option2: variant.option2,
+                inventory_quantity: variant.inventory_quantity,
+                old_inventory_quantity: variant.old_inventory_quantity,
+                sku: sku
+            )
+            variantsData.append(variantData)
         }
         
-        func addImage(src: String) {
-            images.append(src)
-        }
+        let sizesOption = OptionRequest(name: "Size", values: variants.map { $0.option1 })
+        let colorsOption = OptionRequest(name: "Color", values: variants.map { $0.option2 })
+        
+        let productData = ProductData(
+            title: addProductTitle.text ?? "",
+            body_html: addProductDescription.text ?? "",
+            vendor: addProductVendor.text ?? "",
+            variants: variantsData,
+            options: [sizesOption, colorsOption],
+            images: images.map { ImageRequest(src: $0) }
+        )
+        
+        return AddProductRequest(product: productData)
     }
+
+
+            func showSuccessAlert() {
+                let alert = UIAlertController(title: "Success", message: "Product added successfully.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alert, animated: true, completion: nil)
+            }
+            
+            func showErrorAlert() {
+                let alert = UIAlertController(title: "Error", message: "Failed to add product. Please try again later.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alert, animated: true, completion: nil)
+            }
+        }
+
+        extension AddNewProductViewController: AddVariantDelegate {
+            func addVariant(variant: VariantRequest) {
+                variants.append(variant)
+            }
+            
+            func addImage(src: String) {
+                images.append(src)
+            }
+        }

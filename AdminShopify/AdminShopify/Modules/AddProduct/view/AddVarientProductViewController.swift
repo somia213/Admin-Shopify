@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol AddVariantDelegate: AnyObject {func addVariant(variant: AddProductVariant) 
+protocol AddVariantDelegate: AnyObject {func addVariant(variant: VariantRequest) 
     func addImage(src: String)
 }
 
@@ -39,7 +39,7 @@ class AddVarientProductViewController: UIViewController {
                let variantTitle = "\(size) / \(color)"
                let sku = "AD-03-\(color)-\(size)"
         
-        let variant = AddProductVariant(
+        let variant = VariantRequest(
             title: variantTitle,
             price: price,
             option1: size,
@@ -60,6 +60,7 @@ class AddVarientProductViewController: UIViewController {
     func navigateBack() {
            dismiss(animated: true, completion: nil)
        }
+
     
 }
 

@@ -27,6 +27,8 @@ enum ShopifyEndpoint {
     case addProduct
     case productsByBrand(brand: String)
     case allProducts
+    case getAllpriceRules
+    case createPriceRule
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -40,6 +42,10 @@ extension ShopifyEndpoint: Endpoint {
             return "/admin/api/2024-04/products.json?vendor=\(brand)"
         case .allProducts:
             return "/admin/api/2024-04/products.json"
+        case .getAllpriceRules:
+            return "/admin/api/2024-04/price_rules.json"
+        case .createPriceRule:
+            return "/admin/api/2024-04/price_rules.json"
         }
     }
 }

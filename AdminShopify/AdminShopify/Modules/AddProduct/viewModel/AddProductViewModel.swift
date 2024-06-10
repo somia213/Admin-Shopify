@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum NetworkError: Error {
-    case failedToAddProduct
-    case unknownError
-}
-
 class AddProductViewModel {
     let networkManager: NetworkServicing
     
@@ -19,9 +14,11 @@ class AddProductViewModel {
         self.networkManager = networkManager
     }
     
-    func addProduct(product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
-        networkManager.addProductToAPI(endpoint: ShopifyEndpoint.addProduct, product: product) { result in
+    func addProduct(product: ProductData, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
+        let addProductRequest = AddProductRequest(product: product)
+        networkManager.addProductToAPI(endpoint: ShopifyEndpoint.addProduct, product: addProductRequest) { result in
             completionHandler(result)
         }
     }
 }
+

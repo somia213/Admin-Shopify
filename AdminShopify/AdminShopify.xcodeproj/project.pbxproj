@@ -33,6 +33,7 @@
 		0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */; };
 		0447F8702C171F4900C22A58 /* AllProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447F86F2C171F4900C22A58 /* AllProductViewModel.swift */; };
 		0447F8722C1726CA00C22A58 /* AllProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447F8712C1726CA00C22A58 /* AllProducts.swift */; };
+		0447F8742C17381D00C22A58 /* CreatePriceRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447F8732C17381D00C22A58 /* CreatePriceRule.swift */; };
 		04685EB62C12E59300AA390E /* SmartCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04685EB52C12E59300AA390E /* SmartCollection.swift */; };
 		048B6C002C136CAC00546854 /* BrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6BFF2C136CAC00546854 /* BrandViewModel.swift */; };
 		048B6C022C136D1B00546854 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048B6C012C136D1B00546854 /* Endpoint.swift */; };
@@ -99,6 +100,7 @@
 		0441FCED2C0F1D89008959B8 /* PriceRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRulesViewController.swift; sourceTree = "<group>"; };
 		0447F86F2C171F4900C22A58 /* AllProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductViewModel.swift; sourceTree = "<group>"; };
 		0447F8712C1726CA00C22A58 /* AllProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProducts.swift; sourceTree = "<group>"; };
+		0447F8732C17381D00C22A58 /* CreatePriceRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePriceRule.swift; sourceTree = "<group>"; };
 		04685EB52C12E59300AA390E /* SmartCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollection.swift; sourceTree = "<group>"; };
 		048B6BFF2C136CAC00546854 /* BrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViewModel.swift; sourceTree = "<group>"; };
 		048B6C012C136D1B00546854 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				048B6C052C13780A00546854 /* BrandProducts.swift */,
 				040B27BB2C14428A00ACBC2B /* AddProducts.swift */,
 				0447F8712C1726CA00C22A58 /* AllProducts.swift */,
+				0447F8732C17381D00C22A58 /* CreatePriceRule.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -735,6 +738,7 @@
 				042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */,
 				04F8BEF52C1389CE0031979A /* BrandProductViewModel.swift in Sources */,
 				0441FCEC2C0F18CD008959B8 /* PriceRulesTableViewCell.swift in Sources */,
+				0447F8742C17381D00C22A58 /* CreatePriceRule.swift in Sources */,
 				04073B722C0AF18B00F1C6C2 /* SceneDelegate.swift in Sources */,
 				040A19832C12541500F49FE5 /* AddNewPriceRuleViewController.swift in Sources */,
 			);
