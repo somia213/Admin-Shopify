@@ -11,13 +11,15 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
 
     @IBOutlet weak var AddNewVarientViewSize: UITextField!
     
-    @IBOutlet weak var AddNewVarientBrand: UITextField!
-    
-    @IBOutlet weak var AddNewVarientType: UITextField!
-    
     @IBOutlet weak var AddNewVarientPrice: UITextField!
     var presenter: AddNewProductPresenter!
 
+    @IBOutlet weak var AddNewVarientColor: UITextField!
+    
+    @IBOutlet weak var AddNewVarientImage: UITextField!
+    
+    @IBOutlet weak var AddNewVarientQuantity: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = AddNewProductPresenter(view: self)

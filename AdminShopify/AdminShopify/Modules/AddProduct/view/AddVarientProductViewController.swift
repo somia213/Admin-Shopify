@@ -28,26 +28,38 @@ class AddVarientProductViewController: UIViewController {
     @IBAction func doneBtn(_ sender: Any) {
         
         guard let price = addPrice.text,
-              let color = addColor.text,
-              let size = addSize.text,
-              let image = addImage.text,
-              let quantityString = addQuantity.text,
-              let quantity = Int(quantityString) else {
-            return
-        }
-        
-        let variantTitle = "\(size) / \(color)"
+                     let color = addColor.text,
+                     let size = addSize.text,
+                     let image = addImage.text,
+                     let quantityString = addQuantity.text,
+                     let quantity = Int(quantityString) else {
+                   return
+               }
+               
+               let variantTitle = "\(size) / \(color)"
+               let sku = "AD-03-\(color)-\(size)"
         
         let variant = AddProductVariant(
             title: variantTitle,
             price: price,
             option1: size,
             option2: color,
-            inventory_quantity: quantity, old_inventory_quantity: quantity
+            inventory_quantity: quantity,
+            old_inventory_quantity: quantity,
+            sku: sku
         )
-        
-        delegate?.addVariant(variant: variant)
-        delegate?.addImage(src: image)
-        dismiss(animated: true, completion: nil)
+               
+               delegate?.addVariant(variant: variant)
+               delegate?.addImage(src: image)
+               dismiss(animated: true, completion: nil)
+           }
+    
+    @IBAction func closeBtn(_ sender: Any) {
+        navigateBack()
     }
+    func navigateBack() {
+           dismiss(animated: true, completion: nil)
+       }
+    
 }
+

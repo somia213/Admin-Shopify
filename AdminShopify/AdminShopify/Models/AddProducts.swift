@@ -28,6 +28,7 @@ struct AddProductVariant: Codable {
        let option2: String
        let inventory_quantity: Int?
        let old_inventory_quantity: Int?
+       let sku: String
 }
 
 struct OneOption : Codable{

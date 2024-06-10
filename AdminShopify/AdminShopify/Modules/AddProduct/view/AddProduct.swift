@@ -9,6 +9,7 @@ import UIKit
 
 class AddNewProductViewController: UIViewController, AddNewProductView {
     func navigateBack() {
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -59,32 +60,30 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
               }
           }
           
-          func constructProduct() -> AddProductRequest {
-              // Define options
-              let sizesOption = OneOption(name: "Size", position: nil, values: variants.map { $0.option1 })
-              let colorsOption = OneOption(name: "Color", position: nil, values: variants.map { $0.option2 })
-              
-              // Define product
-              let product = ProductResponse(
+    func constructProduct() -> AddProductRequest {
+            let sizesOption = OneOption(name: "Size", position: nil, values: variants.map { $0.title.components(separatedBy: " / ").first ?? "" })
+            let colorsOption = OneOption(name: "Color", position: nil, values: variants.map { $0.title.components(separatedBy: " / ").last ?? "" })
+            
+        let product = ProductResponse(
                   title: addProductTitle.text ?? "",
                   vendor: addProductVendor.text ?? "",
                   body_html: addProductDescription.text ?? "",
                   variants: variants,
                   options: [sizesOption, colorsOption],
                   images: images.map { AddProductImage(src: $0) },
-                  image: nil // Set this to nil for now, as it's not being provided
+                  image: nil
               )
-              
-              return AddProductRequest(products: [product])
-          }
-      }
+            
+            return AddProductRequest(products: [product])
+        }
+    }
 
-      extension AddNewProductViewController: AddVariantDelegate {
-          func addVariant(variant: AddProductVariant) {
-              variants.append(variant)
-          }
-          
-          func addImage(src: String) {
-              images.append(src)
-          }
-      }
+    extension AddNewProductViewController: AddVariantDelegate {
+        func addVariant(variant: AddProductVariant) {
+            variants.append(variant)
+        }
+        
+        func addImage(src: String) {
+            images.append(src)
+        }
+    }
