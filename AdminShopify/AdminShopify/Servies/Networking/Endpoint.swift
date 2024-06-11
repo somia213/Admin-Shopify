@@ -37,7 +37,7 @@ extension ShopifyEndpoint: Endpoint {
         case .smartCollections:
             return "/admin/api/2024-04/smart_collections.json"
         case .addProduct:
-            return "/admin/api/2024-01/products.json"
+            return "/admin/api/2024-04/products.json"
         case .productsByBrand(let brand):
             return "/admin/api/2024-04/products.json?vendor=\(brand)"
         case .allProducts:
