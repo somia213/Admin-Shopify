@@ -16,10 +16,11 @@ enum NetworkError: Error {
 protocol NetworkServicing {
     func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void)
     func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
-
+   // func fetchProductDetails<T: Decodable>(productId: Int, completionHandler: @escaping (T?) -> Void)
 }
 
 class NetworkManager: NetworkServicing {
+        
     func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
         AF.request(endpoint.url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
             .response { response in
@@ -106,4 +107,20 @@ class NetworkManager: NetworkServicing {
             }
         }
     }
+    
+//    func fetchProductDetails<T>(productId: Int, completionHandler: @escaping (T?) -> Void) where T: Decodable {
+//        print("Fetching product details from API...")
+//        
+//        let endpoint = ShopifyEndpoint.productDetails(productId: productId)
+//        fetchDataFromAPI(endpoint: endpoint) { (response: T?) in
+//            if let response = response {
+//                print("Response received from API of product details is:", response)
+//            } else {
+//                print("Response is nil")
+//            }
+//            
+//            completionHandler(response)
+//        }
+//    }
+
 }

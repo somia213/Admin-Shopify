@@ -12,7 +12,7 @@ struct AllProductResponse: Codable {
 }
 
 struct AllProduct: Codable {
-    let id: Int
+        let id: String // string
         let title: String
         let body_html: String
         let vendor: String
@@ -37,7 +37,7 @@ struct AllProduct: Codable {
 }
 
 struct AllVariant: Codable {
-    let id: Int
+       let id: Int
        let product_id: Int
        let title: String
        let price: String
@@ -47,8 +47,8 @@ struct AllVariant: Codable {
        let compare_at_price: String?
        let fulfillment_service: String
        let inventory_management: String
-       let option1: String
-       let option2: String
+       let option1: String //size
+       let option2: String // color 
        let option3: String?
        let created_at: String
        let updated_at: String
