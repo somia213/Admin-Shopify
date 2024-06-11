@@ -12,7 +12,7 @@ struct AllProductResponse: Codable {
 }
 
 struct AllProduct: Codable {
-        let id: String // string
+        let id: Int
         let title: String
         let body_html: String
         let vendor: String

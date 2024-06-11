@@ -43,7 +43,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
                    titleProductDetails.text = product.title
                    DescriptionProductDetails.text = product.body_html
                    
-                   pageController.numberOfPages = product.images.count
+            pageController.numberOfPages = arrProductImg.count
                    pageController.currentPage = 0
                            
                    if let firstSize = product.options.first(where: { $0.name.lowercased() == "size" })?.values.first {
@@ -80,15 +80,24 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector:#selector(moveToNextProductImg) , userInfo: nil, repeats: true)
     }
     
-    @objc func moveToNextProductImg(){
-        if currentCellIndex < arrProductImg.count - 1 {
-            currentCellIndex += 1
-        }else{
-            currentCellIndex = 0
+    @objc func moveToNextProductImg() {
+        guard !arrProductImg.isEmpty else {
+            return
         }
+        
+        currentCellIndex = (currentCellIndex + 1) % arrProductImg.count
+        
+        guard currentCellIndex < arrProductImg.count else {
+            currentCellIndex = 0
+            return
+        }
+        
         imgCollectionView.scrollToItem(at: IndexPath(item: currentCellIndex, section: 0), at: .centeredHorizontally, animated: true)
+        
         pageController.currentPage = currentCellIndex
     }
+
+
     
     func styleView(_ view: UIView) {
         view.layer.cornerRadius = 10
@@ -184,7 +193,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
 extension EditableProductDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.product?.images.count ?? 0
+        return arrProductImg.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
