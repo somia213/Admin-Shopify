@@ -57,15 +57,17 @@ class EditableProductDetailsViewModel {
             product?.variants[variantIndex].option1 = newSize
         }
     }
+    
     func updateColor(newColor: String) {
-            guard let selectedColor = selectedColor else {
-                return
-            }
-
-            if let variantIndex = product?.variants.firstIndex(where: { $0.option2 == selectedColor }) {
-                product?.variants[variantIndex].option2 = newColor
-            }
+        guard let selectedSize = selectedSize, let selectedColor = selectedColor else {
+            return
         }
+
+        if let variant = product?.variants.firstIndex(where: { $0.option1 == selectedSize && $0.option2 == selectedColor }) {
+            product?.variants[variant].option2 = newColor
+        }
+    }
+
 
         func updateImageSrc(newImageSrc: String) {
             selectedImageSrc = newImageSrc

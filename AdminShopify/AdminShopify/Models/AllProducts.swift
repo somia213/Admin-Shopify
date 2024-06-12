@@ -46,7 +46,7 @@ struct AllVariant: Codable {
        let inventory_policy: String
        let compare_at_price: String?
        let fulfillment_service: String
-       let inventory_management: String
+     //  let inventory_management: String
        let option1: String //size
        let option2: String // color 
        let option3: String?

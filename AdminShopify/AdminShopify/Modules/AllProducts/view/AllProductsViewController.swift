@@ -62,6 +62,8 @@ extension AllProductsViewController: UITableViewDataSource {
         
         if let imageUrlString = product.images.first?.src, let imageUrl = URL(string: imageUrlString) {
             cell.productItemImg.kf.setImage(with: imageUrl)
+        }else{
+            cell.productItemImg.image = UIImage(named: "png-clipart-gray-icons-lock-2")
         }
         
         return cell
