@@ -25,42 +25,68 @@ class AddVarientProductViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    @IBAction func cancelBtn(_ sender: Any) {
+        navigateBack()
+    }
+    
+    func navigateBack(){
+        dismiss(animated: true, completion: nil)
+    }
+
     @IBAction func doneBtn(_ sender: Any) {
         
         guard let price = addPrice.text,
-                     let color = addColor.text,
-                     let size = addSize.text,
-                     let image = addImage.text,
-                     let quantityString = addQuantity.text,
-                     let quantity = Int(quantityString) else {
-                   return
-               }
-               
-               let variantTitle = "\(size) / \(color)"
-               let sku = "AD-03-\(color)-\(size)"
-        
-        let variant = VariantRequest(
-            title: variantTitle,
-            price: price,
-            option1: size,
-            option2: color,
-            inventory_quantity: quantity,
-            old_inventory_quantity: quantity,
-            sku: sku
-        )
-               
-               delegate?.addVariant(variant: variant)
-               delegate?.addImage(src: image)
-               dismiss(animated: true, completion: nil)
+                 let color = addColor.text,
+                 let size = addSize.text,
+                 let imagesString = addImage.text,
+                 let quantityString = addQuantity.text,
+                 let quantity = Int(quantityString) else {
+                     return
            }
-    
-    @IBAction func closeBtn(_ sender: Any) {
-        navigateBack()
-    }
-    func navigateBack() {
+           
+           let colors = color.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+           let sizes = size.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+           let images = imagesString.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+           
+           guard !sizes.isEmpty, !colors.isEmpty, !images.isEmpty else {
+               return
+           }
+           
+           for sizeValue in sizes {
+               for colorValue in colors {
+                   for imageSrc in images {
+                       if let imageURL = URL(string: imageSrc), UIApplication.shared.canOpenURL(imageURL) {
+                           let variantTitle = "\(sizeValue) / \(colorValue)"
+                           let sku = "AD-03-\(colorValue)-\(sizeValue)"
+                           
+                           let variant = VariantRequest(
+                               title: variantTitle,
+                               price: price,
+                               option1: sizeValue,
+                               option2: colorValue,
+                               inventory_quantity: quantity,
+                               old_inventory_quantity: quantity,
+                               sku: sku
+                           )
+                           
+                           delegate?.addVariant(variant: variant)
+                           delegate?.addImage(src: imageSrc)
+                       } else {
+                           showAlert(message: "Invalid image URL: \(imageSrc)")
+                           return
+                       }
+                   }
+               }
+           }
+           
            dismiss(animated: true, completion: nil)
        }
 
+       func showAlert(message: String) {
+           let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+           present(alert, animated: true, completion: nil)
+       }
     
 }
 

@@ -19,6 +19,7 @@ struct ProductData: Codable {
     let options: [OptionRequest]
     let images: [ImageRequest]
     
+    
     enum CodingKeys: String, CodingKey {
             case title, body_html, vendor, variants, options, images
         }

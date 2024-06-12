@@ -45,6 +45,15 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     }
     
     @IBAction func sendAddProduct(_ sender: Any) {
+        
+        guard let title = addProductTitle.text, !title.isEmpty,
+                let vendor = addProductVendor.text, !vendor.isEmpty,
+                let description = addProductDescription.text, !description.isEmpty,
+                !variants.isEmpty, !images.isEmpty else {
+                    showErrorAlert(message:"Please fill in all required fields.")
+                    return
+          }
+        
         let productRequest = constructProduct()
             let productData = productRequest.product
             viewModel.addProduct(product: productData) { [weak self] result in
@@ -58,6 +67,13 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                 }
             }
         }
+    
+    func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
 
     func constructProduct() -> AddProductRequest {
         var variantsData: [VariantRequest] = []
@@ -137,10 +153,10 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
 
         extension AddNewProductViewController: AddVariantDelegate {
             func addVariant(variant: VariantRequest) {
-                variants.append(variant)
-            }
-            
-            func addImage(src: String) {
-                images.append(src)
+                    variants.append(variant)
+                }
+                
+                func addImage(src: String) {
+                    images.append(src)
             }
         }

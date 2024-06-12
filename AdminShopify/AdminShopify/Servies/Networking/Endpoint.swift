@@ -30,6 +30,8 @@ enum ShopifyEndpoint {
     case getAllpriceRules
     case createPriceRule
     case productDetails(productId: Int)
+    case updateProduct(productId: Int)
+
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -49,7 +51,8 @@ extension ShopifyEndpoint: Endpoint {
             return "/admin/api/2024-04/price_rules.json"
          case .productDetails(let productId):
             return "/admin/api/2024-04/products/\(productId).json"
-           
+        case .updateProduct(let productId):
+            return "/admin/api/2024-04/products/\(productId).json"
 
     
         }

@@ -62,10 +62,12 @@ extension AvaliableProductViewController: UITableViewDataSource {
         
         let products = viewModel.products 
         let product = products[indexPath.row]
-        
-        if let imageUrl = URL(string: product.images.first!.src) {
+        if let imageUrlString = product.images.first?.src, let imageUrl = URL(string: imageUrlString) {
             cell.productItemImg.kf.setImage(with: imageUrl)
+        } else {
+            cell.productItemImg.image = UIImage(named: "png-clipart-gray-icons-lock-2")
         }
+
         cell.productItemDescription.text = product.body_html
         if let inventoryQuantity = product.variants.first?.inventory_quantity {
             cell.productItemCountInStore.text = "\(inventoryQuantity) In store"
@@ -87,7 +89,7 @@ extension AvaliableProductViewController: UITableViewDataSource {
 
 extension AvaliableProductViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let product = viewModel.products[indexPath.row]
+        var product = viewModel.products[indexPath.row]
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let editableViewController = storyboard.instantiateViewController(withIdentifier: "editProductDestails") as? EditableProductDetailsViewController {

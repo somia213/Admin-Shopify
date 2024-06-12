@@ -41,6 +41,7 @@
 		04A4C4272C0E4B7300EB7AFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */; };
 		04A714BD2C0BE187000F75D6 /* admin.json in Resources */ = {isa = PBXBuildFile; fileRef = 04A714BC2C0BE187000F75D6 /* admin.json */; };
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
+		04A809AD2C18B8F100129D0E /* UpdatedProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A809AC2C18B8F100129D0E /* UpdatedProductRequest.swift */; };
 		04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */; };
 		04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B232C0BA56E00D6C3DE /* Connectivity.swift */; };
 		04EDC0EE2C15DECB00A9E1E7 /* AddVarientProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EDC0ED2C15DECB00A9E1E7 /* AddVarientProductViewController.swift */; };
@@ -109,6 +110,7 @@
 		04A4C4262C0E4B7300EB7AFE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04A714BC2C0BE187000F75D6 /* admin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = admin.json; path = ../../../../../../../Downloads/admin.json; sourceTree = "<group>"; };
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		04A809AC2C18B8F100129D0E /* UpdatedProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedProductRequest.swift; sourceTree = "<group>"; };
 		04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04DB7B232C0BA56E00D6C3DE /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		04EDC0ED2C15DECB00A9E1E7 /* AddVarientProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVarientProductViewController.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				040B27BB2C14428A00ACBC2B /* AddProducts.swift */,
 				0447F8712C1726CA00C22A58 /* AllProducts.swift */,
 				0447F8732C17381D00C22A58 /* CreatePriceRule.swift */,
+				04A809AC2C18B8F100129D0E /* UpdatedProductRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				0441FCEE2C0F1D89008959B8 /* PriceRulesViewController.swift in Sources */,
 				042D78C52C0D1CB800CE84C2 /* BrandsCollectionViewCell.swift in Sources */,
 				04FBA9C62C17EE9A0078A12E /* EditableViewModel.swift in Sources */,
+				04A809AD2C18B8F100129D0E /* UpdatedProductRequest.swift in Sources */,
 				04F8BEF52C1389CE0031979A /* BrandProductViewModel.swift in Sources */,
 				0441FCEC2C0F18CD008959B8 /* PriceRulesTableViewCell.swift in Sources */,
 				0447F8742C17381D00C22A58 /* CreatePriceRule.swift in Sources */,

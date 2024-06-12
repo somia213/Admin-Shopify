@@ -21,12 +21,39 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     @IBOutlet weak var titleProductDetails: UILabel!
     
     @IBOutlet weak var DescriptionProductDetails: UITextView!
-
+    
+    @IBOutlet weak var editDescription: UIButton!
+    @IBOutlet weak var addImage: UIButton!
+    
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     
     @IBAction func backBtn(_ sender: Any) {
         navigateBack()
     }
+    
+    @IBAction func editTitleTapped(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "Edit Title", message: nil, preferredStyle: .alert)
+
+        alertController.addTextField { textField in
+            textField.text = self.viewModel.product?.title
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(cancelAction)
+
+        let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
+            guard let newTitle = alertController.textFields?.first?.text else {
+                return
+            }
+            self.viewModel.updateTitle(newTitle: newTitle)
+            
+        }
+        alertController.addAction(updateAction)
+
+        present(alertController, animated: true)
+    }
+
+    
     var viewModel = EditableProductDetailsViewModel()
     
     var presenter: AddNewProductPresenter!
@@ -38,6 +65,12 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        func updateTitle(newTitle: String) {
+            self.viewModel.product?.title = newTitle
+        }
+
+
         
         if let product = viewModel.product {
                    titleProductDetails.text = product.title

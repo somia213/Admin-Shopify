@@ -16,8 +16,6 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
 
     @IBOutlet weak var AddNewVarientColor: UITextField!
     
-    @IBOutlet weak var AddNewVarientImage: UITextField!
-    
     @IBOutlet weak var AddNewVarientQuantity: UITextField!
     
     override func viewDidLoad() {
