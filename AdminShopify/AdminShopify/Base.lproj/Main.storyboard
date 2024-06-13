@@ -311,6 +311,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="addIcon"/>
+                                <connections>
+                                    <action selector="addImage:" destination="gSH-JM-P0g" eventType="touchUpInside" id="DSV-Jh-zBp"/>
+                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Qet-p9-XnN">
                                 <rect key="frame" x="22" y="111" width="355" height="184"/>
@@ -543,6 +546,9 @@
                                 <buttonConfiguration key="configuration" style="plain" image="pencil.line" catalog="system">
                                     <color key="baseForegroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="editDescription:" destination="gSH-JM-P0g" eventType="touchUpInside" id="K4B-k6-b4n"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RPw-YE-Stp"/>
@@ -609,17 +615,15 @@
                     </view>
                     <connections>
                         <outlet property="DescriptionProductDetails" destination="wp1-Ff-onI" id="n7g-dg-8yp"/>
-                        <outlet property="addImage" destination="4T2-GM-dsF" id="94l-sI-jeL"/>
                         <outlet property="colorScrollStackView" destination="yxF-WU-7oo" id="uv0-uP-89K"/>
                         <outlet property="colorView" destination="hKo-FL-pX5" id="dAA-Os-LrO"/>
-                        <outlet property="editDescription" destination="297-98-6Vg" id="19E-bv-dGP"/>
                         <outlet property="imgCollectionView" destination="Qet-p9-XnN" id="fwj-gs-CCw"/>
                         <outlet property="pageController" destination="ZOh-Ii-9X4" id="4ND-iy-iQO"/>
                         <outlet property="productAvailabilityInStore" destination="hNI-f6-fC4" id="ZK2-H0-qRr"/>
                         <outlet property="productPrice" destination="0LK-ZT-0ns" id="Kk7-nL-Q2s"/>
                         <outlet property="sizeScrollable" destination="2Yv-W4-8gW" id="e3o-6W-coc"/>
                         <outlet property="sizeStackView" destination="w8G-E2-GLV" id="DhB-JS-Mo8"/>
-                        <outlet property="titleProductDetails" destination="013-Z5-jzY" id="bko-aj-gWV"/>
+                        <outlet property="titleProductDetails" destination="013-Z5-jzY" id="vIq-sf-hED"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="703-a6-Zhs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -73,5 +73,74 @@ class EditableProductDetailsViewModel {
             selectedImageSrc = newImageSrc
         }
     
+    
+    func updateTitleInAPI(newTitle: String, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
+        guard let productId = product?.id, let currentBodyHTML = product?.body_html, let currentImages = product?.images else {
+            completionHandler(.failure(NetworkError.unknownError))
+            return
+        }
+
+        print("Product ID: \(productId)")
+
+        let updatedProduct = UpdatedProductRequest(product: UpdateProduct(title: newTitle, body_html: currentBodyHTML, images: currentImages))
+        NetworkManager.shared.updateProductInAPI(endpoint: ShopifyEndpoint.updateProduct(productId: productId), productId: productId, updatedProduct: updatedProduct) { result in
+            switch result {
+            case .success:
+                completionHandler(.success(true))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+
+    func updateDescriptionInAPI(newDescription: String, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
+        guard let productId = product?.id, let currentTitle = product?.title, let currentImages = product?.images else {
+            completionHandler(.failure(NetworkError.unknownError))
+            return
+        }
+
+        print("Product ID: \(productId)")
+
+        let updatedProduct = UpdatedProductRequest(product: UpdateProduct(title: currentTitle, body_html: newDescription, images: currentImages))
+        NetworkManager.shared.updateProductInAPI(endpoint: ShopifyEndpoint.updateProduct(productId: productId), productId: productId, updatedProduct: updatedProduct) { result in
+            switch result {
+            case .success:
+                completionHandler(.success(true))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+
+    
+
+    func addImageWithURL(_ imageUrl: String, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
+        guard var product = product else {
+            completionHandler(.failure(NetworkError.unknownError))
+            return
+        }
+        
+        let currentTitle = product.title
+        let currentBodyHTML = product.body_html
+        
+        let newImage = UpdateProductImage(src: imageUrl)
+        product.images.append(newImage)
+        
+        let updatedProductData = UpdateProduct(title: currentTitle, body_html: currentBodyHTML, images: product.images)
+        let updatedProduct = UpdatedProductRequest(product: updatedProductData)
+
+        let productId = product.id
+        
+        NetworkManager.shared.updateProductInAPI(endpoint: ShopifyEndpoint.updateProduct(productId: productId), productId: productId, updatedProduct: updatedProduct) { result in
+            switch result {
+            case .success:
+                completionHandler(.success(true))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+        print("Product ID: \(productId)")
+    }
+
 }
 

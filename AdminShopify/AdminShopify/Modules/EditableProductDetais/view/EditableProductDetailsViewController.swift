@@ -10,6 +10,7 @@ import Kingfisher
 
 class EditableProductDetailsViewController: UIViewController , AddNewProductView {
     
+    
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
     @IBOutlet weak var sizeScrollable: UIScrollView!
@@ -22,8 +23,6 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     
     @IBOutlet weak var DescriptionProductDetails: UITextView!
     
-    @IBOutlet weak var editDescription: UIButton!
-    @IBOutlet weak var addImage: UIButton!
     
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     
@@ -34,25 +33,95 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     @IBAction func editTitleTapped(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Edit Title", message: nil, preferredStyle: .alert)
 
-        alertController.addTextField { textField in
-            textField.text = self.viewModel.product?.title
-        }
+           alertController.addTextField { textField in
+               textField.text = self.viewModel.product?.title
+           }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(cancelAction)
+           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+           alertController.addAction(cancelAction)
 
-        let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
-            guard let newTitle = alertController.textFields?.first?.text else {
-                return
+           let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
+               guard let newTitle = alertController.textFields?.first?.text else {
+                   return
+               }
+
+               self.viewModel.updateTitleInAPI(newTitle: newTitle) { result in
+                   switch result {
+                   case .success:
+                       print("Product title updated successfully in API")
+                       self.titleProductDetails.text = newTitle
+                   case .failure(let error):
+                       print("Failed to update product title in API: \(error)")
+                   }
+               }
+           }
+           alertController.addAction(updateAction)
+
+           present(alertController, animated: true)
+       }
+    
+    
+    @IBAction func editDescription(_ sender: Any) {
+        let alertController = UIAlertController(title: "Edit Description", message: nil, preferredStyle: .alert)
+
+            alertController.addTextField { textField in
+                textField.text = self.DescriptionProductDetails.text
             }
-            self.viewModel.updateTitle(newTitle: newTitle)
-            
-        }
-        alertController.addAction(updateAction)
 
-        present(alertController, animated: true)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            alertController.addAction(cancelAction)
+
+            let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
+                guard let newDescription = alertController.textFields?.first?.text else {
+                    return
+                }
+
+                self.viewModel.updateDescriptionInAPI(newDescription: newDescription) { result in
+                    switch result {
+                    case .success:
+                        print("Product description updated successfully in API")
+                        self.DescriptionProductDetails.text = newDescription
+                    case .failure(let error):
+                        print("Failed to update product description in API: \(error)")
+                    }
+                }
+            }
+            alertController.addAction(updateAction)
+
+            present(alertController, animated: true)
     }
+    
+    
+    @IBAction func addImage(_ sender: Any) {
+        let alertController = UIAlertController(title: "Add Image", message: "Enter Image URL", preferredStyle: .alert)
 
+            alertController.addTextField { textField in
+                textField.placeholder = "Image URL"
+            }
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            alertController.addAction(cancelAction)
+
+            let addAction = UIAlertAction(title: "Add", style: .default) { _ in
+                guard let imageUrl = alertController.textFields?.first?.text else {
+                    return
+                }
+
+                self.viewModel.addImageWithURL(imageUrl) { result in
+                    switch result {
+                    case .success:
+                        print("Image added successfully.")
+                    case .failure(let error):
+                        print("Failed to add image: \(error)")
+                    }
+                }
+            }
+            alertController.addAction(addAction)
+
+            present(alertController, animated: true)
+       }
+    
+    
     
     var viewModel = EditableProductDetailsViewModel()
     
@@ -201,9 +270,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
             .filter { $0.option1 == selectedSize }
             .map { $0.option2 }
         
-        if colorView.arrangedSubviews.count > 1 {
-                colorView.arrangedSubviews.dropFirst().forEach { $0.removeFromSuperview() }
-            }
+        colorView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         availableColors.forEach { addColor(color: $0) }
     }

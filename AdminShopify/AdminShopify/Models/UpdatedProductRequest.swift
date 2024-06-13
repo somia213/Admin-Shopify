@@ -1,31 +1,46 @@
+////
+////  UpdatedProductRequest.swift
+////  AdminShopify
+////
+////  Created by Somia on 11/06/2024.
+////
 //
-//  UpdatedProductRequest.swift
-//  AdminShopify
+//import Foundation
 //
-//  Created by Somia on 11/06/2024.
+//struct updatedProductRequest: Codable {
+//    var id: Int
+//    var title: String
+//    var body_html: String
+//    var variants: [AllVariant]
+//    var options: [AllOption]
+//    var images: [AllProductImage]
+//}
+//
+//struct updateVariant: Codable {
+//    var price: String
+//    var inventory_quantity: Int
+//}
+//
+//struct updateOption: Codable {
+//    var name: String
+//    var values: [String]
+//}
 //
 
-import Foundation
 
-struct updatedProductRequest: Codable {
-    var id: Int
+
+
+struct UpdatedProductRequest: Codable {
+    var product: UpdateProduct
+}
+
+struct UpdateProduct: Codable {
     var title: String
     var body_html: String
-    var variants: [AllVariant]
-    var options: [AllOption]
-    var images: [AllProductImage]
+    var images: [UpdateProductImage]
 }
 
-struct updateVariant: Codable {
-    var price: String
-    var inventory_quantity: Int
-}
-
-struct updateOption: Codable {
-    var name: String
-    var values: [String]
-}
-
-struct updateImage: Codable {
+struct UpdateProductImage: Codable {
     var src: String
 }
+
