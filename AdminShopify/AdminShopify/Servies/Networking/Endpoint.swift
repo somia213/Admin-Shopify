@@ -9,24 +9,14 @@ import Foundation
 
 protocol Endpoint {
     var path: String { get }
-    var baseURL: String { get }
-    var url: String { get }
-}
-
-extension ShopifyEndpoint {
-    var baseURL: String {
-        switch self {
-        case .updateProduct:
-            return "https://\(SecretsSec.apiKey):\(SecretsSec.token)@mad44-alx-ios-4.myshopify.com"
-        case .addProduct:
-            return "https://\(SecretsSec.apiKey):\(SecretsSec.token)@mad44-alx-ios-4.myshopify.com"
-        default:
-            return "https://\(Secrets.apiKey):\(Secrets.token)@mad44-alx-ios-4.myshopify.com"
-        }
-    }
 }
 
 extension Endpoint {
+    var baseURL: String {
+           return "https://\(Secrets.apiKey):\(Secrets.token)@mad44-alx-ios-4.myshopify.com"
+
+    }
+
     var url: String {
         return baseURL + path
     }
@@ -41,6 +31,7 @@ enum ShopifyEndpoint {
     case createPriceRule
     case productDetails(productId: Int)
     case updateProduct(productId: Int)
+
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -58,10 +49,12 @@ extension ShopifyEndpoint: Endpoint {
             return "/admin/api/2024-04/price_rules.json"
         case .createPriceRule:
             return "/admin/api/2024-04/price_rules.json"
-        case .productDetails(let productId):
+         case .productDetails(let productId):
             return "/admin/api/2024-04/products/\(productId).json"
         case .updateProduct(let productId):
             return "/admin/api/2024-04/products/\(productId).json"
+
+    
         }
     }
 }

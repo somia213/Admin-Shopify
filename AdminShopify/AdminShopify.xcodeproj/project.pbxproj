@@ -278,22 +278,6 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		040A19842C12615000F49FE5 /* Add Varient */ = {
-			isa = PBXGroup;
-			children = (
-				040A19852C12616000F49FE5 /* view */,
-			);
-			path = "Add Varient";
-			sourceTree = "<group>";
-		};
-		040A19852C12616000F49FE5 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				040A19862C12617800F49FE5 /* AddNewVarientViewController.swift */,
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
 		041E45F62C0EF1BE0071556C /* AllProducts */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,7 +432,6 @@
 		04DB7B262C0BA59600D6C3DE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				040A19842C12615000F49FE5 /* Add Varient */,
 				040A197F2C1253E300F49FE5 /* AddNewPriceRule */,
 				040A19772C12366600F49FE5 /* AddProduct */,
 				04F79A952C10F6F400A0205E /* EditableProductDetais */,
@@ -497,6 +480,7 @@
 		04F79A962C10F71200A0205E /* view */ = {
 			isa = PBXGroup;
 			children = (
+				040A19862C12617800F49FE5 /* AddNewVarientViewController.swift */,
 				04F79A982C10F74F00A0205E /* EditableProductDetailsViewController.swift */,
 				04F79A9A2C10F79200A0205E /* EditableProductDetailsCollectionViewCell.swift */,
 			);

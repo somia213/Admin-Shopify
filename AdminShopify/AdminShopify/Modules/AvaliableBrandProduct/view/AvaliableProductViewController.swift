@@ -87,19 +87,19 @@ extension AvaliableProductViewController: UITableViewDataSource {
 
 
 
-extension AvaliableProductViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var product = viewModel.products[indexPath.row]
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let editableViewController = storyboard.instantiateViewController(withIdentifier: "editProductDestails") as? EditableProductDetailsViewController {
-            
-            editableViewController.viewModel.product = product
-            
-            editableViewController.modalPresentationStyle = .fullScreen
-            present(editableViewController, animated: true, completion: nil)
-        }
-    }
-}
+//extension AvaliableProductViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        var product = viewModel.products[indexPath.row]
+//        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//       // if let editableViewController = storyboard.instantiateViewController(withIdentifier: "editProductDestails") as? EditableProductDetailsViewController {
+//            
+//            editableViewController.viewModel.product = product
+//            
+//            editableViewController.modalPresentationStyle = .fullScreen
+//            present(editableViewController, animated: true, completion: nil)
+//        }
+//    }
+//}
 
 

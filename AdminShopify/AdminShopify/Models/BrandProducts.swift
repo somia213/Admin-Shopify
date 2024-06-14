@@ -28,7 +28,7 @@ struct Product: Codable {
     var admin_graphql_api_id: String
     var variants: [Variant]
     var options: [Option]
-    var images: [UpdateProductImage]
+    var images: [BrandProductImage]
 }
 //"product": {
 //

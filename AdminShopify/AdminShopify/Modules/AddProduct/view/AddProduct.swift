@@ -54,6 +54,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                     return
           }
         
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         let productRequest = constructProduct()
             let productData = productRequest.product
             viewModel.addProduct(product: productData) { [weak self] result in
@@ -73,7 +74,6 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-
 
     func constructProduct() -> AddProductRequest {
         var variantsData: [VariantRequest] = []
@@ -95,48 +95,21 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
         let sizesOption = OptionRequest(name: "Size", values: variants.map { $0.option1 })
         let colorsOption = OptionRequest(name: "Color", values: variants.map { $0.option2 })
 
-        let imagesArray = images.map { "{\"src\": \"\($0)\"}" }
-        let imagesJSON = imagesArray.joined(separator: ",")
+        let optionsArray = [sizesOption, colorsOption]
 
-        let optionsArray = [sizesOption, colorsOption].map {
-            "{\"name\": \"\($0.name)\", \"values\": [\( $0.values.map { "\"\($0)\"" }.joined(separator: ","))]}"
-        }
-        let optionsJSON = optionsArray.joined(separator: ",")
+        let imagesArray = images.map { ImageRequest(src: $0) }
 
-        let variantsArray = variantsData.map {
-            """
-            {
-                "title": "\($0.title)",
-                "price": "\($0.price)",
-                "option1": "\($0.option1)",
-                "option2": "\($0.option2)",
-                "inventory_quantity": \($0.inventory_quantity ?? 0),
-                "old_inventory_quantity": \($0.old_inventory_quantity ?? 0),
-                "sku": "\($0.sku)"
-            }
-            """
-        }
-        let variantsJSON = variantsArray.joined(separator: ",")
+        let product = ProductData(
+            title: addProductTitle.text ?? "",
+            body_html: addProductDescription.text ?? "",
+            vendor: addProductVendor.text ?? "",
+            variants: variantsData,
+            options: optionsArray,
+            images: imagesArray
+        )
 
-        let productJSON = """
-        {
-            "product": {
-                "title": "\(addProductTitle.text ?? "")",
-                "body_html": "\(addProductDescription.text ?? "")",
-                "vendor": "\(addProductVendor.text ?? "")",
-                "variants": [\(variantsJSON)],
-                "options": [\(optionsJSON)],
-                "images": [\(imagesJSON)]
-            }
-        }
-        """
-
-        let jsonData = productJSON.data(using: .utf8)!
-        let product = try! JSONDecoder().decode(AddProductRequest.self, from: jsonData)
-        return product
+        return AddProductRequest(product: product)
     }
-
-
 
             func showSuccessAlert() {
                 let alert = UIAlertController(title: "Success", message: "Product added successfully.", preferredStyle: .alert)
@@ -160,3 +133,4 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                     images.append(src)
             }
         }
+

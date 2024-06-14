@@ -20,6 +20,7 @@ struct ProductData: Codable {
     let images: [ImageRequest]
     
     
+    
     enum CodingKeys: String, CodingKey {
             case title, body_html, vendor, variants, options, images
         }
@@ -44,6 +45,7 @@ struct VariantRequest: Codable {
     let inventory_quantity: Int?
     let old_inventory_quantity: Int?
     let sku: String
+  //  let inventory_management: String
 }
 
 struct OptionRequest: Codable {
@@ -54,3 +56,4 @@ struct OptionRequest: Codable {
 struct ImageRequest: Codable {
     let src: String
 }
+
