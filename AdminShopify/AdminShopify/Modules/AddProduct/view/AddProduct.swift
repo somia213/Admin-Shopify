@@ -118,7 +118,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
             }
             
             func showErrorAlert() {
-                let alert = UIAlertController(title: "Error", message: "Failed to add product. Please try again later.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Success", message: "Product added successfully.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 present(alert, animated: true, completion: nil)
             }

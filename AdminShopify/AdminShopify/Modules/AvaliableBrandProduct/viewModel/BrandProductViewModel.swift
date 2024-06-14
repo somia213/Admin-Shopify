@@ -10,7 +10,7 @@ import Foundation
 
 class BrandProductViewModel {
     private let networkManager: NetworkServicing
-     var products: [Product] = []
+    var products: [Product] = []
 
     var dataUpdated: (() -> Void)?
 
@@ -33,5 +33,17 @@ class BrandProductViewModel {
 
     func numberOfProducts() -> Int {
         return products.count
+    }
+
+    func deleteProduct(productId: Int, completion: @escaping (Bool) -> Void) {
+        networkManager.deleteProductFromAPI(endpoint: ShopifyEndpoint.deleteProduct(productId: productId)) { result in
+            switch result {
+            case .success:
+                completion(true)
+            case .failure(let error):
+                print("Failed to delete product: \(error)")
+                completion(false)
+            }
+        }
     }
 }

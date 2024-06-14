@@ -85,6 +85,40 @@ extension AvaliableProductViewController: UITableViewDataSource {
     }
 }
 
+extension AvaliableProductViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alertController = UIAlertController(title: "Delete Product", message: "Are you sure you want to delete this product?", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+                guard let self = self else { return }
+                self.deleteProduct(at: indexPath)
+            }
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    private func deleteProduct(at indexPath: IndexPath) {
+        let productId = viewModel.products[indexPath.row].id
+        viewModel.deleteProduct(productId: productId) { [weak self] success in
+            guard let self = self else { return }
+            if success {
+                self.viewModel.products.remove(at: indexPath.row)
+                DispatchQueue.main.async {
+                    self.avaliableProductTableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            } else {
+                let alertController = UIAlertController(title: "Error", message: "Failed to delete the product. Please try again later.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+}
+
 
 
 //extension AvaliableProductViewController: UITableViewDelegate {

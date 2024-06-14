@@ -32,6 +32,7 @@ protocol NetworkServicing {
   //  func updateProductInAPI(endpoint: Endpoint, productId: Int, updatedProduct: UpdatedProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
     
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void)
+    func deleteProductFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void)
 }
 
 class NetworkManager: NetworkServicing {
@@ -101,6 +102,28 @@ class NetworkManager: NetworkServicing {
                 }
             }
     }
+    
+    func deleteProductFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {
+            guard case let .deleteProduct(productId) = endpoint else {
+                completionHandler(.failure(NetworkError.unknownError))
+                return
+            }
+            
+            let deleteURL = endpoint.url
+            
+            AF.request(deleteURL, method: .delete, headers: nil)
+                .validate()
+                .response { response in
+                    switch response.result {
+                    case .success:
+                        print("Product deleted successfully")
+                        completionHandler(.success(()))
+                    case .failure(let error):
+                        print("Failed to delete product: \(error)")
+                        completionHandler(.failure(error))
+                    }
+                }
+        }
 
 
 //        func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
