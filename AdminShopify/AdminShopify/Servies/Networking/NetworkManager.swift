@@ -10,11 +10,13 @@ import Alamofire
 
 enum Root: String {
      case postProduct = "products"
+    case postPriceRule = "price_rule"
 }
 
 enum TestEndpoint: String {
  
     case specificProduct = "products.json"
+    case specificPriceRule = "price_rules.json"
 }
 
 
