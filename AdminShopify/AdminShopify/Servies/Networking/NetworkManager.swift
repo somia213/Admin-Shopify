@@ -9,14 +9,18 @@ import Foundation
 import Alamofire
 
 enum Root: String {
-     case postProduct = "products"
+    case postProduct = "products"
     case postPriceRule = "price_rule"
+    case postiscountOrder = "discount_code"
+    
 }
 
 enum TestEndpoint: String {
  
     case specificProduct = "products.json"
     case specificPriceRule = "price_rules.json"
+    case specificDiscountOrder = "discount_codes.json"
+    
 }
 
 
@@ -34,7 +38,7 @@ protocol NetworkServicing {
   //  func updateProductInAPI(endpoint: Endpoint, productId: Int, updatedProduct: UpdatedProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
     
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void)
-    func deleteProductFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void)
+    func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void)
 }
 
 class NetworkManager: NetworkServicing {
@@ -105,27 +109,37 @@ class NetworkManager: NetworkServicing {
             }
     }
     
-    func deleteProductFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {
-            guard case let .deleteProduct(productId) = endpoint else {
-                completionHandler(.failure(NetworkError.unknownError))
-                return
-            }
-            
-            let deleteURL = endpoint.url
-            
-            AF.request(deleteURL, method: .delete, headers: nil)
-                .validate()
-                .response { response in
-                    switch response.result {
-                    case .success:
+    func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {
+        let deleteURL = endpoint.url
+        
+        AF.request(deleteURL, method: .delete, headers: nil)
+            .validate()
+            .response { response in
+                switch response.result {
+                case .success:
+                    switch endpoint {
+                    case .deleteProduct:
                         print("Product deleted successfully")
-                        completionHandler(.success(()))
-                    case .failure(let error):
-                        print("Failed to delete product: \(error)")
-                        completionHandler(.failure(error))
+                    case .deletePriceRule:
+                        print("Price rule deleted successfully")
+                    default:
+                        break
                     }
+                    completionHandler(.success(()))
+                    
+                case .failure(let error):
+                    switch endpoint {
+                    case .deleteProduct:
+                        print("Failed to delete product: \(error)")
+                    case .deletePriceRule:
+                        print("Failed to delete price rule: \(error)")
+                    default:
+                        break
+                    }
+                    completionHandler(.failure(error))
                 }
-        }
+            }
+    }
 
 
 //        func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {

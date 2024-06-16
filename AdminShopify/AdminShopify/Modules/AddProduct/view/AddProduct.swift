@@ -76,40 +76,51 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     }
 
     func constructProduct() -> AddProductRequest {
-        var variantsData: [VariantRequest] = []
-        for variant in variants {
-            let variantTitle = "\(variant.option1) / \(variant.option2)"
-            let sku = "AD-03-\(variant.option2.lowercased())-\(variant.option1.lowercased())"
-            let variantData = VariantRequest(
-                title: variantTitle,
-                price: variant.price,
-                option1: variant.option1,
-                option2: variant.option2,
-                inventory_quantity: variant.inventory_quantity,
-                old_inventory_quantity: variant.old_inventory_quantity,
-                sku: sku
-            )
-            variantsData.append(variantData)
-        }
-
-        let sizesOption = OptionRequest(name: "Size", values: variants.map { $0.option1 })
-        let colorsOption = OptionRequest(name: "Color", values: variants.map { $0.option2 })
-
-        let optionsArray = [sizesOption, colorsOption]
-
-        let imagesArray = images.map { ImageRequest(src: $0) }
-
-        let product = ProductData(
-            title: addProductTitle.text ?? "",
-            body_html: addProductDescription.text ?? "",
-            vendor: addProductVendor.text ?? "",
-            variants: variantsData,
-            options: optionsArray,
-            images: imagesArray
-        )
-
-        return AddProductRequest(product: product)
-    }
+           var uniqueSizes = Set<String>()
+           var uniqueColors = Set<String>()
+           var variantsData: [VariantRequest] = []
+           
+           for variant in variants {
+               let variantTitle = "\(variant.option1) / \(variant.option2)"
+               let sku = "AD-03-\(variant.option2.lowercased())-\(variant.option1.lowercased())"
+               
+               if uniqueSizes.contains(variant.option1) && uniqueColors.contains(variant.option2) {
+                   continue 
+               }
+               
+               uniqueSizes.insert(variant.option1)
+               uniqueColors.insert(variant.option2)
+               
+               let variantData = VariantRequest(
+                   title: variantTitle,
+                   price: variant.price,
+                   option1: variant.option1,
+                   option2: variant.option2,
+                   inventory_quantity: variant.inventory_quantity,
+                   old_inventory_quantity: variant.old_inventory_quantity,
+                   sku: sku
+               )
+               variantsData.append(variantData)
+           }
+           
+           let sizesOption = OptionRequest(name: "Size", values: Array(uniqueSizes))
+           let colorsOption = OptionRequest(name: "Color", values: Array(uniqueColors))
+           
+           let optionsArray = [sizesOption, colorsOption]
+           
+           let imagesArray = images.map { ImageRequest(src: $0) }
+           
+           let product = ProductData(
+               title: addProductTitle.text ?? "",
+               body_html: addProductDescription.text ?? "",
+               vendor: addProductVendor.text ?? "",
+               variants: variantsData,
+               options: optionsArray,
+               images: imagesArray
+           )
+           
+           return AddProductRequest(product: product)
+       }
 
             func showSuccessAlert() {
                 let alert = UIAlertController(title: "Success", message: "Product added successfully.", preferredStyle: .alert)

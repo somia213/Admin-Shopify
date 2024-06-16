@@ -32,7 +32,9 @@ enum ShopifyEndpoint {
     case productDetails(productId: Int)
     case updateProduct(productId: Int)
     case deleteProduct(productId: Int)
-
+    case deletePriceRule(priceRuleId: Int)
+    case getDiscountCodes(priceRuleId: Int)
+    case postDiscountCode(priceRuleId: Int)
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -56,7 +58,14 @@ extension ShopifyEndpoint: Endpoint {
             return "/admin/api/2024-04/products/\(productId).json"
         case .deleteProduct(let productId):
             return "/admin/api/2024-04/products/\(productId).json"
-    
+        case .deletePriceRule(let priceRuleId):
+           return "/admin/api/2024-04/price_rules/\(priceRuleId).json"
+        case .getDiscountCodes(let priceRuleId):
+          return "/admin/api/2024-01/price_rules/\(priceRuleId)/discount_codes.json"
+        case .postDiscountCode(let priceRuleId):
+          return "/admin/api/2024-04/price_rules/\(priceRuleId)/discount_codes.json"
+                    
+
         }
     }
 }

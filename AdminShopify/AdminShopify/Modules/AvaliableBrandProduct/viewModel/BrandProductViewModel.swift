@@ -36,7 +36,7 @@ class BrandProductViewModel {
     }
 
     func deleteProduct(productId: Int, completion: @escaping (Bool) -> Void) {
-        networkManager.deleteProductFromAPI(endpoint: ShopifyEndpoint.deleteProduct(productId: productId)) { result in
+        networkManager.deleteFromAPI(endpoint: ShopifyEndpoint.deleteProduct(productId: productId)) { result in
             switch result {
             case .success:
                 completion(true)

@@ -21,10 +21,13 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
     
     var model: AddPriceRuleViewModel!
     
+    var priceRulesViewModel: PriceRulesViewModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = AddNewProductPresenter(view: self)
         model = AddPriceRuleViewModel(networkManager: NetworkManager.shared)
+        priceRulesViewModel = PriceRulesViewModel()
 
     }
     
@@ -33,22 +36,41 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
     }
     
     @IBAction func doneBtn(_ sender: Any) {
+        
         guard let title = priceRuleTotle.text, !title.isEmpty else {
-                showAlert(message: "Please enter a title.")
+            showAlert(message: "Please enter a title.")
+            return
+        }
+
+        let valueType: String
+        if priceRuleType.selectedSegmentIndex == 1 {
+            valueType = "fixed_amount"
+        } else {
+            valueType = "percentage"
+        }
+
+        guard let valueText = discountAmount.text, !valueText.isEmpty, let value = Double(valueText) else {
+            showAlert(message: "Please enter a valid discount amount.")
+            return
+        }
+
+        if valueType == "percentage" {
+            if !(value < 0 && value >= -100) {
+                showAlert(message: "Please enter a discount amount between -100 and 0 for percentage type.")
                 return
             }
-
-            let valueType = priceRuleType.titleForSegment(at: priceRuleType.selectedSegmentIndex) ?? ""
-
-        guard let valueText = discountAmount.text, !valueText.isEmpty, let value = Double(valueText), value < 0 && value >= -100 else {
-                showAlert(message: "Please enter a discount amount between -100 and 0.")
+        } else if valueType == "fixed_amount" {
+            if !(value < 0) {
+                showAlert(message: "Please enter a discount amount by negative value.")
                 return
             }
+            
+        }
 
-            guard let usageLimitText = UsageLimit.text, let usageLimit = Int(usageLimitText) else {
-                showAlert(message: "Please enter a valid usage limit.")
-                return
-            }
+        guard let usageLimitText = UsageLimit.text, let usageLimit = Int(usageLimitText) else {
+            showAlert(message: "Please enter a valid usage limit.")
+            return
+        }
 
             let startsAt = startDate.date
             let endsAt = endDate.date
@@ -63,6 +85,9 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(_):
+                        if let priceRulesVC = self?.presentingViewController as? PriceRulesViewController {
+                            priceRulesVC.viewModel.fetchPriceRules()
+                        }
                         self?.navigateBack()
                     case .failure(let error):
                         self?.showAlert(message: error.localizedDescription)

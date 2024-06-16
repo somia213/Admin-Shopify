@@ -43,43 +43,46 @@ class AddVarientProductViewController: UIViewController {
                  let quantity = Int(quantityString) else {
                      return
            }
-           
+
            let colors = color.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
            let sizes = size.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
            let images = imagesString.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-           
+
+           // Validate that all arrays have at least one element
            guard !sizes.isEmpty, !colors.isEmpty, !images.isEmpty else {
                return
            }
-           
-           for sizeValue in sizes {
-               for colorValue in colors {
-                   for imageSrc in images {
-                       if let imageURL = URL(string: imageSrc), UIApplication.shared.canOpenURL(imageURL) {
-                           let variantTitle = "\(sizeValue) / \(colorValue)"
-                           let sku = "AD-03-\(colorValue)-\(sizeValue)"
-                           
-                           let variant = VariantRequest(
-                               title: variantTitle,
-                               price: price,
-                               option1: sizeValue,
-                               option2: colorValue,
-                               inventory_quantity: quantity,
-                               old_inventory_quantity: quantity,
-                               sku: sku
-                               //inventory_management: "shopify"
-                           )
-                           
-                           delegate?.addVariant(variant: variant)
-                           delegate?.addImage(src: imageSrc)
-                       } else {
-                           showAlert(message: "Invalid image URL: \(imageSrc)")
-                           return
-                       }
+
+           for (sizeValueIndex, sizeValue) in sizes.enumerated() {
+               for (colorValueIndex, colorValue) in colors.enumerated() {
+                   // Combine corresponding image with size and color
+                   let imageIndex = min(images.count - 1, sizeValueIndex * colors.count + colorValueIndex)
+                   let imageSrc = images[imageIndex]
+
+                   if let imageURL = URL(string: imageSrc), UIApplication.shared.canOpenURL(imageURL) {
+                       let variantTitle = "\(sizeValue) / \(colorValue)"
+                       let sku = "AD-03-\(colorValue.lowercased())-\(sizeValue.lowercased())"
+
+                       let variant = VariantRequest(
+                           title: variantTitle,
+                           price: price,
+                           option1: sizeValue,
+                           option2: colorValue,
+                           inventory_quantity: quantity,
+                           old_inventory_quantity: quantity,
+                           sku: sku
+                           // inventory_management: "shopify"
+                       )
+
+                       delegate?.addVariant(variant: variant)
+                       delegate?.addImage(src: imageSrc)
+                   } else {
+                       showAlert(message: "Invalid image URL: \(imageSrc)")
+                       return
                    }
                }
            }
-           
+
            dismiss(animated: true, completion: nil)
        }
 

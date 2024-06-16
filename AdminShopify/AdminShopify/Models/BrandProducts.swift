@@ -52,7 +52,7 @@ struct Variant: Codable {
     var inventory_policy: String
     var compare_at_price: String?
     var fulfillment_service: String
- //   var inventory_management: String
+   // var inventory_management: String
     var option1: String //size
     var option2: String//color
     var option3: String?
