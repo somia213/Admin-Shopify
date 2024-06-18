@@ -30,7 +30,6 @@ enum TestEndpoint: String {
     }
 }
 
-
 enum NetworkError: Error {
     case failedToAddProduct
     case unknownError
@@ -77,45 +76,6 @@ class NetworkManager: NetworkServicing {
                 }
         }
         
-     /*
-    func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void) {
-        let urlString = "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint.rawValue)"
-        guard let url = URL(string: urlString) else {
-            completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(TOKEN, forHTTPHeaderField: "X-Shopify-Access-Token")
-        
-        if let requestBody = String(data: body, encoding: .utf8) {
-            print("Request Body: \(requestBody)")
-        }
-        
-        request.httpBody = body
-        AF.request(request)
-            .validate()
-            .responseData { response in
-                switch response.result {
-                case .success(let data):
-                    if let jsonString = String(data: data, encoding: .utf8) {
-                        print("Response Body: \(jsonString)")
-                    }
-                    print("Success in post")
-                    completion(data, nil)
-                case .failure(let error):
-                    if let data = response.data, let jsonString = String(data: data, encoding: .utf8) {
-                        print("Response Body: \(jsonString)")
-                    }
-                    print("Network request failed with error: \(error)")
-                    completion(nil, error)
-                }
-            }
-    }
-    
-*/
     
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void) {
         let urlString = "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint.rawValue)"

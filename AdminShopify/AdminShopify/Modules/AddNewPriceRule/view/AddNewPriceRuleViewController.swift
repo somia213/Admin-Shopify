@@ -79,26 +79,27 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
             let startsAt = startDate.date
             let endsAt = endDate.date
 
-            model.addPriceRule(title: title,
-                               valueType: valueType,
-                               value: String(value),
-                               customerSelection: "all",
-                               startsAt: startsAt,
-                               endsAt: endsAt,
-                               usageLimit: usageLimit) { [weak self] result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(_):
-                        if let priceRulesVC = self?.presentingViewController as? PriceRulesViewController {
-                            priceRulesVC.viewModel.fetchPriceRules()
-                        }
-                        self?.navigateBack()
-                    case .failure(let error):
-                        self?.showAlert(message: error.localizedDescription)
-                    }
-                }
-            }
-    }
+        model.addPriceRule(title: title,
+                                  valueType: valueType,
+                                  value: String(value),
+                                  customerSelection: "all",
+                                  startsAt: startsAt,
+                                  endsAt: endsAt,
+                                  usageLimit: usageLimit) { [weak self] result in
+                   DispatchQueue.main.async {
+                       switch result {
+                       case .success:
+                           if let priceRulesVC = self?.presentingViewController as? PriceRulesViewController {
+                               priceRulesVC.viewModel.fetchPriceRules()
+                           }
+                           self?.navigateBack()
+                       case .failure(let error):
+                           //self?.showAlert(message: error.localizedDescription)
+                           self?.navigateBack()
+                       }
+                   }
+               }
+           }
     
     func showAlert(message: String) {
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)

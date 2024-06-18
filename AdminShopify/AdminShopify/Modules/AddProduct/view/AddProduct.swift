@@ -20,10 +20,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     
     var viewModel: AddProductViewModel!
     var presenter: AddNewProductPresenter!
-    
-    var variants: [VariantRequest] = []
-    var images: [String] = []
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = AddNewProductPresenter(view: self)
@@ -50,8 +47,8 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
             title: addProductTitle.text,
             description: addProductDescription.text,
             vendor: addProductVendor.text,
-            variants: variants,
-            images: images
+            variants: viewModel.variants,
+            images: viewModel.images
         ) else {
             showErrorAlert(message: "Please fill in all required fields.")
             return
@@ -64,7 +61,8 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                 self?.showSuccessAlert()
             case .failure(let error):
                 print("Failed to add product: \(error.localizedDescription)")
-                self?.showErrorAlert(message: "Product added successfully.")
+                //self?.showErrorAlert(message: "Product added successfully.")
+                self?.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -86,12 +84,12 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
      
 
 extension AddNewProductViewController: AddVariantDelegate {
-            func addVariant(variant: VariantRequest) {
-                    variants.append(variant)
-                }
-                
-                func addImage(src: String) {
-                    images.append(src)
-            }
+    func addVariant(variant: VariantRequest) {
+        viewModel.addVariant(variant: variant)
     }
+
+    func addImage(src: String) {
+        viewModel.addImage(src: src)
+    }
+}
 

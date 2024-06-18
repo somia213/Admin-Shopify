@@ -7,7 +7,8 @@
 
 import UIKit
 
-protocol AddVariantDelegate: AnyObject {func addVariant(variant: VariantRequest) 
+protocol AddVariantDelegate: AnyObject {
+    func addVariant(variant: VariantRequest) 
     func addImage(src: String)
 }
 

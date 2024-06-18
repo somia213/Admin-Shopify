@@ -11,11 +11,22 @@ struct TestAddProductResponse: Codable {
     let success: Bool
 }
 class AddProductViewModel {
+    
+    var variants: [VariantRequest] = []
+       var images: [String] = []
     let networkManager: NetworkManager
 
     init(networkManager: NetworkManager) {
         self.networkManager = networkManager
     }
+    
+    func addVariant(variant: VariantRequest) {
+            variants.append(variant)
+        }
+
+        func addImage(src: String) {
+            images.append(src)
+        }
 
     func addProduct(product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
             do {
