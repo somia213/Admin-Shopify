@@ -25,6 +25,17 @@ extension Endpoint {
 enum ShopifyEndpoint {
     case smartCollections
     case addProduct
+    case productsByBrand(brand: String)
+    case allProducts
+    case getAllpriceRules
+    case createPriceRule
+    case productDetails(productId: Int)
+    case updateProduct(productId: Int)
+    case deleteProduct(productId: Int)
+    case deletePriceRule(priceRuleId: Int)
+    case getDiscountCodes(priceRuleId: Int)
+    case postDiscountCode(priceRuleId: Int)
+    case deleteDiscountCode(priceRuleId: Int, discountCodeId: Int)
 }
 
 extension ShopifyEndpoint: Endpoint {
@@ -33,8 +44,30 @@ extension ShopifyEndpoint: Endpoint {
         case .smartCollections:
             return "/admin/api/2024-04/smart_collections.json"
         case .addProduct:
-            return "/admin/api/2024-01/products.json"
+            return "/admin/api/2024-04/products.json"
+        case .productsByBrand(let brand):
+            return "/admin/api/2024-04/products.json?vendor=\(brand)"
+        case .allProducts:
+            return "/admin/api/2024-04/products.json"
+        case .getAllpriceRules:
+            return "/admin/api/2024-04/price_rules.json"
+        case .createPriceRule:
+            return "/admin/api/2024-04/price_rules.json"
+         case .productDetails(let productId):
+            return "/admin/api/2024-04/products/\(productId).json"
+        case .updateProduct(let productId):
+            return "/admin/api/2024-04/products/\(productId).json"
+        case .deleteProduct(let productId):
+            return "/admin/api/2024-04/products/\(productId).json"
+        case .deletePriceRule(let priceRuleId):
+           return "/admin/api/2024-04/price_rules/\(priceRuleId).json"
+        case .getDiscountCodes(let priceRuleId):
+          return "/admin/api/2024-01/price_rules/\(priceRuleId)/discount_codes.json"
+        case .postDiscountCode(let priceRuleId):
+          return "/admin/api/2024-04/price_rules/\(priceRuleId)/discount_codes.json"
+        case .deleteDiscountCode(let priceRuleId, let discountCodeId):
+            return "/admin/api/2024-04/price_rules/\(priceRuleId)/discount_codes/\(discountCodeId).json"
+
         }
     }
 }
-

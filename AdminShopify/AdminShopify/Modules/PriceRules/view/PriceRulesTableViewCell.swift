@@ -9,7 +9,8 @@ import UIKit
 
 class PriceRulesTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var discountLabel: UILabel!
+   // @IBOutlet weak var discountLabel: UILabel!
+    @IBOutlet weak var discountTitleLabel: UILabel!
     @IBOutlet weak var startDateOfDicount: UILabel!
     
     @IBOutlet weak var endDateOfDicount: UILabel!

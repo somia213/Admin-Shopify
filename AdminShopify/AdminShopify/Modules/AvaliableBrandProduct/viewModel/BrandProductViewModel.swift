@@ -8,42 +8,9 @@
 
 import Foundation
 
-//class BrandProductViewModel {
-//    private let networkManager: NetworkServicing
-//    private var products: [Product] = []
-//
-//    var dataUpdated: (() -> Void)?
-//
-//    init(networkManager: NetworkServicing = NetworkManager()) {
-//        self.networkManager = networkManager
-//        fetchData()
-//    }
-//    
-//    func fetchData() {
-//        networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.addProduct) { [weak self] (response: BrandProductResponse?) in
-//            guard let self = self else { return }
-//            if let response = response {
-//                self.products = response.products
-//                print("================================ /( response.products)")
-//                self.dataUpdated?()
-//            } else {
-//                print("Failed to fetch products.")
-//            }
-//        }
-//    }
-//
-//    func numberOfProducts() -> Int {
-//        return products.count
-//    }
-//
-//    func product(at index: Int) -> Product {
-//        return products[index]
-//    }
-//}
-
 class BrandProductViewModel {
     private let networkManager: NetworkServicing
-    private var products: [Product] = []
+    var products: [Product] = []
 
     var dataUpdated: (() -> Void)?
 
@@ -51,11 +18,12 @@ class BrandProductViewModel {
         self.networkManager = networkManager
     }
 
-    func fetchData() {
-        networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.addProduct) { [weak self] (response: BrandProductResponse?) in
+    func fetchData(forBrand brand: String) {
+        networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.productsByBrand(brand: brand)) { [weak self] (response: BrandProductResponse?) in
             guard let self = self else { return }
             if let response = response {
                 self.products = response.products
+                print("================================ \(response.products)")
                 self.dataUpdated?()
             } else {
                 print("Failed to fetch products.")
@@ -67,7 +35,15 @@ class BrandProductViewModel {
         return products.count
     }
 
-    func products(forVendor vendor: String) -> [Product] {
-        return products.filter { $0.vendor == vendor }
+    func deleteProduct(productId: Int, completion: @escaping (Bool) -> Void) {
+        networkManager.deleteFromAPI(endpoint: ShopifyEndpoint.deleteProduct(productId: productId)) { result in
+            switch result {
+            case .success:
+                completion(true)
+            case .failure(let error):
+                print("Failed to delete product: \(error)")
+                completion(false)
+            }
+        }
     }
 }

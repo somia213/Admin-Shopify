@@ -8,68 +8,81 @@
 import Foundation
 
 struct BrandProductResponse: Codable {
-    let products: [Product]
+    var products: [Product]
 }
 
 struct Product: Codable {
-    let id: Int
-    let title: String
-    let body_html: String
-    let vendor: String
-    let product_type: String
-    let created_at: String
-    let handle: String
-    let updated_at: String
-    let published_at: String
-    let template_suffix: String?
-    let published_scope: String
-    let tags: String
-    let status: String
-    let admin_graphql_api_id: String
-    let variants: [Variant]
-    let options: [Option]
-    let images: [ProductImage]
+    var id: Int
+    var title: String
+    var body_html: String
+    var vendor: String
+  //  var product_type: String
+    var created_at: String
+    var handle: String
+    var updated_at: String
+    var published_at: String
+    var template_suffix: String?
+    var published_scope: String
+  //  var tags: String
+    var status: String
+    var admin_graphql_api_id: String
+    var variants: [Variant]
+    var options: [Option]
+    var images: [BrandProductImage]
 }
-
-struct ProductImage: Codable {
-    let id: Int
-    let src: String
+//"product": {
+//
+//       "product_type": "",
+//
+//       "tags": "",
+//
+struct BrandProductImage: Codable {
+    var id: Int
+    var src: String
 }
 
 
 struct Variant: Codable {
-    let id: Int
-    let product_id: Int
-    let title: String
-    let price: String
-    let sku: String
-    let position: Int
-    let inventory_policy: String
-    let compare_at_price: String?
-    let fulfillment_service: String
-    let inventory_management: String
-    let option1: String
-    let option2: String
-    let option3: String?
-    let created_at: String
-    let updated_at: String
-    let taxable: Bool
-    let barcode: String?
-    let grams: Int
-    let weight: Double
-    let weight_unit: String
-    let inventory_item_id: Int
-    let inventory_quantity: Int
-    let old_inventory_quantity: Int
-    let requires_shipping: Bool
-    let admin_graphql_api_id: String
-    let image_id: String?
+    var id: Int
+    var product_id: Int
+    var title: String
+    var price: String
+    var sku: String
+    var position: Int
+    var inventory_policy: String
+    var compare_at_price: String?
+    var fulfillment_service: String
+   // var inventory_management: String
+    var option1: String //size
+    var option2: String//color
+    var option3: String?
+    var created_at: String
+    var updated_at: String
+    var taxable: Bool
+    var barcode: String?
+    var grams: Int
+    var weight: Double
+    var weight_unit: String
+    var inventory_item_id: Int
+    var inventory_quantity: Int
+    var old_inventory_quantity: Int
+    var requires_shipping: Bool
+    var admin_graphql_api_id: String
+  //  var image_id: String?
 }
 
+
+//               "inventory_management": null,
+//               "image_id": null*/
+
+
 struct Option: Codable {
-    let id: Int
-    let product_id: Int
-    let name: String
-    let position: Int
-    let values: [String]
+    var id: Int
+    var product_id: Int
+    var name: String
+    var position: Int
+    var values: [String]
 }
+//               "alt": null,
+//              
+//               "variant_ids": []
