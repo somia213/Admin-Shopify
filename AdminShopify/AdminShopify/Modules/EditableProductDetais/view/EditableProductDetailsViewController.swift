@@ -21,38 +21,12 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     @IBOutlet weak var titleProductDetails: UILabel!
     
     @IBOutlet weak var DescriptionProductDetails: UITextView!
-    
-    @IBOutlet weak var editDescription: UIButton!
-    @IBOutlet weak var addImage: UIButton!
-    
+        
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     
     @IBAction func backBtn(_ sender: Any) {
         navigateBack()
     }
-    
-    @IBAction func editTitleTapped(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "Edit Title", message: nil, preferredStyle: .alert)
-
-        alertController.addTextField { textField in
-            textField.text = self.viewModel.product?.title
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(cancelAction)
-
-        let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
-            guard let newTitle = alertController.textFields?.first?.text else {
-                return
-            }
-            self.viewModel.updateTitle(newTitle: newTitle)
-            
-        }
-        alertController.addAction(updateAction)
-
-        present(alertController, animated: true)
-    }
-
     
     var viewModel = EditableProductDetailsViewModel()
     
@@ -65,12 +39,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        func updateTitle(newTitle: String) {
-            self.viewModel.product?.title = newTitle
-        }
-
-
+     
         if let product = viewModel.product {
                 arrProductImg = product.images.map { $0.src }
             }
@@ -107,6 +76,199 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     
     }
     
+    @IBAction func addImage(_ sender: Any) {
+        showAddImageAlert()
+    }
+    
+    func showAddImageAlert() {
+           let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
+           
+           alert.addTextField { textField in
+               textField.placeholder = "Image URL"
+           }
+           
+           alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+               if let imageURL = alert.textFields?.first?.text {
+                   self.updateProductImageURL(imageURL)
+               }
+           }))
+           
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+           
+           present(alert, animated: true, completion: nil)
+       }
+    
+       
+    
+    func updateProductImageURL(_ newImageURL: String) {
+        guard let productId = viewModel.product?.id else {
+            print("Product ID is nil, cannot update image URL.")
+            return
+        }
+        
+        let productIdString = "\(productId)"
+        
+        var imagesData: [[String: String]] = []
+        
+        if let productImages = viewModel.product?.images {
+            for image in productImages {
+                let imageData: [String: String] = [
+                    "src": image.src
+                ]
+                imagesData.append(imageData)
+            }
+        }
+        
+        let newImageData: [String: String] = [
+            "src": newImageURL
+        ]
+        imagesData.append(newImageData)
+        
+        let updateData: [String: Any] = [
+            "product": [
+                "images": imagesData
+            ]
+        ]
+        
+        guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
+            print("Failed to encode updated product data.")
+            return
+        }
+        
+        viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
+            if let error = error {
+                print("Failed to update product image URL: \(error.localizedDescription)")
+            } else if data != nil {
+                let newProductImage = BrandProductImage(id: 0, src: newImageURL)
+                self?.viewModel.product?.images.append(newProductImage)
+                self?.arrProductImg.append(newImageURL)
+                
+                DispatchQueue.main.async {
+                    self?.pageController.numberOfPages = self?.arrProductImg.count ?? 0
+                    self?.imgCollectionView.reloadData()
+                }
+                
+                print("Product image URL updated successfully.")
+            }
+        }
+    }
+
+    
+    
+    @IBAction func editTitle(_ sender: Any) {
+        showTitleEditAlert()
+    }
+    
+    func showTitleEditAlert() {
+           let alert = UIAlertController(title: "Edit Title", message: "Enter new title", preferredStyle: .alert)
+           
+           alert.addTextField { textField in
+               textField.placeholder = "New Title"
+               textField.text = self.viewModel.product?.title
+           }
+           
+           alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+               if let newTitle = alert.textFields?.first?.text {
+                   self.updateProductTitle(newTitle)
+               }
+           }))
+           
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+           
+           present(alert, animated: true, completion: nil)
+       }
+       
+    func updateProductTitle(_ newTitle: String) {
+        guard let productId = viewModel.product?.id else {
+            print("Product ID is nil, cannot update title.")
+            return
+        }
+        
+        let productIdString = "\(productId)"
+        
+        let updateData: [String: Any] = [
+            "product": [
+                "title": newTitle
+            ]
+        ]
+        
+        guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
+            print("Failed to encode updated product data.")
+            return
+        }
+        
+        viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
+            if let error = error {
+                print("Failed to update product title: \(error.localizedDescription)")
+            } else if data != nil {
+                self?.viewModel.product?.title = newTitle
+                
+                DispatchQueue.main.async {
+                    self?.titleProductDetails.text = newTitle
+                }
+                
+                print("Product title updated successfully.")
+            }
+        }
+    }
+
+    
+    @IBAction func editDescription(_ sender: Any) {
+        showDescriptionEditAlert()
+    }
+    
+    func showDescriptionEditAlert() {
+            let alert = UIAlertController(title: "Edit Description", message: "Enter new description", preferredStyle: .alert)
+            
+            alert.addTextField { textField in
+                textField.placeholder = "New Description"
+                textField.text = self.viewModel.product?.body_html
+            }
+            
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+                if let newDescription = alert.textFields?.first?.text {
+                    self.updateProductDescription(newDescription)
+                }
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            present(alert, animated: true, completion: nil)
+        }
+        
+        func updateProductDescription(_ newDescription: String) {
+            guard let productId = viewModel.product?.id else {
+                print("Product ID is nil, cannot update description.")
+                return
+            }
+            
+            let productIdString = "\(productId)"
+            
+            let updateData: [String: Any] = [
+                "product": [
+                    "body_html": newDescription
+                ]
+            ]
+            
+            guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
+                print("Failed to encode updated product data.")
+                return
+            }
+            
+            viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
+                if let error = error {
+                    print("Failed to update product description: \(error.localizedDescription)")
+                } else if data != nil {
+                    self?.viewModel.product?.body_html = newDescription
+                    
+                    DispatchQueue.main.async {
+                        self?.DescriptionProductDetails.text = newDescription
+                    }
+                    
+                    print("Product description updated successfully.")
+                }
+            }
+        }
     
     func navigateBack() {
            dismiss(animated: true, completion: nil)

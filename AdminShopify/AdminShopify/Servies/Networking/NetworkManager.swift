@@ -19,6 +19,7 @@ enum TestEndpoint: String {
     case specificProduct = "products.json"
     case specificPriceRule = "price_rules.json"
     case specificDiscountOrder = "price_rules/{priceRuleId}/discount_codes.json"
+    case specificUpDateProduct = "products/{productId}.json"
     
     var endpointString: String {
         switch self {
@@ -26,9 +27,13 @@ enum TestEndpoint: String {
             return self.rawValue
         case .specificDiscountOrder:
             return self.rawValue
+        case .specificUpDateProduct:
+            return  self.rawValue
         }
     }
 }
+
+
 
 enum NetworkError: Error {
     case failedToAddProduct
@@ -39,11 +44,10 @@ enum NetworkError: Error {
 protocol NetworkServicing {
     
     func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void)
-   // func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
-  //  func updateProductInAPI(endpoint: Endpoint, productId: Int, updatedProduct: UpdatedProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
-    
+   
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void)
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void)
+    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, body: Data, completion: @escaping (Data?, Error?) -> Void)
 }
 
 class NetworkManager: NetworkServicing {
@@ -116,6 +120,67 @@ class NetworkManager: NetworkServicing {
             }
     }
     
+    
+    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, body: Data, completion: @escaping (Data?, Error?) -> Void) {
+   
+        
+        var urlString = "https://\(baseUrl)/\(endpoint.rawValue.replacingOccurrences(of: "{productId}", with: productId))"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic \(apiKey):\(password)", forHTTPHeaderField: "Authorization")
+        request.httpBody = body
+        
+        print("\nRequest URL: \(urlString)")
+        print("Request Headers:")
+        for (key, value) in request.allHTTPHeaderFields ?? [:] {
+            print("\(key): \(value)")
+        }
+        print("Request Body:")
+        if let requestBodyString = String(data: body, encoding: .utf8) {
+            print(requestBodyString)
+        } else {
+            print("Failed to convert request body to String.")
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Network request failed with error: \(error.localizedDescription)")
+                completion(nil, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Unexpected response: \(response.debugDescription)")
+                completion(nil, NSError(domain: "", code: -2, userInfo: [NSLocalizedDescriptionKey: "Unexpected response"]))
+                return
+            }
+            
+            print("\nSuccess in PUT request")
+            print("Response Status Code: \(httpResponse.statusCode)")
+            print("Response Headers:")
+            if let responseHeaders = httpResponse.allHeaderFields as? [String: String] {
+                for (key, value) in responseHeaders {
+                    print("\(key): \(value)")
+                }
+            }
+            print("Response Body:")
+            if let data = data, let responseBodyString = String(data: data, encoding: .utf8) {
+                print(responseBodyString)
+                completion(data, nil)
+            } else {
+                print("Failed to convert response body to String.")
+                completion(nil, NSError(domain: "", code: -3, userInfo: [NSLocalizedDescriptionKey: "Empty response"]))
+            }
+        }.resume()
+    }
+
 
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         let deleteURL = endpoint.url

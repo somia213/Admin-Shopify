@@ -312,7 +312,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="addIcon"/>
                                 <connections>
-                                    <action selector="addImage:" destination="gSH-JM-P0g" eventType="touchUpInside" id="DSV-Jh-zBp"/>
+                                    <action selector="addImage:" destination="gSH-JM-P0g" eventType="touchUpInside" id="gz6-EX-zcE"/>
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Qet-p9-XnN">
@@ -388,7 +388,7 @@
                                     <color key="baseForegroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="editTitleTapped:" destination="gSH-JM-P0g" eventType="touchUpInside" id="5bn-QZ-bok"/>
+                                    <action selector="editTitle:" destination="gSH-JM-P0g" eventType="touchUpInside" id="WYK-Gs-kX4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vjs-KY-q0k">
@@ -547,7 +547,7 @@
                                     <color key="baseForegroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="editDescription:" destination="gSH-JM-P0g" eventType="touchUpInside" id="K4B-k6-b4n"/>
+                                    <action selector="editDescription:" destination="gSH-JM-P0g" eventType="touchUpInside" id="cZc-Ca-DEP"/>
                                 </connections>
                             </button>
                         </subviews>
