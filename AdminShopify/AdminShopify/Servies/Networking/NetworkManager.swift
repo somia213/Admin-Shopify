@@ -11,18 +11,24 @@ import Alamofire
 enum Root: String {
     case postProduct = "products"
     case postPriceRule = "price_rule"
-    case postiscountOrder = "discount_code"
+    case postDiscountCode = "discount_codes"
     
 }
 
 enum TestEndpoint: String {
- 
     case specificProduct = "products.json"
     case specificPriceRule = "price_rules.json"
-    case specificDiscountOrder = "discount_codes.json"
+    case specificDiscountOrder = "price_rules/{priceRuleId}/discount_codes.json"
     
+    var endpointString: String {
+        switch self {
+        case .specificProduct, .specificPriceRule:
+            return self.rawValue
+        case .specificDiscountOrder:
+            return self.rawValue
+        }
+    }
 }
-
 
 
 enum NetworkError: Error {
@@ -71,7 +77,7 @@ class NetworkManager: NetworkServicing {
                 }
         }
         
-        
+     /*
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void) {
         let urlString = "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint.rawValue)"
         guard let url = URL(string: urlString) else {
@@ -109,6 +115,48 @@ class NetworkManager: NetworkServicing {
             }
     }
     
+*/
+    
+    func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void) {
+        let urlString = "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint.rawValue)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(TOKEN, forHTTPHeaderField: "X-Shopify-Access-Token")
+        request.httpBody = body
+
+        if let requestBody = String(data: body, encoding: .utf8) {
+            print("Network  -> Request Body: \(requestBody)")
+        }
+
+        AF.request(request)
+            .validate()
+            .responseData { response in
+                switch response.result {
+                case .success(let data):
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("Network -> Response Body: \(responseString)")
+                    }
+                    if let httpResponse = response.response {
+                        print("Network -> Response Status Code: \(httpResponse.statusCode)")
+                    }
+                    completion(data, nil)
+                case .failure(let error):
+                    print("Network request failed with error: \(error.localizedDescription)")
+                    if let httpResponse = response.response {
+                        print("Network -> Response Status Code: \(httpResponse.statusCode)")
+                    }
+                    completion(nil, error)
+                }
+            }
+    }
+    
+
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         let deleteURL = endpoint.url
         

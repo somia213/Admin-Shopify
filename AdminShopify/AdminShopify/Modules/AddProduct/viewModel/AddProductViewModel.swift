@@ -17,12 +17,11 @@ class AddProductViewModel {
         self.networkManager = networkManager
     }
 
-    func addProduct(product: ProductData, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
+    func addProduct(product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
             do {
                 let encoder = JSONEncoder()
-                let productRequest = AddProductRequest(product: product)
-                let body = try encoder.encode(productRequest)
-                
+                let body = try encoder.encode(product)
+
                 networkManager.postDataToApi(endpoint: .specificProduct, rootOfJson: .postProduct, body: body) { data, error in
                     if let error = error {
                         completionHandler(.failure(error))
@@ -44,5 +43,62 @@ class AddProductViewModel {
                 completionHandler(.failure(error))
             }
         }
+    
+    
+    func constructProduct(title: String?, description: String?, vendor: String?, variants: [VariantRequest], images: [String]) -> AddProductRequest? {
+            guard let title = title, !title.isEmpty,
+                  let vendor = vendor, !vendor.isEmpty,
+                  let description = description, !description.isEmpty,
+                  !variants.isEmpty, !images.isEmpty else {
+                return nil
+            }
+
+            var uniqueSizes = Set<String>()
+            var uniqueColors = Set<String>()
+            var variantsData: [VariantRequest] = []
+
+            for variant in variants {
+                let variantTitle = "\(variant.option1) / \(variant.option2)"
+                let sku = "AD-03-\(variant.option2.lowercased())-\(variant.option1.lowercased())"
+
+                if uniqueSizes.contains(variant.option1) && uniqueColors.contains(variant.option2) {
+                    continue
+                }
+
+                uniqueSizes.insert(variant.option1)
+                uniqueColors.insert(variant.option2)
+
+                let variantData = VariantRequest(
+                    title: variantTitle,
+                    price: variant.price,
+                    option1: variant.option1,
+                    option2: variant.option2,
+                    inventory_quantity: variant.inventory_quantity,
+                    old_inventory_quantity: variant.old_inventory_quantity,
+                    sku: sku
+                )
+                variantsData.append(variantData)
+            }
+
+            let sizesOption = OptionRequest(name: "Size", values: Array(uniqueSizes))
+            let colorsOption = OptionRequest(name: "Color", values: Array(uniqueColors))
+
+            let optionsArray = [sizesOption, colorsOption]
+
+            let imagesArray = images.map { ImageRequest(src: $0) }
+
+            let product = ProductData(
+                title: title,
+                body_html: description,
+                vendor: vendor,
+                variants: variantsData,
+                options: optionsArray,
+                images: imagesArray
+            )
+
+            let addProductRequest = AddProductRequest(product: product)
+            return addProductRequest
+        }
+    
     }
 

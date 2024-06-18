@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostDiscountCodeRequest: Codable {
-    let discount_code: DiscountCode
+    let discount_code: PostDiscountCode
 }
 
 struct PostDiscountCode: Codable {

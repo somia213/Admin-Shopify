@@ -34,8 +34,14 @@ class PriceRulesViewController: UIViewController {
         priceRulesTable.register(cellNib, forCellReuseIdentifier: "priceRulesCell")
         priceRulesTable.backgroundColor = UIColor.systemGray6
         
-        viewModel.fetchPriceRules()
+      //  viewModel.fetchPriceRules()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          
+          viewModel.fetchPriceRules()
+      }
 
     @IBAction func addNewPriceRule(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -118,10 +124,10 @@ extension PriceRulesViewController: UITableViewDataSource {
         let discountCodeVC = storyboard.instantiateViewController(withIdentifier: "DiscountCodeViewController") as! DiscountCodeViewController
 
         discountCodeVC.viewModel = DiscountCodeViewModel(priceRuleId: viewModel.priceRules[indexPath.row].id)
-        print("Selected price rule ID: \(viewModel.priceRules[indexPath.row].id)")
-
-        navigationController?.pushViewController(discountCodeVC, animated: true)
+        discountCodeVC.modalPresentationStyle = .fullScreen
+        present(discountCodeVC, animated: true, completion: nil)
     }
+
 }
 
 extension PriceRulesViewController: UITableViewDelegate {

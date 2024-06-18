@@ -451,9 +451,9 @@
 		04DB7B262C0BA59600D6C3DE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				040A19772C12366600F49FE5 /* AddProduct */,
 				04F5324A2C1DAECC008C83F7 /* DiscountCodes */,
 				040A197F2C1253E300F49FE5 /* AddNewPriceRule */,
-				040A19772C12366600F49FE5 /* AddProduct */,
 				04F79A952C10F6F400A0205E /* EditableProductDetais */,
 				040908402C1033050064E40B /* AvaliableBrandProduct */,
 				0441FCE62C0F1881008959B8 /* PriceRules */,

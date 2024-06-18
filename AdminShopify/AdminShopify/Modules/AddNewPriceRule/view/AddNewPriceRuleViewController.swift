@@ -35,6 +35,10 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
         navigateBack()
     }
     
+    func navigateBack() {
+           dismiss(animated: true, completion: nil)
+       }
+    
     @IBAction func doneBtn(_ sender: Any) {
         
         guard let title = priceRuleTotle.text, !title.isEmpty else {
@@ -96,9 +100,6 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
             }
     }
     
-    func navigateBack() {
-           dismiss(animated: true, completion: nil)
-       }
     func showAlert(message: String) {
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

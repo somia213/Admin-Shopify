@@ -24,25 +24,25 @@ class PriceRulesViewModel {
     
     init(networkManager: NetworkServicing = NetworkManager.shared) {
         self.networkManager = networkManager
-        startFetching()
+     //   startFetching()
     }
-    
-    deinit {
-        stopFetching()
-    }
-    
-    func startFetching() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            self.fetchPriceRules()
-        }
-        timer?.fire() // Immediately fetch price rules on start
-    }
-    
-    func stopFetching() {
-        timer?.invalidate()
-        timer = nil
-    }
+//    
+//    deinit {
+//        stopFetching()
+//    }
+//    
+//    func startFetching() {
+//        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+//            guard let self = self else { return }
+//            self.fetchPriceRules()
+//        }
+//        timer?.fire() // Immediately fetch price rules on start
+//    }
+//    
+//    func stopFetching() {
+//        timer?.invalidate()
+//        timer = nil
+//    }
     
     func fetchPriceRules() {
         networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.getAllpriceRules) { [weak self] (response: PriceRulesResponse?) in

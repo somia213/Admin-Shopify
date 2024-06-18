@@ -1671,19 +1671,41 @@
                                     <action selector="addNewPriceRule:" destination="mOv-Tk-EBp" eventType="touchUpInside" id="Uec-JP-6eO"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r48-Tj-sPG">
+                                <rect key="frame" x="322" y="59" width="50" height="53"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="53" id="fKd-sX-qLW"/>
+                                    <constraint firstAttribute="height" constant="53" id="xHJ-pk-sf2"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="xmark.circle.fill" catalog="system" symbolScale="large"/>
+                                    <color key="baseForegroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cancelBtn:" destination="Nzy-ke-muP" eventType="touchUpInside" id="9in-uA-kTh"/>
+                                    <action selector="cancelBtn:" destination="nPK-hA-dnB" eventType="touchUpInside" id="oEN-Pc-poT"/>
+                                    <action selector="cancelBtn:" destination="o58-DL-FUr" eventType="touchUpInside" id="tU2-mB-mkq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Cm0-b3-sqK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="dIO-jb-qLo" firstAttribute="top" secondItem="fQt-4S-lhj" secondAttribute="bottom" constant="18" id="0qh-fj-xyg"/>
+                            <constraint firstItem="fQt-4S-lhj" firstAttribute="top" secondItem="r48-Tj-sPG" secondAttribute="bottom" constant="38" id="7b6-sx-giR"/>
                             <constraint firstItem="dIO-jb-qLo" firstAttribute="top" secondItem="fQt-4S-lhj" secondAttribute="bottom" constant="18" id="C1w-Y8-2x3"/>
                             <constraint firstItem="Cm0-b3-sqK" firstAttribute="trailing" secondItem="fQt-4S-lhj" secondAttribute="trailing" constant="16" id="CHi-UH-O75"/>
                             <constraint firstItem="fQt-4S-lhj" firstAttribute="leading" secondItem="Cm0-b3-sqK" secondAttribute="leading" constant="16" id="JaS-Pp-LJA"/>
                             <constraint firstItem="fQt-4S-lhj" firstAttribute="top" secondItem="2lP-Mg-Mk9" secondAttribute="bottom" constant="26" id="Qyf-Rl-kKM"/>
                             <constraint firstItem="Cm0-b3-sqK" firstAttribute="trailing" secondItem="dIO-jb-qLo" secondAttribute="trailing" constant="21" id="RJ2-9x-fqW"/>
                             <constraint firstItem="Cm0-b3-sqK" firstAttribute="bottom" secondItem="dIO-jb-qLo" secondAttribute="bottom" constant="25" id="VXg-Od-Kag"/>
+                            <constraint firstItem="Cm0-b3-sqK" firstAttribute="trailing" secondItem="r48-Tj-sPG" secondAttribute="trailing" constant="21" id="WCb-Rr-5Di"/>
                             <constraint firstItem="2lP-Mg-Mk9" firstAttribute="leading" secondItem="Cm0-b3-sqK" secondAttribute="leading" constant="95" id="aK9-Bs-MEZ"/>
                             <constraint firstItem="Cm0-b3-sqK" firstAttribute="trailing" secondItem="2lP-Mg-Mk9" secondAttribute="trailing" constant="96" id="fQs-Sb-0kV"/>
+                            <constraint firstItem="Cm0-b3-sqK" firstAttribute="trailing" secondItem="r48-Tj-sPG" secondAttribute="trailing" constant="21" id="ixE-zn-A2g"/>
+                            <constraint firstItem="r48-Tj-sPG" firstAttribute="top" secondItem="Cm0-b3-sqK" secondAttribute="top" id="oId-ib-Mr9"/>
                             <constraint firstItem="2lP-Mg-Mk9" firstAttribute="top" secondItem="Cm0-b3-sqK" secondAttribute="top" constant="16" id="qhP-Af-fr2"/>
                         </constraints>
                     </view>
@@ -1693,9 +1715,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYO-9u-J1d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6196.1832061068699" y="697.18309859154931"/>
+            <point key="canvasLocation" x="6279" y="698"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="f2P-NS-PZy"/>
+    </designables>
     <resources>
         <image name="Eo_circle_orange_letter-b.svg-2" width="25" height="25"/>
         <image name="addIcon" width="40" height="40"/>

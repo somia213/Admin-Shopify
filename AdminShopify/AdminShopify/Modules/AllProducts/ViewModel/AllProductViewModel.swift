@@ -1,39 +1,16 @@
 import Foundation
 
 class ProductsViewModel {
-    // MARK: - Properties
 
     let networkManager: NetworkServicing
     var products: [AllProduct] = []
     var filteredProducts: [AllProduct] = []
-    private var timer: Timer?
+   // private var timer: Timer?
 
-    // MARK: - Initialization
 
     init(networkManager: NetworkServicing) {
         self.networkManager = networkManager
-        startFetching()
     }
-
-    deinit {
-        stopFetching()
-    }
-
-    // MARK: - Public Methods
-
-    func startFetching() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            self.getAllProducts(completionHandler: { _ in })
-        }
-        timer?.fire() // Immediately fetch products on start
-    }
-
-    func stopFetching() {
-        timer?.invalidate()
-        timer = nil
-    }
-
-    // MARK: - Networking Methods
 
     func getAllProducts(completionHandler: @escaping (Bool) -> Void) {
         let endpoint = ShopifyEndpoint.allProducts
@@ -53,11 +30,11 @@ class ProductsViewModel {
         }
     }
 
-    // MARK: - Filtering Methods
+    // MARK: - Search Methods
 
     func filterProducts(searchText: String) {
         if searchText.isEmpty {
-            filteredProducts = products // Reset to all products
+            filteredProducts = products 
         } else {
             let lowercasedSearchText = searchText.lowercased()
             filteredProducts = products.filter { $0.title.lowercased().contains(lowercasedSearchText) }
