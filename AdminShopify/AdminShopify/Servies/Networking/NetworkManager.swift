@@ -12,6 +12,7 @@ enum Root: String {
     case postProduct = "products"
     case postPriceRule = "price_rule"
     case postDiscountCode = "discount_codes"
+    case postVariant = "variants"
     
 }
 
@@ -20,20 +21,23 @@ enum TestEndpoint: String {
     case specificPriceRule = "price_rules.json"
     case specificDiscountOrder = "price_rules/{priceRuleId}/discount_codes.json"
     case specificUpDateProduct = "products/{productId}.json"
+    case specificVariant = "products/{productId}/variants/{variantId}.json"
     
     var endpointString: String {
         switch self {
-        case .specificProduct, .specificPriceRule:
-            return self.rawValue
-        case .specificDiscountOrder:
-            return self.rawValue
-        case .specificUpDateProduct:
-            return  self.rawValue
-        }
+                case .specificProduct, .specificPriceRule:
+                    return self.rawValue
+                case .specificDiscountOrder:
+                    return self.rawValue
+                case .specificUpDateProduct, .specificVariant:
+                    return self.rawValue
+                }
     }
 }
 
-
+let API_KEY = Secrets.apiKey
+let TOKEN = Secrets.token
+let baseUrl = "@mad44-alx-ios-4.myshopify.com/admin/api/2024-01/"
 
 enum NetworkError: Error {
     case failedToAddProduct
@@ -47,7 +51,7 @@ protocol NetworkServicing {
    
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void)
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void)
-    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, body: Data, completion: @escaping (Data?, Error?) -> Void)
+    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, variantId: String?, body: Data, completion: @escaping (Data?, Error?) -> Void)
 }
 
 class NetworkManager: NetworkServicing {
@@ -121,10 +125,12 @@ class NetworkManager: NetworkServicing {
     }
     
     
-    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, body: Data, completion: @escaping (Data?, Error?) -> Void) {
-   
+    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, variantId: String? = nil, body: Data, completion: @escaping (Data?, Error?) -> Void) {
+        let apiKey = Secrets.apiKey
+        let password = Secrets.token
+        let baseUrl = "mad44-alx-ios-4.myshopify.com/admin/api/2024-01"
         
-        var urlString = "https://\(baseUrl)/\(endpoint.rawValue.replacingOccurrences(of: "{productId}", with: productId))"
+        var urlString = "https://\(baseUrl)/\(endpoint.rawValue.replacingOccurrences(of: "{productId}", with: productId).replacingOccurrences(of: "{variantId}", with: variantId ?? ""))"
         
         guard let url = URL(string: urlString) else {
             completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
@@ -132,7 +138,7 @@ class NetworkManager: NetworkServicing {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
+        request.httpMethod = "PUT" // Adjust HTTP method as needed (PUT, PATCH, etc.)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Basic \(apiKey):\(password)", forHTTPHeaderField: "Authorization")
         request.httpBody = body
@@ -162,7 +168,7 @@ class NetworkManager: NetworkServicing {
                 return
             }
             
-            print("\nSuccess in PUT request")
+            print("\nSuccess in \(request.httpMethod ?? "PUT") request")
             print("Response Status Code: \(httpResponse.statusCode)")
             print("Response Headers:")
             if let responseHeaders = httpResponse.allHeaderFields as? [String: String] {
@@ -180,6 +186,7 @@ class NetworkManager: NetworkServicing {
             }
         }.resume()
     }
+
 
 
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {

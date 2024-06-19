@@ -8,8 +8,8 @@
 import UIKit
 import Kingfisher
 
-class EditableProductDetailsViewController: UIViewController , AddNewProductView {
-    
+class EditableProductDetailsViewController: UIViewController , AddNewProductView  {
+       
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
     @IBOutlet weak var sizeScrollable: UIScrollView!
@@ -36,6 +36,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     var currentCellIndex = 0
     
     var arrProductImg: [String] = []
+    var variants: [Variant] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +80,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     @IBAction func addImage(_ sender: Any) {
         showAddImageAlert()
     }
-    
+
     func showAddImageAlert() {
            let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
            
@@ -415,13 +416,25 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
 
     
     @IBAction func addVariant(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newVarient = storyboard.instantiateViewController(withIdentifier: "AddNewVarientViewController") as! AddNewVarientViewController
+        guard let selectedSize = viewModel.selectedSize,
+              let selectedVariant = viewModel.product?.variants.first(where: { $0.option1 == selectedSize })
+        else {
+            print("Selected size or variant not found.")
+            return
+        }
         
-        newVarient.modalPresentationStyle = .fullScreen
-
-                self.present(newVarient, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let newVariantVC = storyboard.instantiateViewController(withIdentifier: "AddNewVarientViewController") as! AddNewVarientViewController
+        
+        newVariantVC.variants = [selectedVariant] 
+        newVariantVC.productIdString = "\(viewModel.product?.id ?? 0)"
+        //newVariantVC.delegate = self // Set the delegate to handle updates
+        
+        newVariantVC.modalPresentationStyle = .fullScreen
+        
+        present(newVariantVC, animated: true, completion: nil)
     }
+
     
 }
 
@@ -457,3 +470,4 @@ extension EditableProductDetailsViewController: UICollectionViewDelegate, UIColl
 }
 
     
+

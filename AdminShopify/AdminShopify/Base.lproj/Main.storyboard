@@ -392,12 +392,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vjs-KY-q0k">
-                                <rect key="frame" x="261.66666666666669" y="398" width="110.33333333333331" height="28"/>
+                                <rect key="frame" x="236.33333333333337" y="398" width="135.66666666666663" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="7E0-Lv-s1x"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Add variant">
+                                <buttonConfiguration key="configuration" style="filled" title="Update variant">
                                     <color key="baseBackgroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -1481,7 +1481,7 @@
                                             <constraint firstAttribute="height" constant="38.329999999999998" id="EiP-Rz-09j"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Done">
+                                        <buttonConfiguration key="configuration" style="filled" title="Update">
                                             <color key="baseBackgroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </buttonConfiguration>
                                         <connections>

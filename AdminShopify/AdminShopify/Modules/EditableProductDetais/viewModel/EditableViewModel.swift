@@ -34,4 +34,12 @@ class EditableProductDetailsViewModel {
             completion(data, error)
         }
     }
+    
+    func updateVariantDetails(productId: String, variantId: String, updatedData: Data, completion: @escaping (Data?, Error?) -> Void) {
+        let networkManager = NetworkManager.shared
+        
+        networkManager.updateResource(endpoint: .specificVariant, rootOfJson: .postVariant, productId: productId, variantId: variantId, body: updatedData) { (data, error) in
+            completion(data, error)
+        }
+    }
 }
