@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 class EditableProductDetailsViewController: UIViewController , AddNewProductView  {
-       
+    
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
     @IBOutlet weak var sizeScrollable: UIScrollView!
@@ -21,7 +21,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     @IBOutlet weak var titleProductDetails: UILabel!
     
     @IBOutlet weak var DescriptionProductDetails: UITextView!
-        
+    
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     
     @IBAction func backBtn(_ sender: Any) {
@@ -31,75 +31,75 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     var viewModel = EditableProductDetailsViewModel()
     
     var presenter: AddNewProductPresenter!
-
+    
     var timer : Timer?
     var currentCellIndex = 0
     
     var arrProductImg: [String] = []
     var variants: [Variant] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        if let product = viewModel.product {
-                arrProductImg = product.images.map { $0.src }
-            }
         
         if let product = viewModel.product {
-                   titleProductDetails.text = product.title
-                   DescriptionProductDetails.text = product.body_html
-                   
+            arrProductImg = product.images.map { $0.src }
+        }
+        
+        if let product = viewModel.product {
+            titleProductDetails.text = product.title
+            DescriptionProductDetails.text = product.body_html
+            
             pageController.numberOfPages = max(arrProductImg.count, 1)
             pageController.currentPage = 0
-                           
-                   if let firstSize = product.options.first(where: { $0.name.lowercased() == "size" })?.values.first {
-                       viewModel.selectedSize = firstSize
-                       updateColorPriceQuantity()
-                   }
-                           
-                   for option in product.options {
-                       if option.name.lowercased() == "size" {
-                           for value in option.values {
-                               addSize(size: value)
-                           }
-                       } else if option.name.lowercased() == "color" {
-                           for value in option.values {
-                               addColor(color: value)
-                           }
-                       }
-                   }
-               }
+            
+            if let firstSize = product.options.first(where: { $0.name.lowercased() == "size" })?.values.first {
+                viewModel.selectedSize = firstSize
+                updateColorPriceQuantity()
+            }
+            
+            for option in product.options {
+                if option.name.lowercased() == "size" {
+                    for value in option.values {
+                        addSize(size: value)
+                    }
+                } else if option.name.lowercased() == "color" {
+                    for value in option.values {
+                        addColor(color: value)
+                    }
+                }
+            }
+        }
         
         presenter = AddNewProductPresenter(view: self)
-
+        
         pageController.numberOfPages = arrProductImg.count
         startTimer()
-    
+        
     }
     
     @IBAction func addImage(_ sender: Any) {
         showAddImageAlert()
     }
-
-    func showAddImageAlert() {
-           let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
-           
-           alert.addTextField { textField in
-               textField.placeholder = "Image URL"
-           }
-           
-           alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-               if let imageURL = alert.textFields?.first?.text {
-                   self.updateProductImageURL(imageURL)
-               }
-           }))
-           
-           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-           
-           present(alert, animated: true, completion: nil)
-       }
     
-       
+    func showAddImageAlert() {
+        let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Image URL"
+        }
+        
+        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+            if let imageURL = alert.textFields?.first?.text {
+                self.updateProductImageURL(imageURL)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
     
     func updateProductImageURL(_ newImageURL: String) {
         guard let productId = viewModel.product?.id else {
@@ -153,7 +153,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
             }
         }
     }
-
+    
     
     
     @IBAction func editTitle(_ sender: Any) {
@@ -161,24 +161,24 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     }
     
     func showTitleEditAlert() {
-           let alert = UIAlertController(title: "Edit Title", message: "Enter new title", preferredStyle: .alert)
-           
-           alert.addTextField { textField in
-               textField.placeholder = "New Title"
-               textField.text = self.viewModel.product?.title
-           }
-           
-           alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-               if let newTitle = alert.textFields?.first?.text {
-                   self.updateProductTitle(newTitle)
-               }
-           }))
-           
-           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-           
-           present(alert, animated: true, completion: nil)
-       }
-       
+        let alert = UIAlertController(title: "Edit Title", message: "Enter new title", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "New Title"
+            textField.text = self.viewModel.product?.title
+        }
+        
+        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+            if let newTitle = alert.textFields?.first?.text {
+                self.updateProductTitle(newTitle)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     func updateProductTitle(_ newTitle: String) {
         guard let productId = viewModel.product?.id else {
             print("Product ID is nil, cannot update title.")
@@ -212,68 +212,68 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
             }
         }
     }
-
+    
     
     @IBAction func editDescription(_ sender: Any) {
         showDescriptionEditAlert()
     }
     
     func showDescriptionEditAlert() {
-            let alert = UIAlertController(title: "Edit Description", message: "Enter new description", preferredStyle: .alert)
-            
-            alert.addTextField { textField in
-                textField.placeholder = "New Description"
-                textField.text = self.viewModel.product?.body_html
-            }
-            
-            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-                if let newDescription = alert.textFields?.first?.text {
-                    self.updateProductDescription(newDescription)
-                }
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
-            present(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Edit Description", message: "Enter new description", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "New Description"
+            textField.text = self.viewModel.product?.body_html
         }
         
-        func updateProductDescription(_ newDescription: String) {
-            guard let productId = viewModel.product?.id else {
-                print("Product ID is nil, cannot update description.")
-                return
+        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+            if let newDescription = alert.textFields?.first?.text {
+                self.updateProductDescription(newDescription)
             }
-            
-            let productIdString = "\(productId)"
-            
-            let updateData: [String: Any] = [
-                "product": [
-                    "body_html": newDescription
-                ]
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func updateProductDescription(_ newDescription: String) {
+        guard let productId = viewModel.product?.id else {
+            print("Product ID is nil, cannot update description.")
+            return
+        }
+        
+        let productIdString = "\(productId)"
+        
+        let updateData: [String: Any] = [
+            "product": [
+                "body_html": newDescription
             ]
-            
-            guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
-                print("Failed to encode updated product data.")
-                return
-            }
-            
-            viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
-                if let error = error {
-                    print("Failed to update product description: \(error.localizedDescription)")
-                } else if data != nil {
-                    self?.viewModel.product?.body_html = newDescription
-                    
-                    DispatchQueue.main.async {
-                        self?.DescriptionProductDetails.text = newDescription
-                    }
-                    
-                    print("Product description updated successfully.")
+        ]
+        
+        guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
+            print("Failed to encode updated product data.")
+            return
+        }
+        
+        viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
+            if let error = error {
+                print("Failed to update product description: \(error.localizedDescription)")
+            } else if data != nil {
+                self?.viewModel.product?.body_html = newDescription
+                
+                DispatchQueue.main.async {
+                    self?.DescriptionProductDetails.text = newDescription
                 }
+                
+                print("Product description updated successfully.")
             }
         }
+    }
     
     func navigateBack() {
-           dismiss(animated: true, completion: nil)
-       }
+        dismiss(animated: true, completion: nil)
+    }
     
     func startTimer(){
         timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector:#selector(moveToNextProductImg) , userInfo: nil, repeats: true)
@@ -295,8 +295,8 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         
         pageController.currentPage = currentCellIndex
     }
-
-
+    
+    
     
     func styleView(_ view: UIView) {
         view.layer.cornerRadius = 10
@@ -307,38 +307,38 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         view.layer.shadowOffset = CGSize(width: 4, height: 2)
         view.layer.shadowRadius = 4
     }
-
+    
     func styleLabel(_ label: UILabel) {
         label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: .regular)
     }
-
-
+    
+    
     func addSize(size: String) {
-            let newSizeView = UIView()
-            newSizeView.backgroundColor = UIColor.white
-            styleView(newSizeView)
-            
-            let newSizeLabel = UILabel()
-            newSizeLabel.text = size
-            styleLabel(newSizeLabel)
-            
-            newSizeView.addSubview(newSizeLabel)
-            newSizeLabel.translatesAutoresizingMaskIntoConstraints = false
-            
-            newSizeView.isUserInteractionEnabled = true
-            newSizeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sizeTapped(_:))))
-            
-            NSLayoutConstraint.activate([
-                newSizeLabel.topAnchor.constraint(equalTo: newSizeView.topAnchor, constant: 8),
-                newSizeLabel.leadingAnchor.constraint(equalTo: newSizeView.leadingAnchor, constant: 8),
-                newSizeLabel.trailingAnchor.constraint(equalTo: newSizeView.trailingAnchor, constant: -8),
-                newSizeLabel.bottomAnchor.constraint(equalTo: newSizeView.bottomAnchor, constant: -8)
-            ])
-            
-            sizeStackView.addArrangedSubview(newSizeView)
-        }
+        let newSizeView = UIView()
+        newSizeView.backgroundColor = UIColor.white
+        styleView(newSizeView)
         
+        let newSizeLabel = UILabel()
+        newSizeLabel.text = size
+        styleLabel(newSizeLabel)
+        
+        newSizeView.addSubview(newSizeLabel)
+        newSizeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        newSizeView.isUserInteractionEnabled = true
+        newSizeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sizeTapped(_:))))
+        
+        NSLayoutConstraint.activate([
+            newSizeLabel.topAnchor.constraint(equalTo: newSizeView.topAnchor, constant: 8),
+            newSizeLabel.leadingAnchor.constraint(equalTo: newSizeView.leadingAnchor, constant: 8),
+            newSizeLabel.trailingAnchor.constraint(equalTo: newSizeView.trailingAnchor, constant: -8),
+            newSizeLabel.bottomAnchor.constraint(equalTo: newSizeView.bottomAnchor, constant: -8)
+        ])
+        
+        sizeStackView.addArrangedSubview(newSizeView)
+    }
+    
     @objc func sizeTapped(_ sender: UITapGestureRecognizer) {
         guard let selectedSizeView = sender.view,
               let newSizeLabel = selectedSizeView.subviews.first as? UILabel,
@@ -352,7 +352,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         
         updatePriceAndQuantityForSelectedSize()
     }
-
+    
     func updateColorOptionsForSelectedSize() {
         guard let product = viewModel.product,
               let selectedSize = viewModel.selectedSize
@@ -365,17 +365,17 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
             .map { $0.option2 }
         
         if colorView.arrangedSubviews.count > 1 {
-                colorView.arrangedSubviews.dropFirst().forEach { $0.removeFromSuperview() }
-            }
+            colorView.arrangedSubviews.dropFirst().forEach { $0.removeFromSuperview() }
+        }
         
         availableColors.forEach { addColor(color: $0) }
     }
     
     func updateColorPriceQuantity() {
-            let (price, quantity) = viewModel.updatePriceAndQuantity()
-            productPrice.text = price
-            productAvailabilityInStore.text = quantity
-        }
+        let (price, quantity) = viewModel.updatePriceAndQuantity()
+        productPrice.text = price
+        productAvailabilityInStore.text = quantity
+    }
     
     func updatePriceAndQuantityForSelectedSize() {
         guard let product = viewModel.product,
@@ -389,8 +389,8 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
             productAvailabilityInStore.text = "\(variant.inventory_quantity)"
         }
     }
-
-        
+    
+    
     func addColor(color: String) {
         let newColorView = UIView()
         newColorView.backgroundColor = UIColor(named: color)
@@ -412,31 +412,53 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         
         colorView.addArrangedSubview(newColorView)
     }
-
-
+    
+    
     
     @IBAction func addVariant(_ sender: Any) {
-        guard let selectedSize = viewModel.selectedSize,
-              let selectedVariant = viewModel.product?.variants.first(where: { $0.option1 == selectedSize })
-        else {
-            print("Selected size or variant not found.")
+        guard let variants = viewModel.product?.variants, variants.count > 1 else {
+            // Directly present the AddNewVarientViewController if there is only one variant or no variants
+            presentAddNewVarientViewController(with: viewModel.product?.variants.first)
             return
         }
         
+        // Show an alert to select the variant position
+        let alert = UIAlertController(title: "Select Variant", message: "Enter variant position to update", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Variant Position"
+            textField.keyboardType = .numberPad
+        }
+        
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { action in
+            if let positionStr = alert.textFields?.first?.text,
+               let position = Int(positionStr),
+               position > 0 && position <= variants.count {
+                let selectedVariant = variants[position - 1]
+                self.presentAddNewVarientViewController(with: selectedVariant)
+            } else {
+                print("Invalid input for variant position")
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func presentAddNewVarientViewController(with variant: Variant?) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newVariantVC = storyboard.instantiateViewController(withIdentifier: "AddNewVarientViewController") as! AddNewVarientViewController
         
-        newVariantVC.variants = [selectedVariant] 
+        newVariantVC.variants = [variant].compactMap { $0 } 
         newVariantVC.productIdString = "\(viewModel.product?.id ?? 0)"
-        //newVariantVC.delegate = self // Set the delegate to handle updates
-        
         newVariantVC.modalPresentationStyle = .fullScreen
         
-        present(newVariantVC, animated: true, completion: nil)
+        self.present(newVariantVC, animated: true, completion: nil)
     }
-
-    
 }
+
+
 
 extension EditableProductDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
