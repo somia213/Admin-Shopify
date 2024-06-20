@@ -22,15 +22,16 @@ enum TestEndpoint: String {
     case specificDiscountOrder = "price_rules/{priceRuleId}/discount_codes.json"
     case specificUpDateProduct = "products/{productId}.json"
     case specificVariant = "products/{productId}/variants/{variantId}.json"
-    
-    var endpointString: String {
-        switch self {
-                case .specificProduct, .specificPriceRule:
-                    return self.rawValue
-                case .specificDiscountOrder:
-                    return self.rawValue
-                case .specificUpDateProduct, .specificVariant:
-                    return self.rawValue
+    case updateVariantInventory = "inventory_levels/set.json"
+
+        var endpointString: String {
+            switch self {
+            case .specificProduct, .specificPriceRule:
+                return self.rawValue
+            case .specificDiscountOrder:
+                return self.rawValue
+            case .specificUpDateProduct, .specificVariant, .updateVariantInventory:
+                return self.rawValue
                 }
     }
 }
@@ -58,7 +59,7 @@ class NetworkManager: NetworkServicing {
         
         static let shared = NetworkManager()
         
-        func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
+ func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
             AF.request(endpoint.url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
                 .response { response in
                     switch response.result {

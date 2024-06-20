@@ -13,6 +13,17 @@ class EditableProductDetailsViewModel {
     var selectedColor: String?
     var selectedImageSrc: String?
     
+    var timer: Timer?
+    var currentCellIndex = 0
+    var arrProductImg: [String] = []
+    var variants: [Variant] = []
+    
+    var newVariants: [Variant] = []
+    var productIdString: String = ""
+
+    
+    
+    
     func updatePriceAndQuantity() -> (price: String?, quantity: String?) {
         guard let product = product, let selectedSize = selectedSize else {
             return (nil, nil)
@@ -42,4 +53,14 @@ class EditableProductDetailsViewModel {
             completion(data, error)
         }
     }
+    
+    func fetchProductDetails(productId: Int, completion: @escaping (Error?) -> Void) {
+            NetworkManager().fetchDataFromAPI(endpoint: ShopifyEndpoint.productDetails(productId: productId)) { [weak self] (response: Product?) in
+                guard let self = self else { return }
+                if let product = response {
+                    self.product = product
+                }
+                completion(nil) 
+            }
+        }
 }

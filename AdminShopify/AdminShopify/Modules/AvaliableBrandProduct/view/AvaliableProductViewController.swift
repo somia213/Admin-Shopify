@@ -86,6 +86,7 @@ extension AvaliableProductViewController: UITableViewDataSource {
 }
 
 extension AvaliableProductViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let alertController = UIAlertController(title: "Delete Product", message: "Are you sure you want to delete this product?", preferredStyle: .alert)

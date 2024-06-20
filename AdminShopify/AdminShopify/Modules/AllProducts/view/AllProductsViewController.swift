@@ -20,13 +20,6 @@ class AllProductsViewController: UIViewController {
         super.viewDidLoad()
         let networkManager = NetworkManager()
                 productsViewModel = ProductsViewModel(networkManager: networkManager)
-//                productsViewModel.getAllProducts { [weak self] success in
-//                    if success {
-//                        self?.productTableView.reloadData()
-//                    } else {
-//                        print("Error fetching products!")
-//                    }
-               // }
                let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
                productTableView.register(cell, forCellReuseIdentifier: "allProductCell")
                productTableView.backgroundColor = UIColor.systemGray6
@@ -34,17 +27,17 @@ class AllProductsViewController: UIViewController {
                 ProductSearch.delegate = self
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//           super.viewWillAppear(animated)
-//           
-//           productsViewModel.getAllProducts { [weak self] success in
-//               if success {
-//                   self?.productTableView.reloadData()
-//               } else {
-//                   print("Error fetching products!")
-//               }
-//           }
-//       }
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           
+           productsViewModel.getAllProducts { [weak self] success in
+               if success {
+                   self?.productTableView.reloadData()
+               } else {
+                   print("Error fetching products!")
+               }
+           }
+       }
     
     
     @IBAction func addnewProduct(_ sender: Any) {
@@ -90,12 +83,3 @@ extension AllProductsViewController: UISearchBarDelegate {
     }
 }
 
-extension AllProductsViewController : UITableViewDelegate {
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        <#code#>
-//    }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-}

@@ -32,24 +32,18 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     
     var presenter: AddNewProductPresenter!
     
-    var timer : Timer?
-    var currentCellIndex = 0
-    
-    var arrProductImg: [String] = []
-    var variants: [Variant] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let product = viewModel.product {
-            arrProductImg = product.images.map { $0.src }
+            viewModel.arrProductImg = product.images.map { $0.src }
         }
         
         if let product = viewModel.product {
             titleProductDetails.text = product.title
             DescriptionProductDetails.text = product.body_html
             
-            pageController.numberOfPages = max(arrProductImg.count, 1)
+            pageController.numberOfPages = max(viewModel.arrProductImg.count, 1)
             pageController.currentPage = 0
             
             if let firstSize = product.options.first(where: { $0.name.lowercased() == "size" })?.values.first {
@@ -72,7 +66,7 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         
         presenter = AddNewProductPresenter(view: self)
         
-        pageController.numberOfPages = arrProductImg.count
+        pageController.numberOfPages = viewModel.arrProductImg.count
         startTimer()
         
     }
@@ -102,57 +96,57 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     
     
     func updateProductImageURL(_ newImageURL: String) {
-        guard let productId = viewModel.product?.id else {
-            print("Product ID is nil, cannot update image URL.")
-            return
-        }
-        
-        let productIdString = "\(productId)"
-        
-        var imagesData: [[String: String]] = []
-        
-        if let productImages = viewModel.product?.images {
-            for image in productImages {
-                let imageData: [String: String] = [
-                    "src": image.src
-                ]
-                imagesData.append(imageData)
+            guard let productId = viewModel.product?.id else {
+                print("Product ID is nil, cannot update image URL.")
+                return
             }
-        }
-        
-        let newImageData: [String: String] = [
-            "src": newImageURL
-        ]
-        imagesData.append(newImageData)
-        
-        let updateData: [String: Any] = [
-            "product": [
-                "images": imagesData
-            ]
-        ]
-        
-        guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
-            print("Failed to encode updated product data.")
-            return
-        }
-        
-        viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
-            if let error = error {
-                print("Failed to update product image URL: \(error.localizedDescription)")
-            } else if data != nil {
-                let newProductImage = BrandProductImage(id: 0, src: newImageURL)
-                self?.viewModel.product?.images.append(newProductImage)
-                self?.arrProductImg.append(newImageURL)
-                
-                DispatchQueue.main.async {
-                    self?.pageController.numberOfPages = self?.arrProductImg.count ?? 0
-                    self?.imgCollectionView.reloadData()
+            
+            let productIdString = "\(productId)"
+            
+            var imagesData: [[String: String]] = []
+            
+            if let productImages = viewModel.product?.images {
+                for image in productImages {
+                    let imageData: [String: String] = [
+                        "src": image.src
+                    ]
+                    imagesData.append(imageData)
                 }
-                
-                print("Product image URL updated successfully.")
+            }
+            
+            let newImageData: [String: String] = [
+                "src": newImageURL
+            ]
+            imagesData.append(newImageData)
+            
+            let updateData: [String: Any] = [
+                "product": [
+                    "images": imagesData
+                ]
+            ]
+            
+            guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
+                print("Failed to encode updated product data.")
+                return
+            }
+            
+            viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
+                if let error = error {
+                    print("Failed to update product image URL: \(error.localizedDescription)")
+                } else if data != nil {
+                    let newProductImage = BrandProductImage(id: 0, src: newImageURL)
+                    self?.viewModel.product?.images.append(newProductImage)
+                    self?.viewModel.arrProductImg.append(newImageURL)
+                    
+                    DispatchQueue.main.async {
+                        self?.pageController.numberOfPages = self?.viewModel.arrProductImg.count ?? 0
+                        self?.imgCollectionView.reloadData()
+                    }
+                    
+                    print("Product image URL updated successfully.")
+                }
             }
         }
-    }
     
     
     
@@ -163,15 +157,26 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     func showTitleEditAlert() {
         let alert = UIAlertController(title: "Edit Title", message: "Enter new title", preferredStyle: .alert)
         
-        alert.addTextField { textField in
-            textField.placeholder = "New Title"
-            textField.text = self.viewModel.product?.title
-        }
+        let textView = UITextView()
+        textView.text = self.viewModel.product?.title
+        textView.font = UIFont.systemFont(ofSize: 14.0)
+        textView.textColor = .black
+        textView.isScrollEnabled = true
+        textView.dataDetectorTypes = .all
+        
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
+        textView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
+        
+        alert.view.addSubview(textView)
+        
+        textView.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 80.0).isActive = true
+        textView.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 20.0).isActive = true
+        textView.trailingAnchor.constraint(equalTo: alert.view.trailingAnchor, constant: -20.0).isActive = true
+        textView.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -60.0).isActive = true
         
         alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-            if let newTitle = alert.textFields?.first?.text {
-                self.updateProductTitle(newTitle)
-            }
+            self.updateProductTitle(textView.text)
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -219,81 +224,92 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
     }
     
     func showDescriptionEditAlert() {
-        let alert = UIAlertController(title: "Edit Description", message: "Enter new description", preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "New Description"
-            textField.text = self.viewModel.product?.body_html
+            let alert = UIAlertController(title: "Edit Description", message: "Enter new description", preferredStyle: .alert)
+            
+            let textView = UITextView()
+            textView.text = self.viewModel.product?.body_html
+            textView.font = UIFont.systemFont(ofSize: 14.0)
+            textView.textColor = .black
+            textView.isScrollEnabled = true
+            textView.dataDetectorTypes = .all
+            
+            textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.heightAnchor.constraint(equalToConstant: 150.0).isActive = true
+            textView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
+            
+            alert.view.addSubview(textView)
+            
+            textView.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 80.0).isActive = true
+            textView.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 20.0).isActive = true
+            textView.trailingAnchor.constraint(equalTo: alert.view.trailingAnchor, constant: -20.0).isActive = true
+            textView.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -60.0).isActive = true
+            
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+                self.updateProductDescription(textView.text)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            present(alert, animated: true, completion: nil)
         }
-        
-        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-            if let newDescription = alert.textFields?.first?.text {
-                self.updateProductDescription(newDescription)
+
+        func updateProductDescription(_ newDescription: String) {
+            guard let productId = viewModel.product?.id else {
+                print("Product ID is nil, cannot update description.")
+                return
             }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func updateProductDescription(_ newDescription: String) {
-        guard let productId = viewModel.product?.id else {
-            print("Product ID is nil, cannot update description.")
-            return
-        }
-        
-        let productIdString = "\(productId)"
-        
-        let updateData: [String: Any] = [
-            "product": [
-                "body_html": newDescription
+            
+            let productIdString = "\(productId)"
+            
+            let updateData: [String: Any] = [
+                "product": [
+                    "body_html": newDescription
+                ]
             ]
-        ]
-        
-        guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
-            print("Failed to encode updated product data.")
-            return
-        }
-        
-        viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
-            if let error = error {
-                print("Failed to update product description: \(error.localizedDescription)")
-            } else if data != nil {
-                self?.viewModel.product?.body_html = newDescription
-                
-                DispatchQueue.main.async {
-                    self?.DescriptionProductDetails.text = newDescription
+            
+            guard let encodedData = try? JSONSerialization.data(withJSONObject: updateData) else {
+                print("Failed to encode updated product data.")
+                return
+            }
+            
+            viewModel.updateProductDetails(productId: productIdString, updatedData: encodedData) { [weak self] data, error in
+                if let error = error {
+                    print("Failed to update product description: \(error.localizedDescription)")
+                } else if data != nil {
+                    self?.viewModel.product?.body_html = newDescription
+                    
+                    DispatchQueue.main.async {
+                        self?.DescriptionProductDetails.text = newDescription
+                    }
+                    
+                    print("Product description updated successfully.")
                 }
-                
-                print("Product description updated successfully.")
             }
         }
-    }
     
     func navigateBack() {
         dismiss(animated: true, completion: nil)
     }
     
     func startTimer(){
-        timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector:#selector(moveToNextProductImg) , userInfo: nil, repeats: true)
+        viewModel.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector:#selector(moveToNextProductImg) , userInfo: nil, repeats: true)
     }
     
     @objc func moveToNextProductImg() {
-        guard !arrProductImg.isEmpty else {
+        guard !viewModel.arrProductImg.isEmpty else {
             return
         }
         
-        currentCellIndex = (currentCellIndex + 1) % arrProductImg.count
+        viewModel.currentCellIndex = ( viewModel.currentCellIndex + 1) % viewModel.arrProductImg.count
         
-        guard currentCellIndex < arrProductImg.count else {
-            currentCellIndex = 0
+        guard  viewModel.currentCellIndex < viewModel.arrProductImg.count else {
+            viewModel.currentCellIndex = 0
             return
         }
         
-        imgCollectionView.scrollToItem(at: IndexPath(item: currentCellIndex, section: 0), at: .centeredHorizontally, animated: true)
+        imgCollectionView.scrollToItem(at: IndexPath(item:  viewModel.currentCellIndex, section: 0), at: .centeredHorizontally, animated: true)
         
-        pageController.currentPage = currentCellIndex
+        pageController.currentPage =  viewModel.currentCellIndex
     }
     
     
@@ -450,8 +466,8 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newVariantVC = storyboard.instantiateViewController(withIdentifier: "AddNewVarientViewController") as! AddNewVarientViewController
         
-        newVariantVC.variants = [variant].compactMap { $0 } 
-        newVariantVC.productIdString = "\(viewModel.product?.id ?? 0)"
+        newVariantVC.viewModel.newVariants = [variant].compactMap { $0 }
+        newVariantVC.viewModel.productIdString = "\(viewModel.product?.id ?? 0)"
         newVariantVC.modalPresentationStyle = .fullScreen
         
         self.present(newVariantVC, animated: true, completion: nil)
@@ -463,13 +479,13 @@ class EditableProductDetailsViewController: UIViewController , AddNewProductView
 extension EditableProductDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrProductImg.count
+        return viewModel.arrProductImg.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "productImg", for: indexPath) as! EditableProductDetailsCollectionViewCell
         
-        if !arrProductImg.isEmpty {
+        if !viewModel.arrProductImg.isEmpty {
             if let product = viewModel.product, indexPath.row < product.images.count {
                 let imageUrl = URL(string: product.images[indexPath.row].src)
                 cell.productImg.kf.setImage(with: imageUrl)
@@ -492,4 +508,3 @@ extension EditableProductDetailsViewController: UICollectionViewDelegate, UIColl
 }
 
     
-

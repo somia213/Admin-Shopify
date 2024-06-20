@@ -13,8 +13,8 @@ protocol AddNewVarientViewControllerDelegate: AnyObject {
 
 class AddNewVarientViewController: UIViewController , AddNewProductView {
     
-    var variants: [Variant] = []
-    var productIdString: String = ""
+//    var variants: [Variant] = []
+//    var productIdString: String = ""
     
     var viewModel = EditableProductDetailsViewModel()
     weak var delegate: AddNewVarientViewControllerDelegate?
@@ -31,7 +31,7 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let firstVariant = variants.first {
+        if let firstVariant = viewModel.newVariants.first {
                 AddNewVarientViewSize.text = firstVariant.option1
                 AddNewVarientPrice.text = firstVariant.price
                 AddNewVarientColor.text = firstVariant.option2
@@ -47,14 +47,14 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
               let updatedColor = AddNewVarientColor.text,
               let updatedQuantityStr = AddNewVarientQuantity.text,
               let updatedQuantity = Int(updatedQuantityStr),
-              !productIdString.isEmpty else {
+              !viewModel.productIdString.isEmpty else {
                   print("Invalid input or missing productIdString")
                   return
         }
 
         let updateData: [String: Any] = [
             "variant": [
-                "id": variants.first?.id ?? "",
+                "id": viewModel.newVariants.first?.id ?? "",
                 "option1": updatedSize,
                 "option2": updatedColor,
                 "price": updatedPrice,
@@ -67,7 +67,8 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
             return
         }
 
-        viewModel.updateVariantDetails(productId: productIdString, variantId: "\(variants.first?.id ?? 0)", updatedData: encodedData) { [weak self] data, error in
+        viewModel.updateVariantDetails(productId: viewModel.productIdString, variantId: "\(viewModel.newVariants.first?.id ?? 0)", updatedData: encodedData) {
+            data, error in
             if let error = error {
                 print("Failed to update variant: \(error.localizedDescription)")
             } else {

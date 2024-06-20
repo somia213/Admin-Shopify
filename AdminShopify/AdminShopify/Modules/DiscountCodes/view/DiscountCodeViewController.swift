@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class DiscountCodeViewController: UIViewController {
 
@@ -31,44 +32,44 @@ class DiscountCodeViewController: UIViewController {
     }
     
     @IBAction func addNewDiscountCode(_ sender: Any) {
-            let alertController = UIAlertController(title: "Add Discount Code", message: "Enter the discount code", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add Discount Code", message: "Enter the discount code", preferredStyle: .alert)
+        
+        alertController.addTextField { textField in
+            textField.placeholder = "Discount Code"
+        }
+        
+        let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
+            guard let textField = alertController.textFields?.first, let discountCode = textField.text else { return }
             
-            alertController.addTextField { textField in
-                textField.placeholder = "Discount Code"
-            }
-            
-            let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
-                guard let textField = alertController.textFields?.first, let discountCode = textField.text else { return }
-                
-                self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
-                    switch result {
-                    case .success:
-                        let successAlert = UIAlertController(title: "Success", message: "Discount code added successfully", preferredStyle: .alert)
-                        self?.present(successAlert, animated: true, completion: nil)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            successAlert.dismiss(animated: true) {
-                                self?.viewModel.fetchDiscountCodes()
-                                
-                                self?.discountTable.reloadData()
-                                
-                                self?.dismiss(animated: true, completion: nil)
-                            }
-                        }
-                        
-                    case .failure(let error):
-                        print("Failed to add discount code: \(error.localizedDescription)")
+            self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
+                switch result {
+                case .success:
+                    let animationView = AnimationView(name: "Done") 
+                    animationView.frame = self?.view.bounds ?? CGRect.zero
+                    animationView.contentMode = .scaleAspectFit
+                    animationView.loopMode = .playOnce
+                    self?.view.addSubview(animationView)
+                    
+                    animationView.play { (finished) in
+                        animationView.removeFromSuperview()
+                        self?.viewModel.fetchDiscountCodes()
+                        self?.discountTable.reloadData()
+                        self?.dismiss(animated: true, completion: nil)
                     }
+                    
+                case .failure(let error):
+                    print("Failed to add discount code: \(error.localizedDescription)")
                 }
             }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alertController.addAction(addAction)
-            alertController.addAction(cancelAction)
-            
-            present(alertController, animated: true, completion: nil)
         }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(addAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 
     
     @IBAction func cancelBtn(_ sender: Any) {
