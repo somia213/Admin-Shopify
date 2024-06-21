@@ -8,6 +8,12 @@
 import Foundation
 
 class EditableProductDetailsViewModel {
+    private let networkManager: NetworkServicing
+        
+        init(networkManager: NetworkServicing = NetworkManager()) {
+            self.networkManager = networkManager
+        }
+    
     var product: Product?
     var selectedSize: String?
     var selectedColor: String?
@@ -54,13 +60,26 @@ class EditableProductDetailsViewModel {
         }
     }
     
-    func fetchProductDetails(productId: Int, completion: @escaping (Error?) -> Void) {
-            NetworkManager().fetchDataFromAPI(endpoint: ShopifyEndpoint.productDetails(productId: productId)) { [weak self] (response: Product?) in
-                guard let self = self else { return }
-                if let product = response {
-                    self.product = product
-                }
-                completion(nil) 
+
+    typealias ProductCompletionHandler = (Product?) -> Void
+        
+    func fetchProduct(productId: Int, completionHandler: @escaping (ProductData?) -> Void) {
+        let endpoint = ShopifyEndpoint.productDetails(productId: productId)
+        
+        print("Fetching product with endpoint: \(endpoint.url)")
+        
+        networkManager.fetchDataFromAPI(endpoint: endpoint) { (productResponse: AddProductRequest?) in
+            guard let productData = productResponse?.product else {
+                print("Failed to fetch product details.")
+                completionHandler(nil)
+                return
             }
+            
+            print("Received product response: \(productData)")
+            completionHandler(productData)
         }
+    }
 }
+
+
+

@@ -49,14 +49,12 @@ class AddVarientProductViewController: UIViewController {
            let sizes = size.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
            let images = imagesString.components(separatedBy: "-").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
 
-           // Validate that all arrays have at least one element
            guard !sizes.isEmpty, !colors.isEmpty, !images.isEmpty else {
                return
            }
 
            for (sizeValueIndex, sizeValue) in sizes.enumerated() {
                for (colorValueIndex, colorValue) in colors.enumerated() {
-                   // Combine corresponding image with size and color
                    let imageIndex = min(images.count - 1, sizeValueIndex * colors.count + colorValueIndex)
                    let imageSrc = images[imageIndex]
 

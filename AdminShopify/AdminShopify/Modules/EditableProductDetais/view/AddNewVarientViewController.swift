@@ -8,13 +8,10 @@
 import UIKit
 
 protocol AddNewVarientViewControllerDelegate: AnyObject {
-    func didUpdateVariant()
+    func variantDetailsUpdated(with variant: Variant)
 }
 
 class AddNewVarientViewController: UIViewController , AddNewProductView {
-    
-//    var variants: [Variant] = []
-//    var productIdString: String = ""
     
     var viewModel = EditableProductDetailsViewModel()
     weak var delegate: AddNewVarientViewControllerDelegate?
@@ -46,7 +43,7 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
               let updatedPrice = AddNewVarientPrice.text,
               let updatedColor = AddNewVarientColor.text,
               let updatedQuantityStr = AddNewVarientQuantity.text,
-              let updatedQuantity = Int(updatedQuantityStr),
+//              let updatedQuantity = Int(updatedQuantityStr),
               !viewModel.productIdString.isEmpty else {
                   print("Invalid input or missing productIdString")
                   return
@@ -72,8 +69,11 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
             if let error = error {
                 print("Failed to update variant: \(error.localizedDescription)")
             } else {
-                DispatchQueue.main.async {
-
+                DispatchQueue.main.async { [self] in
+                    if let updatedVariant = self.viewModel.newVariants.first {
+                        delegate?.variantDetailsUpdated(with: updatedVariant)
+                    }
+                    navigateBack()
                 }
             }
         }

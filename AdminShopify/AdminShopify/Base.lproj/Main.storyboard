@@ -535,6 +535,9 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Update product">
                                     <color key="baseBackgroundColor" red="0.9241886735" green="0.50067818159999999" blue="0.14713323119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="updateProduct:" destination="gSH-JM-P0g" eventType="touchUpInside" id="hdq-7a-GnS"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="297-98-6Vg">
                                 <rect key="frame" x="322" y="635" width="49" height="35"/>
