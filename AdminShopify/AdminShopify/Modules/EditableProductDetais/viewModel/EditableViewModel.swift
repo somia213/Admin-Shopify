@@ -9,15 +9,16 @@ import Foundation
 
 class EditableProductDetailsViewModel {
     private let networkManager: NetworkServicing
-        
-        init(networkManager: NetworkServicing = NetworkManager()) {
-            self.networkManager = networkManager
-        }
+    
+    init(networkManager: NetworkServicing = NetworkManager()) {
+        self.networkManager = networkManager
+    }
     
     var product: Product?
     var selectedSize: String?
     var selectedColor: String?
     var selectedImageSrc: String?
+    var selectedVariantId : Int?
     
     var timer: Timer?
     var currentCellIndex = 0
@@ -26,7 +27,7 @@ class EditableProductDetailsViewModel {
     
     var newVariants: [Variant] = []
     var productIdString: String = ""
-
+    
     
     
     
@@ -60,9 +61,9 @@ class EditableProductDetailsViewModel {
         }
     }
     
-
+    
     typealias ProductCompletionHandler = (Product?) -> Void
-        
+    
     func fetchProduct(productId: Int, completionHandler: @escaping (ProductData?) -> Void) {
         let endpoint = ShopifyEndpoint.productDetails(productId: productId)
         
@@ -79,7 +80,66 @@ class EditableProductDetailsViewModel {
             completionHandler(productData)
         }
     }
+    
+    func deleteImageAtIndex(_ index: Int, completionHandler: @escaping (Result<Void, Error>) -> Void) {
+        guard let productId = product?.id, index < arrProductImg.count else {
+            print("Invalid index or product ID.")
+            return
+        }
+        
+        let endpoint = ShopifyEndpoint.deleteProductImage(productId: productId, imageId: index + 1)
+        
+        print("Deleting image with endpoint: \(endpoint.url)")
+        
+        networkManager.deleteFromAPI(endpoint: endpoint) { result in
+            switch result {
+            case .success:
+                self.arrProductImg.remove(at: index)
+                print("Image deleted successfully.")
+                completionHandler(.success(()))
+                
+            case .failure(let error):
+                print("Failed to delete image: \(error)")
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func deleteImageFromShopify(with endpoint: String) {
+        guard let url = URL(string: endpoint) else {
+            print("Invalid endpoint URL.")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let apiKey = "your_api_key"
+        let apiPassword = "your_api_password"
+        let basicAuthString = "\(apiKey):\(apiPassword)"
+        let base64Auth = basicAuthString.data(using: .utf8)?.base64EncodedString() ?? ""
+        request.setValue("Basic \(base64Auth)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            if let error = error {
+                print("Error deleting image: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                print("Invalid response.")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if response.statusCode == 200 {
+                    print("Image deleted successfully.")
+                } else {
+                    print("Failed to delete image. Status code: \(response.statusCode)")
+                }
+            }
+        }.resume()
+    }
+
 }
-
-
-

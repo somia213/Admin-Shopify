@@ -44,22 +44,24 @@ class DiscountCodeViewController: UIViewController {
             self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
                 switch result {
                 case .success:
-                    let animationView = AnimationView(name: "Done") 
-                    animationView.frame = self?.view.bounds ?? CGRect.zero
-                    animationView.contentMode = .scaleAspectFit
-                    animationView.loopMode = .playOnce
-                    self?.view.addSubview(animationView)
-                    
-                    animationView.play { (finished) in
-                        animationView.removeFromSuperview()
-                        self?.viewModel.fetchDiscountCodes()
-                        self?.discountTable.reloadData()
+//                    let animationView = AnimationView(name: "Done") 
+//                    animationView.frame = self?.view.bounds ?? CGRect.zero
+//                    animationView.contentMode = .scaleAspectFit
+//                    animationView.loopMode = .playOnce
+//                    self?.view.addSubview(animationView)
+//                    
+//                    animationView.play { (finished) in
+//                        animationView.removeFromSuperview()
+//                        self?.viewModel.fetchDiscountCodes()
+//                        self?.discountTable.reloadData()
                         self?.dismiss(animated: true, completion: nil)
-                    }
-                    
-                case .failure(let error):
-                    print("Failed to add discount code: \(error.localizedDescription)")
+                case .failure(_):
+                    print("Failed to add discount code:")
                 }
+                    
+//                case .failure(let error):
+//                    print("Failed to add discount code: \(error.localizedDescription)")
+//                }
             }
         }
         
@@ -84,23 +86,32 @@ class DiscountCodeViewController: UIViewController {
 extension DiscountCodeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.discountCodes.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DiscountCodeCell", for: indexPath)
-        
-        cell.textLabel?.text = "Discount Code:"
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        
-        cell.detailTextLabel?.text = viewModel.discountCodes[indexPath.row].code
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        cell.detailTextLabel?.textColor = UIColor.red
-        
-        return cell
-    }
+         let count = viewModel.discountCodes.count
+         tableView.backgroundView = count == 0 ? createNoDataLabel() : nil
+         return count
+     }
+
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+         let cell = tableView.dequeueReusableCell(withIdentifier: "DiscountCodeCell", for: indexPath)
+
+         cell.textLabel?.text = "Discount Code:"
+         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+
+         cell.detailTextLabel?.text = viewModel.discountCodes[indexPath.row].code
+         cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+         cell.detailTextLabel?.textColor = UIColor.red
+
+         return cell
+     }
+
+     private func createNoDataLabel() -> UILabel {
+         let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: discountTable.bounds.size.width, height: discountTable.bounds.size.height))
+         noDataLabel.text = "No discount codes available"
+         noDataLabel.textAlignment = .center
+         noDataLabel.textColor = UIColor.orange
+         noDataLabel.font = UIFont.systemFont(ofSize: 18)
+         return noDataLabel
+     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
