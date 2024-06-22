@@ -60,6 +60,16 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         startTimer()
     }
     
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let productId = viewModel.product?.id else {
+            print("Product ID is nil, cannot update product.")
+            return
+        }
+        
+        fetchProductDetails(productId: productId)
+    }
     
     @IBAction func addImage(_ sender: Any) {
         showAddImageAlert()
@@ -106,14 +116,6 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func updateProduct(_ sender: Any) {
-        guard let productId = viewModel.product?.id else {
-            print("Product ID is nil, cannot update product.")
-            return
-        }
-        
-        fetchProductDetails(productId: productId)
-    }
     
     func fetchProductDetails(productId: Int) {
         viewModel.fetchProduct(productId: productId) { [weak self] productData in
@@ -174,7 +176,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         else {
             return
         }
-        
+        print("Selected Size: \(selectedSize)")
         if let variant = product.variants.first(where: { $0.option1 == selectedSize }) {
             productPrice.text = "\(variant.price)"
             productAvailabilityInStore.text = "\(variant.inventory_quantity)"
@@ -183,10 +185,9 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             productPrice.text = "Not available"
             productAvailabilityInStore.text = "Not available"
         }
+
     }
-    
-    // MARK: - Alert Controllers
-    
+        
     func showAddImageAlert() {
         let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
         
@@ -351,9 +352,15 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             print("Image ID not found for deletion.")
             return
         }
-        let endpoint =
-        "https://mad44-alx-ios-4.myshopify.com/admin/api/2024-04/products/\(productId)/images/\(imageIdToDelete).json"
         
+        guard let productId = viewModel.product?.id else {
+            print("Product ID is nil, cannot delete image.")
+            return
+        }
+        
+        let productIdString = "\(productId)"
+        let endpoint = viewModel.deleteImageEndpoint(productId: productIdString, imageId: imageIdToDelete)
+
         viewModel.deleteImageFromShopify(with: endpoint)
     }
         
@@ -488,11 +495,14 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         else {
             return
         }
+
+        print("Selected size tapped: \(newSize)")
         
         viewModel.selectedSize = newSize
         updateColorOptionsForSelectedSize()
         updatePriceAndQuantityForSelectedSize()
     }
+
     
     func updateColorOptionsForSelectedSize() {
         guard let product = viewModel.product,

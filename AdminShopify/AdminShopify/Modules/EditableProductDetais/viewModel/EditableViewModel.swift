@@ -27,17 +27,18 @@ class EditableProductDetailsViewModel {
     
     var newVariants: [Variant] = []
     var productIdString: String = ""
-    
-    
-    
+        
     
     func updatePriceAndQuantity() -> (price: String?, quantity: String?) {
         guard let product = product, let selectedSize = selectedSize else {
             return (nil, nil)
         }
         
+        print("selectedSize ->\(selectedSize)")
+        
         if let variant = product.variants.first(where: { $0.option1 == selectedSize }) {
             let price = variant.price
+            print("the price of selectedSize -> \(price)")
             let quantity = "\(variant.inventory_quantity)"
             return (price, quantity)
         }
@@ -105,6 +106,10 @@ class EditableProductDetailsViewModel {
         }
     }
     
+    func deleteImageEndpoint(productId: String, imageId: Int) -> String {
+           return "https://mad44-alx-ios-4.myshopify.com/admin/api/2024-04/products/\(productId)/images/\(imageId).json"
+       }
+    
     func deleteImageFromShopify(with endpoint: String) {
         guard let url = URL(string: endpoint) else {
             print("Invalid endpoint URL.")
@@ -121,7 +126,7 @@ class EditableProductDetailsViewModel {
         let base64Auth = basicAuthString.data(using: .utf8)?.base64EncodedString() ?? ""
         request.setValue("Basic \(base64Auth)", forHTTPHeaderField: "Authorization")
         
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error deleting image: \(error.localizedDescription)")
                 return
