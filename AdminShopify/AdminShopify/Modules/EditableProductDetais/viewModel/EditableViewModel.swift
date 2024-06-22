@@ -27,24 +27,7 @@ class EditableProductDetailsViewModel {
     
     var newVariants: [Variant] = []
     var productIdString: String = ""
-        
-    
-    func updatePriceAndQuantity() -> (price: String?, quantity: String?) {
-        guard let product = product, let selectedSize = selectedSize else {
-            return (nil, nil)
-        }
-        
-        print("selectedSize ->\(selectedSize)")
-        
-        if let variant = product.variants.first(where: { $0.option1 == selectedSize }) {
-            let price = variant.price
-            print("the price of selectedSize -> \(price)")
-            let quantity = "\(variant.inventory_quantity)"
-            return (price, quantity)
-        }
-        
-        return (nil, nil)
-    }
+
     
     func updateProductDetails(productId: String, updatedData: Data, completion: @escaping (Data?, Error?) -> Void) {
         let networkManager = NetworkManager.shared
@@ -61,9 +44,6 @@ class EditableProductDetailsViewModel {
             completion(data, error)
         }
     }
-    
-    
-    typealias ProductCompletionHandler = (Product?) -> Void
     
     func fetchProduct(productId: Int, completionHandler: @escaping (ProductData?) -> Void) {
         let endpoint = ShopifyEndpoint.productDetails(productId: productId)
@@ -146,5 +126,4 @@ class EditableProductDetailsViewModel {
             }
         }.resume()
     }
-
 }

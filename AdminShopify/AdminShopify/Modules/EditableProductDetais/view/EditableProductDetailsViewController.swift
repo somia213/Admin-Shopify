@@ -25,7 +25,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+               
         if let product = viewModel.product {
             viewModel.arrProductImg = product.images.map { $0.src }
         }
@@ -39,7 +39,6 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             
             if let firstSize = product.options.first(where: { $0.name.lowercased() == "size" })?.values.first {
                 viewModel.selectedSize = firstSize
-                updateColorPriceQuantity()
             }
             
             for option in product.options {
@@ -60,16 +59,28 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         startTimer()
     }
     
-
-    
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         guard let productId = viewModel.product?.id else {
             print("Product ID is nil, cannot update product.")
             return
         }
         
-        fetchProductDetails(productId: productId)
+        viewModel.fetchProduct(productId: productId) { [weak self] productData in
+            if let product = productData {
+                DispatchQueue.main.async {
+                    self?.updateUI(with: product)
+                    self?.updatePriceAndQuantityForSelectedSize()
+                   // print("helllllllllllllllllloooooooooo\(productData?.variants.first?.price)")
+                    self?.productPrice.text = productData?.variants.first?.price
+                }
+            } else {
+                print("Failed to fetch product details.")
+            }
+        }
     }
+
     
     @IBAction func addImage(_ sender: Any) {
         showAddImageAlert()
@@ -122,12 +133,14 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             if let product = productData {
                 DispatchQueue.main.async {
                     self?.updateUI(with: product)
+                    self?.updatePriceAndQuantityForSelectedSize() // ----->1
                 }
             } else {
                 print("Failed to fetch product details.")
             }
         }
     }
+
     
     func updateUI(with product: ProductData) {
         titleProductDetails.text = product.title
@@ -170,13 +183,14 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         }
     }
     
+    
     func updatePriceAndQuantityForSelectedSize() {
         guard let product = viewModel.product,
               let selectedSize = viewModel.selectedSize
         else {
             return
         }
-        print("Selected Size: \(selectedSize)")
+
         if let variant = product.variants.first(where: { $0.option1 == selectedSize }) {
             productPrice.text = "\(variant.price)"
             productAvailabilityInStore.text = "\(variant.inventory_quantity)"
@@ -185,9 +199,9 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             productPrice.text = "Not available"
             productAvailabilityInStore.text = "Not available"
         }
-
     }
-        
+
+
     func showAddImageAlert() {
         let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
         
@@ -497,7 +511,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         }
 
         print("Selected size tapped: \(newSize)")
-        
+
         viewModel.selectedSize = newSize
         updateColorOptionsForSelectedSize()
         updatePriceAndQuantityForSelectedSize()
@@ -518,12 +532,6 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         colorView.arrangedSubviews.dropFirst().forEach { $0.removeFromSuperview() }
         
         availableColors.forEach { addColor(color: $0) }
-    }
-    
-    func updateColorPriceQuantity() {
-        let (price, quantity) = viewModel.updatePriceAndQuantity()
-        productPrice.text = price
-        productAvailabilityInStore.text = quantity
     }
     
     func addColor(color: String) {
