@@ -82,6 +82,7 @@ class EditableProductDetailsViewModel {
                 completionHandler(.success(()))
             case .failure(let error):
                 print("Failed to delete image with ID \(imageIdToDelete) from API: \(error)")
+                print("Failed to delete image with URL \(endpoint) from API: \(error)")
                 completionHandler(.failure(error))
             }
         }

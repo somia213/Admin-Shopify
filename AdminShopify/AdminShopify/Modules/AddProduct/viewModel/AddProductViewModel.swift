@@ -14,6 +14,9 @@ class AddProductViewModel {
     
     var variants: [VariantRequest] = []
        var images: [String] = []
+    
+    let vendors = ["ADIDAS", "ASICS TIGER", "CONVERSE", "DR MARTENS", "FLEX FIT", "HERSCHEL", "NIKE", "PALLADUIM", "PUMA", "SUPRA", "TIMBERLAND", "VANS"]
+    
     let networkManager: NetworkManager
 
     init(networkManager: NetworkManager) {

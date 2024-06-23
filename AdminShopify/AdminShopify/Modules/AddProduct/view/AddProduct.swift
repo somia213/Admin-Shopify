@@ -7,7 +7,8 @@
 
 import UIKit
 
-class AddNewProductViewController: UIViewController, AddNewProductView {
+class AddNewProductViewController: UIViewController, AddNewProductView, UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func navigateBack() {
         dismiss(animated: true, completion: nil)
     }
@@ -21,15 +22,34 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     
     var viewModel: AddProductViewModel!
     var presenter: AddNewProductPresenter!
-        
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = AddNewProductPresenter(view: self)
         viewModel = AddProductViewModel(networkManager: NetworkManager())
         
         doneImage.isHidden = true
-
+        
+        let pickerView = UIPickerView()
+            pickerView.delegate = self
+            pickerView.dataSource = self
+            addProductVendor.inputView = pickerView
     }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return viewModel.vendors.count
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return viewModel.vendors[row]
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            addProductVendor.text = viewModel.vendors[row]
+            addProductVendor.resignFirstResponder()
+        }
     
     @IBAction func backButtonTapped(_ sender: UIButton) {
         presenter.goBack()
@@ -82,6 +102,11 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
                 self?.showSuccessImageAndNavigateBack()
             }
         }
+    }
+    
+    
+    @IBAction func comboBoxBtn(_ sender: Any) {
+        addProductVendor.becomeFirstResponder()
     }
     
     private func showSuccessImageAndNavigateBack() {

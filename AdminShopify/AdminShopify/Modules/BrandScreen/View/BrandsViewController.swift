@@ -66,7 +66,7 @@ class BrandsViewController: UIViewController , UICollectionViewDataSource, UICol
 extension BrandsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: (collectionView.bounds.width*0.45), height: (collectionView.bounds.width*0.65))
+            return CGSize(width: (collectionView.bounds.width*0.46), height: (collectionView.bounds.width*0.45))
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -74,7 +74,7 @@ extension BrandsViewController: UICollectionViewDelegateFlowLayout {
         }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil) 
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let availableProduct = storyboard.instantiateViewController(withIdentifier: "AvaliableProductViewController") as! AvaliableProductViewController
         
         availableProduct.modalPresentationStyle = .fullScreen
