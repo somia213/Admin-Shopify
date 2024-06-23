@@ -21,6 +21,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     @IBOutlet weak var productAvailabilityInStore: UILabel!
     @IBOutlet weak var indecatorView: UIActivityIndicatorView!
     
+    
     var viewModel = EditableProductDetailsViewModel()
     var presenter: AddNewProductPresenter!
     
@@ -256,6 +257,23 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func deleteImageIcon(_ sender: Any) {
+        let currentImagePosition = pageController.currentPage
+        showDeleteImageAlert(at: currentImagePosition)
+    }
+    
+    func showDeleteImageAlert(at position: Int) {
+           let alert = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image?", preferredStyle: .alert)
+           
+           alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+               self.deleteImage(at: position)
+           }))
+           
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+           
+           present(alert, animated: true, completion: nil)
+       }
+
     func showDescriptionEditAlert() {
         let alert = UIAlertController(title: "Edit Description", message: "Enter new description", preferredStyle: .alert)
         
@@ -285,19 +303,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         
         present(alert, animated: true, completion: nil)
     }
-    
-    func showDeleteImageAlert(at index: Int) {
-        let alert = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image?", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { action in
-            self.deleteProductImage(at: index)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
+     
     
     func updateProductImageURL(_ newImageURL: String) {
         guard let productId = viewModel.product?.id else {
@@ -350,32 +356,53 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         }
     }
     
+    
+    func deleteImage(at position: Int) {
+        guard position >= 0 && position < viewModel.arrProductImg.count else {
+            print("Invalid image position")
+            return
+        }
+
+        deleteProductImage(at: position)
+    }
+
     func deleteProductImage(at position: Int) {
         guard let productId = viewModel.product?.id,
-                      let images = viewModel.product?.images,
-                      position >= 0 && position < images.count
-                else {
-                    print("Invalid position or product ID.")
-                    return
-                }
-        
-               viewModel.product?.images.remove(at: position)
-               viewModel.arrProductImg.remove(at: position)
-               pageController.numberOfPages = viewModel.arrProductImg.count
-               imgCollectionView.reloadData()
-        
+              let images = viewModel.product?.images,
+              position >= 0 && position < images.count else {
+            print("Invalid position or product ID.")
+            return
+        }
+
         let imageToDelete = images[position]
         let imageIdToDelete = imageToDelete.id
-        
+
         print("Deleting image with ID: \(imageToDelete.id)")
-        
+
         viewModel.deleteImage(imageIdToDelete: imageIdToDelete) { result in
             switch result {
             case .success:
                 print("Image with ID \(imageIdToDelete) deleted from API successfully")
+
+                DispatchQueue.main.async {
+                    guard position < self.viewModel.product?.images.count ?? 0,
+                          position < self.viewModel.arrProductImg.count else {
+                        print("Position out of range after async operation")
+                        return
+                    }
+
+                    self.viewModel.product?.images.remove(at: position)
+                    self.viewModel.arrProductImg.remove(at: position)
+
+                    self.pageController.numberOfPages = self.viewModel.arrProductImg.count
+                    if self.pageController.currentPage >= self.viewModel.arrProductImg.count {
+                        self.pageController.currentPage = max(self.viewModel.arrProductImg.count - 1, 0)
+                    }
+                    self.imgCollectionView.reloadData()
+                }
+
             case .failure(let error):
                 print("Failed to delete image with ID \(imageIdToDelete) from API: \(error)")
-                print("Deleting image with ID: \(imageToDelete.id)")
             }
         }
     }
