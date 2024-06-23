@@ -62,68 +62,28 @@ class EditableProductDetailsViewModel {
         }
     }
     
-    func deleteImageAtIndex(_ index: Int, completionHandler: @escaping (Result<Void, Error>) -> Void) {
-        guard let productId = product?.id, index < arrProductImg.count else {
-            print("Invalid index or product ID.")
+    func deleteImage(imageIdToDelete: Int, completionHandler: @escaping (Result<Void, Error>) -> Void) {
+        guard let productId = product?.id else {
+            completionHandler(.failure(NetworkError.unknownError))
             return
         }
         
-        let endpoint = ShopifyEndpoint.deleteProductImage(productId: productId, imageId: index + 1)
+        print("Deleting image with ID \(imageIdToDelete)")
         
-        print("Deleting image with endpoint: \(endpoint.url)")
+        let endpoint = ShopifyEndpoint.deleteProductImage(productId: productId, imageId: imageIdToDelete)
+        let deleteURL = endpoint.url
+        print("Endpoint: \(endpoint)")
+        print("Delete URL: \(deleteURL)")
         
         networkManager.deleteFromAPI(endpoint: endpoint) { result in
             switch result {
             case .success:
-                self.arrProductImg.remove(at: index)
-                print("Image deleted successfully.")
+                print("Request to delete image with ID \(imageIdToDelete) sent successfully")
                 completionHandler(.success(()))
-                
             case .failure(let error):
-                print("Failed to delete image: \(error)")
+                print("Failed to delete image with ID \(imageIdToDelete) from API: \(error)")
                 completionHandler(.failure(error))
             }
         }
-    }
-    
-    func deleteImageEndpoint(productId: String, imageId: Int) -> String {
-           return "https://mad44-alx-ios-4.myshopify.com/admin/api/2024-04/products/\(productId)/images/\(imageId).json"
-       }
-    
-    func deleteImageFromShopify(with endpoint: String) {
-        guard let url = URL(string: endpoint) else {
-            print("Invalid endpoint URL.")
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let apiKey = "your_api_key"
-        let apiPassword = "your_api_password"
-        let basicAuthString = "\(apiKey):\(apiPassword)"
-        let base64Auth = basicAuthString.data(using: .utf8)?.base64EncodedString() ?? ""
-        request.setValue("Basic \(base64Auth)", forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error deleting image: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse else {
-                print("Invalid response.")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if response.statusCode == 200 {
-                    print("Image deleted successfully.")
-                } else {
-                    print("Failed to delete image. Status code: \(response.statusCode)")
-                }
-            }
-        }.resume()
     }
 }

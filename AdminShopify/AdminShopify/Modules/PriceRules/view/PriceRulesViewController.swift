@@ -10,18 +10,23 @@ import UIKit
 class PriceRulesViewController: UIViewController {
 
     @IBOutlet weak var priceRulesTable: UITableView!
+    
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
     var viewModel: PriceRulesViewModel!
-    
-    // MARK: - Lifecycle Methods
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
         viewModel = PriceRulesViewModel()
         
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.priceRulesTable.reloadData()
+                self?.indecatorView.stopAnimating()
+                self?.indecatorView.isHidden = true
             }
         }
         

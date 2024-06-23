@@ -201,6 +201,8 @@ class NetworkManager: NetworkServicing {
                     switch endpoint {
                     case .deleteProduct:
                         print("Product deleted successfully")
+                    case .deleteProductImage:
+                        print("Image deleted successfully")
                     case .deletePriceRule:
                         print("Price rule deleted successfully")
                         
@@ -212,6 +214,8 @@ class NetworkManager: NetworkServicing {
                 case .failure(let error):
                     switch endpoint {
                     case .deleteProduct:
+                        print("Failed to delete product: \(error)")
+                    case .deleteProductImage:
                         print("Failed to delete product: \(error)")
                     case .deletePriceRule:
                         print("Failed to delete price rule: \(error)")

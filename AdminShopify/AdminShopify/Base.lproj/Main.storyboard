@@ -166,6 +166,11 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="2" minY="10" maxX="2" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" id="liy-w9-2Ll">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="555"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" red="0.90392751790000003" green="0.52897855199999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BrandCell" id="Ehx-UN-rOX" customClass="BrandsCollectionViewCell" customModule="AdminShopify" customModuleProvider="target">
                                         <rect key="frame" x="96.666666666666671" y="10" width="200" height="200"/>
@@ -212,6 +217,7 @@
                     <tabBarItem key="tabBarItem" title="Brands" image="Eo_circle_orange_letter-b.svg-2" id="7dG-2W-3Sp"/>
                     <navigationItem key="navigationItem" id="nRc-2X-UDz"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="liy-w9-2Ll" id="o1t-N8-GhC"/>
                         <outlet property="brandCollectionView" destination="fJf-6I-3Tk" id="Vf6-2g-W9B"/>
                     </connections>
                 </viewController>
@@ -242,6 +248,11 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="539" id="lVE-qG-tuf"/>
                                 </constraints>
+                                <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" id="a4f-qy-rOW">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" red="0.90392751790000003" green="0.52897855199999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </activityIndicatorView>
                                 <connections>
                                     <outlet property="dataSource" destination="wpw-B3-JFH" id="yUm-NY-gFB"/>
                                     <outlet property="delegate" destination="wpw-B3-JFH" id="x34-Eq-XwB"/>
@@ -279,6 +290,7 @@
                     <navigationItem key="navigationItem" id="1cj-5M-Jyh"/>
                     <connections>
                         <outlet property="avaliableProductTableView" destination="JzM-Fn-Tnp" id="xhb-b2-SVN"/>
+                        <outlet property="indecatorView" destination="a4f-qy-rOW" id="mHu-kb-gpk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YdF-81-8Ew" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -544,6 +556,11 @@
                                     <action selector="editDescription:" destination="gSH-JM-P0g" eventType="touchUpInside" id="cZc-Ca-DEP"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="wJU-Er-JoC">
+                                <rect key="frame" x="204" y="378" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.90392751790000003" green="0.52897855199999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RPw-YE-Stp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -610,6 +627,7 @@
                         <outlet property="colorScrollStackView" destination="yxF-WU-7oo" id="uv0-uP-89K"/>
                         <outlet property="colorView" destination="hKo-FL-pX5" id="dAA-Os-LrO"/>
                         <outlet property="imgCollectionView" destination="Qet-p9-XnN" id="fwj-gs-CCw"/>
+                        <outlet property="indecatorView" destination="wJU-Er-JoC" id="I8h-v1-dRf"/>
                         <outlet property="pageController" destination="ZOh-Ii-9X4" id="4ND-iy-iQO"/>
                         <outlet property="productAvailabilityInStore" destination="hNI-f6-fC4" id="ZK2-H0-qRr"/>
                         <outlet property="productPrice" destination="0LK-ZT-0ns" id="Kk7-nL-Q2s"/>
@@ -1091,6 +1109,11 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="511" id="PpC-jd-D4I"/>
                                 </constraints>
+                                <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" id="7Zo-zI-Avz">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" red="0.90392751790000003" green="0.52897855199999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </activityIndicatorView>
                                 <connections>
                                     <outlet property="dataSource" destination="vlj-WC-ZeJ" id="c1P-rA-LLJ"/>
                                     <outlet property="delegate" destination="vlj-WC-ZeJ" id="gAj-TQ-la7"/>
@@ -1129,6 +1152,7 @@
                     <tabBarItem key="tabBarItem" title="All Products" image="list.dash" catalog="system" id="kTQ-tr-2tu"/>
                     <connections>
                         <outlet property="ProductSearch" destination="Ypl-f7-lP1" id="4Rg-ff-7rT"/>
+                        <outlet property="indecatorView" destination="7Zo-zI-Avz" id="wkG-9C-298"/>
                         <outlet property="productTableView" destination="efU-cW-wZv" id="DhB-QV-AII"/>
                     </connections>
                 </viewController>
@@ -1156,6 +1180,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eL5-KM-ehm">
                                 <rect key="frame" x="16" y="133" width="361" height="573"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" id="yJ4-Oo-KPp">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" red="0.90392751790000003" green="0.52897855199999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </activityIndicatorView>
                                 <connections>
                                     <outlet property="dataSource" destination="mOv-Tk-EBp" id="JZG-1y-cuM"/>
                                     <outlet property="delegate" destination="mOv-Tk-EBp" id="dRl-ud-Xwo"/>
@@ -1190,6 +1219,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Fixed Price" image="tag.fill" catalog="system" id="ZMH-u4-5In"/>
                     <connections>
+                        <outlet property="indecatorView" destination="yJ4-Oo-KPp" id="FiJ-8C-6U7"/>
                         <outlet property="priceRulesTable" destination="eL5-KM-ehm" id="eeV-i2-xvT"/>
                     </connections>
                 </viewController>
@@ -1533,7 +1563,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xc7-b9-txA">
-                                        <rect key="frame" x="8" y="407" width="368" height="34"/>
+                                        <rect key="frame" x="15" y="407" width="361" height="34"/>
                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="tcL-rX-paC"/>
@@ -1558,7 +1588,6 @@
                                     <constraint firstItem="rob-lg-B83" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="15" id="OV6-Wg-h5K"/>
                                     <constraint firstItem="yYn-sn-bBl" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="100" id="Ob0-hg-eZU"/>
                                     <constraint firstItem="w29-Cu-sSh" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="15" id="Q8e-bE-PO1"/>
-                                    <constraint firstItem="xc7-b9-txA" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="8" id="V2x-3i-ITg"/>
                                     <constraint firstItem="Z45-3k-Ac4" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="124" id="Xvg-zt-CSM"/>
                                     <constraint firstItem="3SD-CB-mkU" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="15" id="Zfp-pk-iFa"/>
                                     <constraint firstItem="w29-Cu-sSh" firstAttribute="top" secondItem="sBH-5Q-UfW" secondAttribute="top" constant="105" id="aOL-We-KRB"/>
@@ -1572,6 +1601,7 @@
                                     <constraint firstItem="9ta-zz-Ds6" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="20" symbolic="YES" id="kFf-Vl-J6d"/>
                                     <constraint firstItem="w91-FC-cRK" firstAttribute="top" secondItem="rob-lg-B83" secondAttribute="bottom" constant="8" symbolic="YES" id="siY-nC-c6S"/>
                                     <constraint firstAttribute="trailing" secondItem="2Qt-Kf-CPj" secondAttribute="trailing" constant="17" id="ufU-hJ-5jA"/>
+                                    <constraint firstItem="xc7-b9-txA" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="15" id="vvv-37-dQ4"/>
                                     <constraint firstItem="28Z-aq-ow0" firstAttribute="leading" secondItem="sBH-5Q-UfW" secondAttribute="leading" constant="15" id="yye-1N-ms2"/>
                                     <constraint firstItem="rob-lg-B83" firstAttribute="top" secondItem="3SD-CB-mkU" secondAttribute="bottom" constant="8" symbolic="YES" id="zk8-OI-MX4"/>
                                 </constraints>
@@ -1619,6 +1649,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fQt-4S-lhj">
                                 <rect key="frame" x="16" y="150" width="361" height="571"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" id="uN3-ww-g7f">
+                                    <rect key="frame" x="0.0" y="153" width="361" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" red="0.90392751790000003" green="0.52897855199999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </activityIndicatorView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DiscountCodeCell" textLabel="ehp-9B-EqD" detailTextLabel="b8B-Yl-Oa1" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="USJ-12-aOp">
                                         <rect key="frame" x="0.0" y="50" width="361" height="75"/>
@@ -1703,6 +1738,7 @@
                     </view>
                     <connections>
                         <outlet property="discountTable" destination="fQt-4S-lhj" id="7YT-3P-flO"/>
+                        <outlet property="indecatorView" destination="uN3-ww-g7f" id="Pg7-LU-x9e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYO-9u-J1d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

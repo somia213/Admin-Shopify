@@ -14,10 +14,17 @@ class AllProductsViewController: UIViewController {
     
     @IBOutlet weak var productTableView: UITableView!
     
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+    
+    
     var productsViewModel: ProductsViewModel!
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        
         let networkManager = NetworkManager()
                 productsViewModel = ProductsViewModel(networkManager: networkManager)
                let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
@@ -33,6 +40,8 @@ class AllProductsViewController: UIViewController {
            productsViewModel.getAllProducts { [weak self] success in
                if success {
                    self?.productTableView.reloadData()
+                   self?.indecatorView.stopAnimating()
+                   self?.indecatorView.isHidden = true
                } else {
                    print("Error fetching products!")
                }

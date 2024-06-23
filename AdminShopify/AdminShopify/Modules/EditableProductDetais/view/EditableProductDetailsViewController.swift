@@ -19,6 +19,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     @IBOutlet weak var titleProductDetails: UILabel!
     @IBOutlet weak var DescriptionProductDetails: UITextView!
     @IBOutlet weak var productAvailabilityInStore: UILabel!
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
     
     var viewModel = EditableProductDetailsViewModel()
     var presenter: AddNewProductPresenter!
@@ -26,6 +27,9 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     override func viewDidLoad() {
         super.viewDidLoad()
                
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        
         if let product = viewModel.product {
             viewModel.arrProductImg = product.images.map { $0.src }
         }
@@ -74,6 +78,8 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                     self?.updatePriceAndQuantityForSelectedSize()
                    // print("helllllllllllllllllloooooooooo\(productData?.variants.first?.price)")
                     self?.productPrice.text = productData?.variants.first?.price
+                    self?.indecatorView.stopAnimating()
+                    self?.indecatorView.isHidden = true
                 }
             } else {
                 print("Failed to fetch product details.")
@@ -196,8 +202,8 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             productAvailabilityInStore.text = "\(variant.inventory_quantity)"
         } else {
             print("No variant found for size \(selectedSize)")
-            productPrice.text = "Not available"
-            productAvailabilityInStore.text = "Not available"
+            productPrice.text = "" // ----------->
+            productAvailabilityInStore.text = "" // ------------>
         }
     }
 
@@ -346,37 +352,34 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     
     func deleteProductImage(at position: Int) {
         guard let productId = viewModel.product?.id,
-              let images = viewModel.product?.images,
-              position >= 0 && position < images.count
-        else {
-            print("Invalid position or product ID.")
-            return
-        }
+                      let images = viewModel.product?.images,
+                      position >= 0 && position < images.count
+                else {
+                    print("Invalid position or product ID.")
+                    return
+                }
+        
+               viewModel.product?.images.remove(at: position)
+               viewModel.arrProductImg.remove(at: position)
+               pageController.numberOfPages = viewModel.arrProductImg.count
+               imgCollectionView.reloadData()
         
         let imageToDelete = images[position]
-        
         let imageIdToDelete = imageToDelete.id
         
-        viewModel.product?.images.remove(at: position)
-        viewModel.arrProductImg.remove(at: position)
-        pageController.numberOfPages = viewModel.arrProductImg.count
-        imgCollectionView.reloadData()
+        print("Deleting image with ID: \(imageToDelete.id)")
         
-        guard imageIdToDelete != nil else {
-            print("Image ID not found for deletion.")
-            return
+        viewModel.deleteImage(imageIdToDelete: imageIdToDelete) { result in
+            switch result {
+            case .success:
+                print("Image with ID \(imageIdToDelete) deleted from API successfully")
+            case .failure(let error):
+                print("Failed to delete image with ID \(imageIdToDelete) from API: \(error)")
+                print("Deleting image with ID: \(imageToDelete.id)")
+            }
         }
-        
-        guard let productId = viewModel.product?.id else {
-            print("Product ID is nil, cannot delete image.")
-            return
-        }
-        
-        let productIdString = "\(productId)"
-        let endpoint = viewModel.deleteImageEndpoint(productId: productIdString, imageId: imageIdToDelete)
-
-        viewModel.deleteImageFromShopify(with: endpoint)
     }
+
         
     func updateProductTitle(_ newTitle: String) {
         guard let productId = viewModel.product?.id else {

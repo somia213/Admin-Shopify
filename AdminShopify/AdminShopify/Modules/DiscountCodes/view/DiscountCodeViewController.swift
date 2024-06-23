@@ -11,11 +11,15 @@ import Lottie
 class DiscountCodeViewController: UIViewController {
 
     @IBOutlet weak var discountTable: UITableView!
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
     
     var viewModel: DiscountCodeViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
         viewModel = DiscountCodeViewModel(priceRuleId: viewModel.priceRuleId)
         
@@ -27,6 +31,8 @@ class DiscountCodeViewController: UIViewController {
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.discountTable.reloadData()
+                self?.indecatorView.stopAnimating()
+                self?.indecatorView.isHidden = true
             }
         }
     }
@@ -44,24 +50,10 @@ class DiscountCodeViewController: UIViewController {
             self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
                 switch result {
                 case .success:
-//                    let animationView = AnimationView(name: "Done") 
-//                    animationView.frame = self?.view.bounds ?? CGRect.zero
-//                    animationView.contentMode = .scaleAspectFit
-//                    animationView.loopMode = .playOnce
-//                    self?.view.addSubview(animationView)
-//                    
-//                    animationView.play { (finished) in
-//                        animationView.removeFromSuperview()
-//                        self?.viewModel.fetchDiscountCodes()
-//                        self?.discountTable.reloadData()
                         self?.dismiss(animated: true, completion: nil)
                 case .failure(_):
                     print("Failed to add discount code:")
                 }
-                    
-//                case .failure(let error):
-//                    print("Failed to add discount code: \(error.localizedDescription)")
-//                }
             }
         }
         
@@ -99,7 +91,7 @@ extension DiscountCodeViewController: UITableViewDataSource, UITableViewDelegate
 
          cell.detailTextLabel?.text = viewModel.discountCodes[indexPath.row].code
          cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-         cell.detailTextLabel?.textColor = UIColor.red
+         cell.detailTextLabel?.textColor = UIColor.orange
 
          return cell
      }

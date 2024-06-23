@@ -11,19 +11,25 @@ import Kingfisher
 class BrandsViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate{
     
     @IBOutlet weak var brandCollectionView: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     
     var brandViewModel: BrandViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         brandCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        
+            activityIndicator.style = .large
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
                 brandViewModel = BrandViewModel()
                 brandViewModel.dataUpdated = { [weak self] in
                     DispatchQueue.main.async {
                         self?.brandCollectionView.reloadData()
+                        self?.activityIndicator.stopAnimating()
+                        self?.activityIndicator.isHidden = true
                     }
                 }
                 brandViewModel.noInternetConnection = { [weak self] in
@@ -32,7 +38,7 @@ class BrandsViewController: UIViewController , UICollectionViewDataSource, UICol
                     }
                 }
                 brandViewModel.fetchData()
-            }
+    }
     
     func showNoInternetAlert() {
             let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)

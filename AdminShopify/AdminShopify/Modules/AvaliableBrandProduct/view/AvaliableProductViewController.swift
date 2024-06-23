@@ -10,6 +10,9 @@ import UIKit
 class AvaliableProductViewController: UIViewController , AddNewProductView {
 
     @IBOutlet weak var avaliableProductTableView: UITableView!
+    
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+    
     var brandTitle: String?
     
     var presenter: AddNewProductPresenter!
@@ -17,6 +20,9 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
 
         presenter = AddNewProductPresenter(view: self)
         viewModel = BrandProductViewModel()
@@ -24,6 +30,8 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.avaliableProductTableView.reloadData()
+                self?.indecatorView.stopAnimating()
+                self?.indecatorView.isHidden = true
             }
         }
 
