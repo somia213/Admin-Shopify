@@ -47,16 +47,29 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     
     @IBAction func sendAddProduct(_ sender: Any) {
         
+        guard let title = addProductTitle.text, !title.isEmpty,
+                 let vendor = addProductVendor.text, !vendor.isEmpty,
+                 let description = addProductDescription.text, !description.isEmpty
+           else {
+               showErrorAlert(message: "Please fill in all required fields.")
+               return
+           }
+        
+        guard !viewModel.variants.isEmpty else {
+                    showErrorAlert(message: "Please enter at least one variant.")
+                    return
+                }
+        
         guard let productRequest = viewModel.constructProduct(
-            title: addProductTitle.text,
-            description: addProductDescription.text,
-            vendor: addProductVendor.text,
-            variants: viewModel.variants,
-            images: viewModel.images
-        ) else {
-            showErrorAlert(message: "Please fill in all required fields.")
-            return
-        }
+                title: title,
+                description: description,
+                vendor: vendor,
+                variants: viewModel.variants,
+                images: viewModel.images
+            ) else {
+                showErrorAlert(message: "Invalid data entered.")
+                return
+            }
         
         viewModel.addProduct(product: productRequest) { [weak self] result in
             switch result {
