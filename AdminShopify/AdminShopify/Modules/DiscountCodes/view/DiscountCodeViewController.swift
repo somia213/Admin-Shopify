@@ -12,7 +12,7 @@ class DiscountCodeViewController: UIViewController {
 
     @IBOutlet weak var discountTable: UITableView!
     @IBOutlet weak var indecatorView: UIActivityIndicatorView!
-    
+    @IBOutlet weak var doneImage: UIImageView!
     var viewModel: DiscountCodeViewModel!
 
     override func viewDidLoad() {
@@ -35,6 +35,7 @@ class DiscountCodeViewController: UIViewController {
                 self?.indecatorView.isHidden = true
             }
         }
+        doneImage.isHidden = true
     }
     
     @IBAction func addNewDiscountCode(_ sender: Any) {
@@ -51,6 +52,7 @@ class DiscountCodeViewController: UIViewController {
                 switch result {
                 case .success:
                         self?.dismiss(animated: true, completion: nil)
+                        self?.showSuccessImageAndNavigateBack()
                 case .failure(_):
                     print("Failed to add discount code:")
                 }
@@ -63,6 +65,22 @@ class DiscountCodeViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func showSuccessImageAndNavigateBack() {
+        doneImage.isHidden = false
+        UIView.animate(withDuration: 2.0, animations: {
+            self.doneImage.alpha = 1.0
+        }) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                UIView.animate(withDuration: 2.0, animations: {
+                    self.doneImage.alpha = 0.0
+                }) { _ in
+                    self.doneImage.isHidden = true
+                    self.navigateBack()
+                }
+            }
+        }
     }
 
     

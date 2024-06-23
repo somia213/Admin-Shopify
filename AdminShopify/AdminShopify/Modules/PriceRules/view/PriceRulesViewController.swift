@@ -12,6 +12,7 @@ class PriceRulesViewController: UIViewController {
     @IBOutlet weak var priceRulesTable: UITableView!
     
     @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+        
     var viewModel: PriceRulesViewModel!
         
     override func viewDidLoad() {
@@ -33,6 +34,7 @@ class PriceRulesViewController: UIViewController {
         let cellNib = UINib(nibName: "PriceRulesTableViewCell", bundle: nil)
         priceRulesTable.register(cellNib, forCellReuseIdentifier: "priceRulesCell")
         priceRulesTable.backgroundColor = UIColor.systemGray6
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +42,7 @@ class PriceRulesViewController: UIViewController {
         
         viewModel.fetchPriceRules()
     }
-
+    
     
     @IBAction func addNewPriceRule(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

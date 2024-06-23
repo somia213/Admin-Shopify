@@ -19,6 +19,8 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
     @IBOutlet weak var endDate: UIDatePicker!
     var presenter: AddNewProductPresenter!
     
+    @IBOutlet weak var doneImage: UIImageView!
+    
     var model: AddPriceRuleViewModel!
     
     var priceRulesViewModel: PriceRulesViewModel!
@@ -28,8 +30,48 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
         presenter = AddNewProductPresenter(view: self)
         model = AddPriceRuleViewModel(networkManager: NetworkManager.shared)
         priceRulesViewModel = PriceRulesViewModel()
+        
+        doneImage.isHidden = true
+        
+        startDate.addTarget(self, action: #selector(startDateChanged(_:)), for: .valueChanged)
+        endDate.addTarget(self, action: #selector(endDateChanged(_:)), for: .valueChanged)
+                
+        updateUIForStartDate()
+        updateUIForEndDate()
 
     }
+    
+    private func updateUIForStartDate() {
+        let currentDate = Date()
+        
+        if startDate.date <= currentDate {
+            startDate.date = currentDate
+        }
+                
+        if endDate.date < startDate.date {
+            endDate.date = startDate.date
+        }
+    }
+    
+    private func updateUIForEndDate() {
+            let currentDate = Date()
+            
+            if endDate.date <= currentDate {
+                endDate.date = currentDate
+            }
+            
+            if endDate.date < startDate.date {
+                endDate.date = startDate.date
+            }
+        }
+        
+        @objc func startDateChanged(_ datePicker: UIDatePicker) {
+            updateUIForStartDate()
+        }
+        
+        @objc func endDateChanged(_ datePicker: UIDatePicker) {
+            updateUIForEndDate()
+        }
     
     @IBAction func cancelBtn(_ sender: Any) {
         navigateBack()
@@ -40,6 +82,10 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
        }
     
     @IBAction func doneBtn(_ sender: Any) {
+        
+        let startsAt = startDate.date
+        let endsAt = endDate.date
+        
         
         guard let title = priceRuleTotle.text, !title.isEmpty else {
             showAlert(message: "Please enter a title.")
@@ -76,30 +122,38 @@ class AddNewPriceRuleViewController: UIViewController ,AddNewProductView {
             return
         }
 
-            let startsAt = startDate.date
-            let endsAt = endDate.date
-
         model.addPriceRule(title: title,
-                                  valueType: valueType,
-                                  value: String(value),
-                                  customerSelection: "all",
-                                  startsAt: startsAt,
-                                  endsAt: endsAt,
-                                  usageLimit: usageLimit) { [weak self] result in
-                   DispatchQueue.main.async {
-                       switch result {
-                       case .success:
-                           if let priceRulesVC = self?.presentingViewController as? PriceRulesViewController {
-                               priceRulesVC.viewModel.fetchPriceRules()
-                           }
-                           self?.navigateBack()
-                       case .failure(let error):
-                           //self?.showAlert(message: error.localizedDescription)
-                           self?.navigateBack()
-                       }
+                              valueType: valueType,
+                              value: String(value),
+                              customerSelection: "all",
+                              startsAt: startsAt,
+                              endsAt: endsAt,
+                              usageLimit: usageLimit) { [weak self] result in
+               DispatchQueue.main.async {
+                   switch result {
+                   case .success:
+                       self?.showSuccessImageAndNavigateBack()
+                   case .failure(let error):
+                       self?.showSuccessImageAndNavigateBack()
                    }
                }
            }
+       }
+
+       private func showSuccessImageAndNavigateBack() {
+           doneImage.isHidden = false
+           UIView.animate(withDuration: 4.0, animations: {
+               self.doneImage.alpha = 1.0
+           }) { _ in
+               UIView.animate(withDuration: 1.0) {
+                   self.doneImage.alpha = 0.0
+               } completion: { _ in
+                   self.doneImage.isHidden = true
+                   self.navigateBack()
+               }
+           }
+       }
+
     
     func showAlert(message: String) {
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)

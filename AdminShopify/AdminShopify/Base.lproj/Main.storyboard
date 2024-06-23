@@ -768,6 +768,10 @@
                                     <constraint firstAttribute="height" constant="165" id="oNW-C7-jnn"/>
                                 </constraints>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="orange-check-mark-hi" translatesAutoresizingMaskIntoConstraints="NO" id="lWr-2P-Wfe">
+                                <rect key="frame" x="76" y="309" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Xb9-JG-FEf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -812,6 +816,7 @@
                         <outlet property="addProductDescription" destination="KEo-Uh-ezx" id="a9m-S4-VPr"/>
                         <outlet property="addProductTitle" destination="nmm-2W-0s1" id="StB-Xh-a27"/>
                         <outlet property="addProductVendor" destination="gv5-ay-8Vh" id="Sei-0F-RTo"/>
+                        <outlet property="doneImage" destination="lWr-2P-Wfe" id="E0r-UH-cYC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NZz-6o-nuG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1371,6 +1376,12 @@
                                     <action selector="doneBtn:" destination="Nzy-ke-muP" eventType="touchUpInside" id="TaX-Tk-ZpK"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="orange-check-mark-hi" translatesAutoresizingMaskIntoConstraints="NO" id="gOU-Ct-qQo">
+                                <rect key="frame" x="70" y="399" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="SRF-uD-dAm"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KJu-nS-Z1U"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1384,6 +1395,8 @@
                             <constraint firstItem="KJu-nS-Z1U" firstAttribute="trailing" secondItem="d2l-Fu-3Q2" secondAttribute="trailing" constant="16" id="7WN-ia-PiK"/>
                             <constraint firstItem="jwR-jP-UT2" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="85" id="7hu-aI-frr"/>
                             <constraint firstItem="dgU-hk-hzr" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="16" id="7vs-Bw-1mj"/>
+                            <constraint firstItem="FZ7-mg-hfX" firstAttribute="top" secondItem="gOU-Ct-qQo" secondAttribute="bottom" constant="8" symbolic="YES" id="84K-XZ-RPI"/>
+                            <constraint firstItem="gOU-Ct-qQo" firstAttribute="top" secondItem="SCt-V6-1up" secondAttribute="bottom" constant="55" id="9an-v3-bnQ"/>
                             <constraint firstItem="yZ5-13-TVg" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="16" id="Anr-tx-Mfj"/>
                             <constraint firstItem="KJu-nS-Z1U" firstAttribute="trailing" secondItem="dgU-hk-hzr" secondAttribute="trailing" constant="301" id="C87-6I-jzb"/>
                             <constraint firstItem="KtF-eQ-Y4i" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="16" id="DYY-R5-fjS"/>
@@ -1414,6 +1427,7 @@
                             <constraint firstItem="yZ5-13-TVg" firstAttribute="top" secondItem="Nvk-9D-VLh" secondAttribute="bottom" constant="19" id="eb1-ak-tEq"/>
                             <constraint firstItem="ttp-qx-e0W" firstAttribute="top" secondItem="SCt-V6-1up" secondAttribute="bottom" constant="8" symbolic="YES" id="f8E-iz-Atg"/>
                             <constraint firstItem="d2l-Fu-3Q2" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="16" id="fEy-kk-thf"/>
+                            <constraint firstItem="KJu-nS-Z1U" firstAttribute="trailing" secondItem="gOU-Ct-qQo" secondAttribute="trailing" constant="83" id="fOq-u0-JJi"/>
                             <constraint firstItem="KtF-eQ-Y4i" firstAttribute="top" secondItem="7D7-gd-8CZ" secondAttribute="bottom" constant="36" id="fb1-u1-TTW"/>
                             <constraint firstItem="7D7-gd-8CZ" firstAttribute="top" secondItem="BXI-Mi-Kbh" secondAttribute="bottom" constant="22" id="gmg-40-Gfi"/>
                             <constraint firstItem="SCt-V6-1up" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="16" id="hCv-AN-vvR"/>
@@ -1428,11 +1442,13 @@
                             <constraint firstItem="KJu-nS-Z1U" firstAttribute="trailing" secondItem="3Bt-vb-Xap" secondAttribute="trailing" constant="221" id="t5D-qL-IYJ"/>
                             <constraint firstItem="FZ7-mg-hfX" firstAttribute="top" secondItem="3Bt-vb-Xap" secondAttribute="bottom" constant="19" id="uz4-4v-uCt"/>
                             <constraint firstItem="LAA-Wd-htK" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="16" id="xvB-aN-Zhm"/>
+                            <constraint firstItem="gOU-Ct-qQo" firstAttribute="leading" secondItem="KJu-nS-Z1U" secondAttribute="leading" constant="70" id="zMC-rt-7eH"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="UsageLimit" destination="yZ5-13-TVg" id="g8x-6o-LAW"/>
                         <outlet property="discountAmount" destination="FZ7-mg-hfX" id="6j7-6F-kYv"/>
+                        <outlet property="doneImage" destination="gOU-Ct-qQo" id="tcE-Gx-nlw"/>
                         <outlet property="endDate" destination="M79-VH-ufh" id="vxb-k2-1dM"/>
                         <outlet property="priceRuleTotle" destination="7D7-gd-8CZ" id="IUG-pa-LMj"/>
                         <outlet property="priceRuleType" destination="jwR-jP-UT2" id="bxo-pW-xkU"/>
@@ -1716,6 +1732,10 @@
                                     <action selector="cancelBtn:" destination="o58-DL-FUr" eventType="touchUpInside" id="tU2-mB-mkq"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="orange-check-mark-hi" translatesAutoresizingMaskIntoConstraints="NO" id="Nbk-5K-sgz">
+                                <rect key="frame" x="57" y="75" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Cm0-b3-sqK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1738,6 +1758,7 @@
                     </view>
                     <connections>
                         <outlet property="discountTable" destination="fQt-4S-lhj" id="7YT-3P-flO"/>
+                        <outlet property="doneImage" destination="Nbk-5K-sgz" id="LNm-sw-rYz"/>
                         <outlet property="indecatorView" destination="uN3-ww-g7f" id="Pg7-LU-x9e"/>
                     </connections>
                 </viewController>
@@ -1755,6 +1776,7 @@
         <image name="addidus" width="1280" height="720"/>
         <image name="back-arrow" width="40" height="40"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
+        <image name="orange-check-mark-hi" width="570" height="594"/>
         <image name="orangeBag" width="1000" height="1000"/>
         <image name="pencil.line" catalog="system" width="128" height="117"/>
         <image name="tag.fill" catalog="system" width="128" height="118"/>

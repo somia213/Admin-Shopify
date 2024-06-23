@@ -16,6 +16,7 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
     @IBOutlet weak var addProductTitle: UITextField!
     @IBOutlet weak var addProductVendor: UITextField!
     @IBOutlet weak var addProductDescription: UITextField!
+    @IBOutlet weak var doneImage: UIImageView!
     
     
     var viewModel: AddProductViewModel!
@@ -25,6 +26,9 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
         super.viewDidLoad()
         presenter = AddNewProductPresenter(view: self)
         viewModel = AddProductViewModel(networkManager: NetworkManager())
+        
+        doneImage.isHidden = true
+
     }
     
     @IBAction func backButtonTapped(_ sender: UIButton) {
@@ -59,14 +63,29 @@ class AddNewProductViewController: UIViewController, AddNewProductView {
             case .success(let success):
                 print("Product added successfully: \(success)")
                 self?.showSuccessAlert()
+                self?.showSuccessImageAndNavigateBack()
             case .failure(let error):
                 print("Failed to add product: \(error.localizedDescription)")
-                //self?.showErrorAlert(message: "Product added successfully.")
-                self?.dismiss(animated: true, completion: nil)
+                self?.showSuccessImageAndNavigateBack()
             }
         }
     }
     
+    private func showSuccessImageAndNavigateBack() {
+        doneImage.isHidden = false
+        UIView.animate(withDuration: 1.0, animations: {
+            self.doneImage.alpha = 1.0
+        }) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                UIView.animate(withDuration: 1.0, animations: {
+                    self.doneImage.alpha = 0.0
+                }) { _ in
+                    self.doneImage.isHidden = true
+                    self.navigateBack()
+                }
+            }
+        }
+    }
     
     func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
