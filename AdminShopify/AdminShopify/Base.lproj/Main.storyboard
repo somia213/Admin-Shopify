@@ -302,7 +302,7 @@
                     <navigationItem key="navigationItem" id="1cj-5M-Jyh"/>
                     <connections>
                         <outlet property="avaliableProductTableView" destination="JzM-Fn-Tnp" id="xhb-b2-SVN"/>
-                        <outlet property="indecatorView" destination="a4f-qy-rOW" id="mHu-kb-gpk"/>
+                        <outlet property="indecatorView" destination="a4f-qy-rOW" id="cdb-Zs-Tcz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YdF-81-8Ew" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -580,7 +580,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="bin.xmark.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="deleteImageIcon:" destination="gSH-JM-P0g" eventType="touchUpInside" id="NOj-eY-STE"/>
+                                    <action selector="deleteImageIcon:" destination="gSH-JM-P0g" eventType="touchUpInside" id="jes-wy-v4v"/>
                                 </connections>
                             </button>
                         </subviews>

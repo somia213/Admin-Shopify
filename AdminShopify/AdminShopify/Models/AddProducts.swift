@@ -54,6 +54,7 @@ struct OptionRequest: Codable {
 }
 
 struct ImageRequest: Codable {
+    var id: Int?
     let src: String
 }
 

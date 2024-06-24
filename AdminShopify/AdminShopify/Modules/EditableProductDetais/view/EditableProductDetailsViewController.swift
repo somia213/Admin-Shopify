@@ -77,10 +77,13 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                 DispatchQueue.main.async {
                     self?.updateUI(with: product)
                     self?.updatePriceAndQuantityForSelectedSize()
-                   // print("helllllllllllllllllloooooooooo\(productData?.variants.first?.price)")
                     self?.productPrice.text = productData?.variants.first?.price
                     self?.indecatorView.stopAnimating()
                     self?.indecatorView.isHidden = true
+                    
+                    self?.viewModel.arrProductImg = product.images.map { $0.src }
+                    self?.imgCollectionView.reloadData()
+                    self?.pageController.numberOfPages = self?.viewModel.arrProductImg.count ?? 0
                 }
             } else {
                 print("Failed to fetch product details.")
@@ -343,6 +346,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                 print("Failed to update product image URL: \(error.localizedDescription)")
             } else if data != nil {
                 let newProductImage = BrandProductImage(id: 0, src: newImageURL)
+                
                 self?.viewModel.product?.images.append(newProductImage)
                 self?.viewModel.arrProductImg.append(newImageURL)
                 
@@ -355,7 +359,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             }
         }
     }
-    
+
     
     func deleteImage(at position: Int) {
         guard position >= 0 && position < viewModel.arrProductImg.count else {
@@ -363,46 +367,54 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
             return
         }
 
+        print("Deleting image at position: \(position)")
         deleteProductImage(at: position)
     }
 
+
     func deleteProductImage(at position: Int) {
-        guard let productId = viewModel.product?.id,
-              let images = viewModel.product?.images,
-              position >= 0 && position < images.count else {
-            print("Invalid position or product ID.")
+        guard let productId = viewModel.product?.id else {
+            print("Product ID is nil, cannot update product.")
             return
         }
-
-        let imageToDelete = images[position]
-        let imageIdToDelete = imageToDelete.id
-
-        print("Deleting image with ID: \(imageToDelete.id)")
-
-        viewModel.deleteImage(imageIdToDelete: imageIdToDelete) { result in
-            switch result {
-            case .success:
-                print("Image with ID \(imageIdToDelete) deleted from API successfully")
-
-                DispatchQueue.main.async {
-                    guard position < self.viewModel.product?.images.count ?? 0,
-                          position < self.viewModel.arrProductImg.count else {
-                        print("Position out of range after async operation")
-                        return
+        
+        viewModel.fetchProduct(productId: productId) { [weak self] productData in
+            guard let self = self, let product = productData else {
+                print("Failed to fetch updated product data.")
+                return
+            }
+            
+            // Ensure position is valid
+            guard position >= 0, position < product.images.count else {
+                print("Invalid position or product images are nil.")
+                return
+            }
+            
+            let imageToDelete = product.images[position]
+            let imageIdToDelete = imageToDelete.id
+            
+            print("Deleting image with ID: \(imageIdToDelete ?? 0) at position: \(position)")
+            print("Image details: \(imageToDelete)")
+            
+            viewModel.deleteImage(imageIdToDelete: imageIdToDelete!) { result in
+                switch result {
+                case .success:
+                    print("Image with ID \(imageIdToDelete ?? 0) deleted from API successfully")
+                    
+                    DispatchQueue.main.async {
+                        self.viewModel.product?.images.remove(at: position)
+                        self.viewModel.arrProductImg.remove(at: position)
+                        
+                        self.pageController.numberOfPages = self.viewModel.arrProductImg.count
+                        if self.pageController.currentPage >= self.viewModel.arrProductImg.count {
+                            self.pageController.currentPage = max(self.viewModel.arrProductImg.count - 1, 0)
+                        }
+                        self.imgCollectionView.reloadData()
                     }
-
-                    self.viewModel.product?.images.remove(at: position)
-                    self.viewModel.arrProductImg.remove(at: position)
-
-                    self.pageController.numberOfPages = self.viewModel.arrProductImg.count
-                    if self.pageController.currentPage >= self.viewModel.arrProductImg.count {
-                        self.pageController.currentPage = max(self.viewModel.arrProductImg.count - 1, 0)
-                    }
-                    self.imgCollectionView.reloadData()
+                    
+                case .failure(let error):
+                    print("Failed to delete image with ID \(imageIdToDelete ?? 0) from API: \(error)")
                 }
-
-            case .failure(let error):
-                print("Failed to delete image with ID \(imageIdToDelete) from API: \(error)")
             }
         }
     }
@@ -622,14 +634,13 @@ extension EditableProductDetailsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "productImg", for: indexPath) as! EditableProductDetailsCollectionViewCell
         
-        if let product = viewModel.product, indexPath.row < product.images.count {
-            let imageUrl = URL(string: product.images[indexPath.row].src)
-            cell.productImg.kf.setImage(with: imageUrl)
-        }
+        let imageUrl = URL(string: viewModel.arrProductImg[indexPath.row])
+        cell.productImg.kf.setImage(with: imageUrl)
         
         return cell
     }
 }
+
 
 extension EditableProductDetailsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
