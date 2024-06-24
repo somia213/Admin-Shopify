@@ -138,7 +138,7 @@ class NetworkManager: NetworkServicing {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "PUT" // Adjust HTTP method as needed (PUT, PATCH, etc.)
+        request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Basic \(apiKey):\(password)", forHTTPHeaderField: "Authorization")
         request.httpBody = body

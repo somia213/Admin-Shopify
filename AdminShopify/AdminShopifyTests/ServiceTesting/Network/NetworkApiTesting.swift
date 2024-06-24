@@ -125,4 +125,60 @@ class NetworkApiTesting: XCTestCase {
             
             waitForExpectations(timeout: 10.0, handler: nil)
         }
+    
+    func testUpdateResource() {
+            let endpoint = TestEndpoint.specificUpDateProduct
+            let root = Root.postProduct
+            let productId = "8606359224568"
+            let variantId = "45371146502392"
+            let product = AddProductRequest(
+                product: ProductData(
+                    title: "Test Product",
+                    body_html: "<p>This is a test product</p>",
+                    vendor: "Test Vendor",
+                    variants: [
+                        VariantRequest(
+                            title: "Test Variant",
+                            price: "9.99",
+                            option1: "Option 1",
+                            option2: "Option 2",
+                            inventory_quantity: 10,
+                            old_inventory_quantity: 5,
+                            sku: "TESTSKU"
+                        )
+                    ],
+                    options: [
+                        OptionRequest(name: "Size", values: ["Small", "Medium", "Large"])
+                    ],
+                    images: [
+                        ImageRequest(id: nil, src: "https://cdn.shopify.com/s/files/1/0703/6328/3704/files/8072c8b5718306d4be25aac21836ce16_ea4d7456-c869-4bf2-b3ec-a2635eef6818.jpg?v=1719190563")
+                    ]
+                )
+            )
+            
+            let bodyData: Data
+            do {
+                bodyData = try JSONEncoder().encode(product)
+            } catch {
+                XCTFail("Failed to encode request body: \(error)")
+                return
+            }
+            
+            let expectation = self.expectation(description: "Network Request")
+            
+            
+        networkManager.updateResource(endpoint: endpoint, rootOfJson: root, productId: productId, variantId: variantId, body: bodyData) { data, error in
+                if let error = error {
+                    XCTFail("Network request failed with error: \(error)")
+                } else {
+                    XCTAssertNotNil(data, "Expected non-nil data")
+                    if let data = data {
+                        print("Response Data: \(String(data: data, encoding: .utf8) ?? "N/A")")
+                    }
+                }
+                expectation.fulfill()
+            }
+            
+            waitForExpectations(timeout: 10, handler: nil)
+        }
 }
