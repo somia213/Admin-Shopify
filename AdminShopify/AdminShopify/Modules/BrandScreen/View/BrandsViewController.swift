@@ -11,19 +11,25 @@ import Kingfisher
 class BrandsViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate{
     
     @IBOutlet weak var brandCollectionView: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     
     var brandViewModel: BrandViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         brandCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        
+            activityIndicator.style = .large
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
                 brandViewModel = BrandViewModel()
                 brandViewModel.dataUpdated = { [weak self] in
                     DispatchQueue.main.async {
                         self?.brandCollectionView.reloadData()
+                        self?.activityIndicator.stopAnimating()
+                        self?.activityIndicator.isHidden = true
                     }
                 }
                 brandViewModel.noInternetConnection = { [weak self] in
@@ -32,7 +38,7 @@ class BrandsViewController: UIViewController , UICollectionViewDataSource, UICol
                     }
                 }
                 brandViewModel.fetchData()
-            }
+    }
     
     func showNoInternetAlert() {
             let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
@@ -60,7 +66,7 @@ class BrandsViewController: UIViewController , UICollectionViewDataSource, UICol
 extension BrandsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: (collectionView.bounds.width*0.45), height: (collectionView.bounds.width*0.65))
+            return CGSize(width: (collectionView.bounds.width*0.46), height: (collectionView.bounds.width*0.45))
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -68,7 +74,7 @@ extension BrandsViewController: UICollectionViewDelegateFlowLayout {
         }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil) 
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let availableProduct = storyboard.instantiateViewController(withIdentifier: "AvaliableProductViewController") as! AvaliableProductViewController
         
         availableProduct.modalPresentationStyle = .fullScreen

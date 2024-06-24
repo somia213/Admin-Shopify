@@ -10,6 +10,9 @@ import UIKit
 class AvaliableProductViewController: UIViewController , AddNewProductView {
 
     @IBOutlet weak var avaliableProductTableView: UITableView!
+    
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+    
     var brandTitle: String?
     
     var presenter: AddNewProductPresenter!
@@ -17,6 +20,9 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
 
         presenter = AddNewProductPresenter(view: self)
         viewModel = BrandProductViewModel()
@@ -24,11 +30,9 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.avaliableProductTableView.reloadData()
+                self?.indecatorView.stopAnimating()
+                self?.indecatorView.isHidden = true
             }
-        }
-
-        if let brandTitle = brandTitle {
-            viewModel.fetchData(forBrand: brandTitle)
         }
 
         let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
@@ -36,6 +40,11 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
         avaliableProductTableView.backgroundColor = UIColor.systemGray6
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        if let brandTitle = brandTitle {
+            viewModel.fetchData(forBrand: brandTitle)
+        }
+    }
     
     @IBAction func backBtn(_ sender: Any) {
         navigateBack()
@@ -86,6 +95,7 @@ extension AvaliableProductViewController: UITableViewDataSource {
 }
 
 extension AvaliableProductViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let alertController = UIAlertController(title: "Delete Product", message: "Are you sure you want to delete this product?", preferredStyle: .alert)
@@ -119,7 +129,7 @@ extension AvaliableProductViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var product = viewModel.products[indexPath.row]
+        let product = viewModel.products[indexPath.row]
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let editableViewController = storyboard.instantiateViewController(withIdentifier: "editProductDestails") as? EditableProductDetailsViewController {

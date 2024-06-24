@@ -5,7 +5,6 @@ class ProductsViewModel {
     let networkManager: NetworkServicing
     var products: [AllProduct] = []
     var filteredProducts: [AllProduct] = []
-   // private var timer: Timer?
 
 
     init(networkManager: NetworkServicing) {
@@ -20,7 +19,7 @@ class ProductsViewModel {
             
             if let response = response {
                 self.products = response.products
-                self.filteredProducts = response.products // Initial setup or reset filtered products
+                self.filteredProducts = response.products 
                 print("Fetched products. Count: \(self.products.count)")
                 completionHandler(true)
             } else {

@@ -11,6 +11,7 @@ import Foundation
 class BrandProductViewModel {
     private let networkManager: NetworkServicing
     var products: [Product] = []
+    var brandTitle: String?
 
     var dataUpdated: (() -> Void)?
 

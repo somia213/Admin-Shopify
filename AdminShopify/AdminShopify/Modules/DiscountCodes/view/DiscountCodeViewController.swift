@@ -6,15 +6,20 @@
 //
 
 import UIKit
+import Lottie
 
 class DiscountCodeViewController: UIViewController {
 
     @IBOutlet weak var discountTable: UITableView!
-    
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+    @IBOutlet weak var doneImage: UIImageView!
     var viewModel: DiscountCodeViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
         viewModel = DiscountCodeViewModel(priceRuleId: viewModel.priceRuleId)
         
@@ -26,49 +31,69 @@ class DiscountCodeViewController: UIViewController {
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.discountTable.reloadData()
+                self?.indecatorView.stopAnimating()
+                self?.indecatorView.isHidden = true
             }
         }
+        doneImage.isHidden = true
     }
     
     @IBAction func addNewDiscountCode(_ sender: Any) {
             let alertController = UIAlertController(title: "Add Discount Code", message: "Enter the discount code", preferredStyle: .alert)
-            
+
             alertController.addTextField { textField in
                 textField.placeholder = "Discount Code"
             }
-            
+
             let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
                 guard let textField = alertController.textFields?.first, let discountCode = textField.text else { return }
-                
+
                 self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
                     switch result {
                     case .success:
-                        let successAlert = UIAlertController(title: "Success", message: "Discount code added successfully", preferredStyle: .alert)
-                        self?.present(successAlert, animated: true, completion: nil)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            successAlert.dismiss(animated: true) {
-                                self?.viewModel.fetchDiscountCodes()
-                                
-                                self?.discountTable.reloadData()
-                                
-                                self?.dismiss(animated: true, completion: nil)
-                            }
+                        DispatchQueue.main.async {
+                            self?.showSuccessAlertAndDismiss()
                         }
-                        
                     case .failure(let error):
                         print("Failed to add discount code: \(error.localizedDescription)")
                     }
                 }
             }
-            
+
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
+
             alertController.addAction(addAction)
             alertController.addAction(cancelAction)
-            
+
             present(alertController, animated: true, completion: nil)
         }
+        
+        private func showSuccessAlertAndDismiss() {
+            let alertController = UIAlertController(title: "Success", message: "Discount code added successfully", preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                self?.dismiss(animated: true, completion: nil)
+            }
+            
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+        }
+    
+    private func showSuccessImageAndNavigateBack() {
+        doneImage.isHidden = false
+        UIView.animate(withDuration: 2.0, animations: {
+            self.doneImage.alpha = 1.0
+        }) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                UIView.animate(withDuration: 2.0, animations: {
+                    self.doneImage.alpha = 0.0
+                }) { _ in
+                    self.doneImage.isHidden = true
+                    self.navigateBack()
+                }
+            }
+        }
+    }
 
     
     @IBAction func cancelBtn(_ sender: Any) {
@@ -83,23 +108,32 @@ class DiscountCodeViewController: UIViewController {
 extension DiscountCodeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.discountCodes.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DiscountCodeCell", for: indexPath)
-        
-        cell.textLabel?.text = "Discount Code:"
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        
-        cell.detailTextLabel?.text = viewModel.discountCodes[indexPath.row].code
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        cell.detailTextLabel?.textColor = UIColor.red
-        
-        return cell
-    }
+         let count = viewModel.discountCodes.count
+         tableView.backgroundView = count == 0 ? createNoDataLabel() : nil
+         return count
+     }
+
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+         let cell = tableView.dequeueReusableCell(withIdentifier: "DiscountCodeCell", for: indexPath)
+
+         cell.textLabel?.text = "Discount Code:"
+         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+
+         cell.detailTextLabel?.text = viewModel.discountCodes[indexPath.row].code
+         cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+         cell.detailTextLabel?.textColor = UIColor.orange
+
+         return cell
+     }
+
+     private func createNoDataLabel() -> UILabel {
+         let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: discountTable.bounds.size.width, height: discountTable.bounds.size.height))
+         noDataLabel.text = "No discount codes available"
+         noDataLabel.textAlignment = .center
+         noDataLabel.textColor = UIColor.orange
+         noDataLabel.font = UIFont.systemFont(ofSize: 18)
+         return noDataLabel
+     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

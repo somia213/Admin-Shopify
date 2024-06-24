@@ -5,28 +5,29 @@
 //  Created by Somia on 04/06/2024.
 //
 
-//
-//  PriceRulesViewController.swift
-//  AdminShopify
-//
-//  Created by Somia on 04/06/2024.
-//
-
 import UIKit
 
 class PriceRulesViewController: UIViewController {
 
     @IBOutlet weak var priceRulesTable: UITableView!
-    var viewModel: PriceRulesViewModel!
     
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+        
+    var viewModel: PriceRulesViewModel!
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
         viewModel = PriceRulesViewModel()
         
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.priceRulesTable.reloadData()
+                self?.indecatorView.stopAnimating()
+                self?.indecatorView.isHidden = true
             }
         }
         
@@ -34,15 +35,15 @@ class PriceRulesViewController: UIViewController {
         priceRulesTable.register(cellNib, forCellReuseIdentifier: "priceRulesCell")
         priceRulesTable.backgroundColor = UIColor.systemGray6
         
-      //  viewModel.fetchPriceRules()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-          super.viewWillAppear(animated)
-          
-          viewModel.fetchPriceRules()
-      }
-
+        super.viewWillAppear(animated)
+        
+        viewModel.fetchPriceRules()
+    }
+    
+    
     @IBAction func addNewPriceRule(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let addPriceRuleVC = storyboard.instantiateViewController(withIdentifier: "AddNewPriceRuleViewController") as! AddNewPriceRuleViewController
@@ -52,6 +53,7 @@ class PriceRulesViewController: UIViewController {
 
         self.present(addPriceRuleVC, animated: true, completion: nil)
     }
+    
     
     private func showAlertToDeletePriceRule(at indexPath: IndexPath) {
         guard indexPath.row < viewModel.priceRules.count else {
@@ -94,7 +96,9 @@ class PriceRulesViewController: UIViewController {
 extension PriceRulesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.priceRules.count
+        let count = viewModel.priceRules.count
+        tableView.backgroundView = count == 0 ? createNoDataLabel() : nil
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,11 +115,13 @@ extension PriceRulesViewController: UITableViewDataSource {
         cell.endDateOfDicount.text = priceRule.ends_at
         cell.maxUsageRate.text = "\(priceRule.usage_limit) Max Usage"
         cell.startDateOfDicount.text = priceRule.starts_at
-      //  cell.rateOfDicountPerMoney.text = (priceRule.value)
         cell.discountTitleLabel.text = priceRule.title
         
         return cell
     }
+}
+
+extension PriceRulesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -127,15 +133,20 @@ extension PriceRulesViewController: UITableViewDataSource {
         discountCodeVC.modalPresentationStyle = .fullScreen
         present(discountCodeVC, animated: true, completion: nil)
     }
-
-}
-
-extension PriceRulesViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             showAlertToDeletePriceRule(at: indexPath)
         }
     }
-        
-
+    
+    
+    private func createNoDataLabel() -> UILabel {
+        let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: priceRulesTable.bounds.size.width, height: priceRulesTable.bounds.size.height))
+        noDataLabel.text = "No price rules available"
+        noDataLabel.textAlignment = .center
+        noDataLabel.textColor = UIColor.orange
+        noDataLabel.font = UIFont.systemFont(ofSize: 18)
+        return noDataLabel
+    }
 }

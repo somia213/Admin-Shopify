@@ -12,6 +12,7 @@ enum Root: String {
     case postProduct = "products"
     case postPriceRule = "price_rule"
     case postDiscountCode = "discount_codes"
+    case postVariant = "variants"
     
 }
 
@@ -19,16 +20,25 @@ enum TestEndpoint: String {
     case specificProduct = "products.json"
     case specificPriceRule = "price_rules.json"
     case specificDiscountOrder = "price_rules/{priceRuleId}/discount_codes.json"
-    
-    var endpointString: String {
-        switch self {
-        case .specificProduct, .specificPriceRule:
-            return self.rawValue
-        case .specificDiscountOrder:
-            return self.rawValue
-        }
+    case specificUpDateProduct = "products/{productId}.json"
+    case specificVariant = "products/{productId}/variants/{variantId}.json"
+    case updateVariantInventory = "inventory_levels/set.json"
+
+        var endpointString: String {
+            switch self {
+            case .specificProduct, .specificPriceRule:
+                return self.rawValue
+            case .specificDiscountOrder:
+                return self.rawValue
+            case .specificUpDateProduct, .specificVariant, .updateVariantInventory:
+                return self.rawValue
+                }
     }
 }
+
+let API_KEY = Secrets.apiKey
+let TOKEN = Secrets.token
+let baseUrl = "@mad44-alx-ios-4.myshopify.com/admin/api/2024-01/"
 
 enum NetworkError: Error {
     case failedToAddProduct
@@ -39,18 +49,17 @@ enum NetworkError: Error {
 protocol NetworkServicing {
     
     func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void)
-   // func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
-  //  func updateProductInAPI(endpoint: Endpoint, productId: Int, updatedProduct: UpdatedProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void)
-    
+   
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void)
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void)
+    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, variantId: String?, body: Data, completion: @escaping (Data?, Error?) -> Void)
 }
 
 class NetworkManager: NetworkServicing {
         
         static let shared = NetworkManager()
         
-        func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
+ func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
             AF.request(endpoint.url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
                 .response { response in
                     switch response.result {
@@ -116,6 +125,69 @@ class NetworkManager: NetworkServicing {
             }
     }
     
+    func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, variantId: String? = nil, body: Data, completion: @escaping (Data?, Error?) -> Void) {
+        let apiKey = Secrets.apiKey
+        let password = Secrets.token
+        let baseUrl = "mad44-alx-ios-4.myshopify.com/admin/api/2024-01"
+        
+        var urlString = "https://\(baseUrl)/\(endpoint.rawValue.replacingOccurrences(of: "{productId}", with: productId).replacingOccurrences(of: "{variantId}", with: variantId ?? ""))"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT" // Adjust HTTP method as needed (PUT, PATCH, etc.)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic \(apiKey):\(password)", forHTTPHeaderField: "Authorization")
+        request.httpBody = body
+        
+        print("\nRequest URL: \(urlString)")
+        print("Request Headers:")
+        for (key, value) in request.allHTTPHeaderFields ?? [:] {
+            print("\(key): \(value)")
+        }
+        print("Request Body:")
+        if let requestBodyString = String(data: body, encoding: .utf8) {
+            print(requestBodyString)
+        } else {
+            print("Failed to convert request body to String.")
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Network request failed with error: \(error.localizedDescription)")
+                completion(nil, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Unexpected response: \(response.debugDescription)")
+                completion(nil, NSError(domain: "", code: -2, userInfo: [NSLocalizedDescriptionKey: "Unexpected response"]))
+                return
+            }
+            
+            print("\nSuccess in \(request.httpMethod ?? "PUT") request")
+            print("Response Status Code: \(httpResponse.statusCode)")
+            print("Response Headers:")
+            if let responseHeaders = httpResponse.allHeaderFields as? [String: String] {
+                for (key, value) in responseHeaders {
+                    print("\(key): \(value)")
+                }
+            }
+            print("Response Body:")
+            if let data = data, let responseBodyString = String(data: data, encoding: .utf8) {
+                print(responseBodyString)
+                completion(data, nil)
+            } else {
+                print("Failed to convert response body to String.")
+                completion(nil, NSError(domain: "", code: -3, userInfo: [NSLocalizedDescriptionKey: "Empty response"]))
+            }
+        }.resume()
+    }
+
+
 
     func deleteFromAPI(endpoint: ShopifyEndpoint, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         let deleteURL = endpoint.url
@@ -128,8 +200,11 @@ class NetworkManager: NetworkServicing {
                     switch endpoint {
                     case .deleteProduct:
                         print("Product deleted successfully")
+                    case .deleteProductImage:
+                        print("Image deleted successfully")
                     case .deletePriceRule:
                         print("Price rule deleted successfully")
+                        
                     default:
                         break
                     }
@@ -138,6 +213,8 @@ class NetworkManager: NetworkServicing {
                 case .failure(let error):
                     switch endpoint {
                     case .deleteProduct:
+                        print("Failed to delete product: \(error)")
+                    case .deleteProductImage:
                         print("Failed to delete product: \(error)")
                     case .deletePriceRule:
                         print("Failed to delete price rule: \(error)")
@@ -148,117 +225,4 @@ class NetworkManager: NetworkServicing {
                 }
             }
     }
-
-
-//        func addProductToAPI(endpoint: Endpoint, product: AddProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
-//            guard let requestData = try? JSONEncoder().encode(product) else {
-//                print("Failed to encode product data.")
-//                completionHandler(.failure(NetworkError.failedToAddProduct))
-//                return
-//            }
-//            
-//            if let jsonString = String(data: requestData, encoding: .utf8) {
-//                print("JSON data being sent to API:")
-//                print(jsonString)
-//            } else {
-//                print("Failed to convert JSON data to string.")
-//            }
-//            
-//            guard let url = URL(string: endpoint.url) else {
-//                print("Invalid URL: \(endpoint.url)")
-//                completionHandler(.failure(NetworkError.unknownError))
-//                return
-//            }
-//            
-//            print("Request URL: \(url)")
-//            
-////            let headers = ["Content-Type": "application/json"]
-////            print("Request Headers: \(headers)")
-////            
-////            print("Request Payload: \(String(data: requestData, encoding: .utf8) ?? "")")
-//            
-//            HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-//            var urlRequest = URLRequest(url: url)
-//            urlRequest.httpMethod = HTTPMethod.post.rawValue
-//        //    urlRequest.allHTTPHeaderFields = headers
-//            urlRequest.httpBody = requestData
-//            
-//            AF.request(urlRequest).response { response in
-//                if let error = response.error {
-//                    print("Request failed with error: \(error.localizedDescription)")
-//                    completionHandler(.failure(error))
-//                    return
-//                }
-//                
-//                if let statusCode = response.response?.statusCode {
-//                    print("HTTP response status code: \(statusCode)")
-//                    
-//                    if 200 ..< 300 ~= statusCode {
-//                        print("Product added successfully.")
-//                        completionHandler(.success(true))
-//                    } else {
-//                        print("Failed to add product. Status code: \(statusCode)")
-//                        completionHandler(.failure(NetworkError.failedToAddProduct))
-//                    }
-//                }
-//                
-//                if let responseData = response.data {
-//                    print("Response from Shopify API:")
-//                    print(String(data: responseData, encoding: .utf8) ?? "Unable to print response data.")
-//                }
-//            }
-//        }
-        
-        
-//        func updateProductInAPI(endpoint: Endpoint, productId: Int, updatedProduct: UpdatedProductRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
-//            guard let requestData = try? JSONEncoder().encode(updatedProduct) else {
-//                print("Failed to encode updated product data.")
-//                completionHandler(.failure(NetworkError.unknownError))
-//                return
-//            }
-//            
-//            if let jsonString = String(data: requestData, encoding: .utf8) {
-//                print("Request Body:")
-//                print(jsonString)
-//            } else {
-//                print("Failed to convert JSON data to string.")
-//            }
-//            
-//            guard let url = URL(string: endpoint.url) else {
-//                print("Invalid URL: \(endpoint.url)")
-//                completionHandler(.failure(NetworkError.unknownError))
-//                return
-//            }
-//            
-//            let updatedURL = "\(url.absoluteString)/\(productId)"
-//            var urlRequest = URLRequest(url: URL(string: updatedURL)!)
-//            urlRequest.httpMethod = HTTPMethod.put.rawValue
-//            urlRequest.allHTTPHeaderFields = ["Content-Type": "application/json"]
-//            urlRequest.httpBody = requestData
-//            
-//            AF.request(urlRequest).response { response in
-//                if let error = response.error {
-//                    print("Request failed with error: \(error.localizedDescription)")
-//                    completionHandler(.failure(error))
-//                    return
-//                }
-//                
-//                if let statusCode = response.response?.statusCode {
-//                    print("HTTP response status code: \(statusCode)")
-//                    
-//                    if 200 ..< 300 ~= statusCode {
-//                        print("Product updated successfully.")
-//                        completionHandler(.success(true))
-//                    } else {
-//                        print("Failed to update product. Status code: \(statusCode)")
-//                        completionHandler(.failure(NetworkError.unknownError))
-//                    }
-//                }
-//                
-//                if let responseData = response.data {
-//                    print("Response from Shopify API:")
-//                    print(String(data: responseData, encoding: .utf8) ?? "Unable to print response data.")
-//                }
-//            }
-//        }
-    }
+}

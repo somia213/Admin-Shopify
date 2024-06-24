@@ -14,19 +14,19 @@ class AllProductsViewController: UIViewController {
     
     @IBOutlet weak var productTableView: UITableView!
     
+    @IBOutlet weak var indecatorView: UIActivityIndicatorView!
+    
+    
     var productsViewModel: ProductsViewModel!
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        indecatorView.style = .large
+        indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        
         let networkManager = NetworkManager()
                 productsViewModel = ProductsViewModel(networkManager: networkManager)
-//                productsViewModel.getAllProducts { [weak self] success in
-//                    if success {
-//                        self?.productTableView.reloadData()
-//                    } else {
-//                        print("Error fetching products!")
-//                    }
-               // }
                let cell = UINib(nibName: "AllProductsTableViewCell", bundle: nil)
                productTableView.register(cell, forCellReuseIdentifier: "allProductCell")
                productTableView.backgroundColor = UIColor.systemGray6
@@ -34,17 +34,19 @@ class AllProductsViewController: UIViewController {
                 ProductSearch.delegate = self
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//           super.viewWillAppear(animated)
-//           
-//           productsViewModel.getAllProducts { [weak self] success in
-//               if success {
-//                   self?.productTableView.reloadData()
-//               } else {
-//                   print("Error fetching products!")
-//               }
-//           }
-//       }
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           
+           productsViewModel.getAllProducts { [weak self] success in
+               if success {
+                   self?.productTableView.reloadData()
+                   self?.indecatorView.stopAnimating()
+                   self?.indecatorView.isHidden = true
+               } else {
+                   print("Error fetching products!")
+               }
+           }
+       }
     
     
     @IBAction func addnewProduct(_ sender: Any) {
@@ -90,12 +92,3 @@ extension AllProductsViewController: UISearchBarDelegate {
     }
 }
 
-extension AllProductsViewController : UITableViewDelegate {
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        <#code#>
-//    }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-}
