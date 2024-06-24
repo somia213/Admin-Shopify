@@ -104,4 +104,25 @@ class NetworkApiTesting: XCTestCase {
         
         waitForExpectations(timeout: 10.0, handler: nil)
     }
+    
+    func testDeleteProductFromAPI() throws {
+            let expectation = self.expectation(description: "Delete product from API")
+            
+            let productIdToDelete = "8604100067576"  
+            
+            let endpoint = ShopifyEndpoint.deleteProduct(productId: Int(productIdToDelete)!)
+            
+            networkManager.deleteFromAPI(endpoint: endpoint) { result in
+                switch result {
+                case .success:
+                    print("Product deleted successfully")
+                    XCTAssertTrue(true, "Product deletion succeeded")
+                case .failure(let error):
+                    XCTFail("Product deletion failed with error: \(error.localizedDescription)")
+                }
+                expectation.fulfill()
+            }
+            
+            waitForExpectations(timeout: 10.0, handler: nil)
+        }
 }
