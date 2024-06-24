@@ -97,7 +97,6 @@ class AddVarientProductViewController: UIViewController {
                         inventory_quantity: quantity,
                         old_inventory_quantity: quantity,
                         sku: sku
-                        // inventory_management: "shopify"
                     )
                     
                     delegate?.addVariant(variant: variant)

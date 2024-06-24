@@ -46,6 +46,7 @@
 		04A714BD2C0BE187000F75D6 /* admin.json in Resources */ = {isa = PBXBuildFile; fileRef = 04A714BC2C0BE187000F75D6 /* admin.json */; };
 		04A714C22C0BE311000F75D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A714C12C0BE311000F75D6 /* LoginViewController.swift */; };
 		04A809AD2C18B8F100129D0E /* UpdatedProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A809AC2C18B8F100129D0E /* UpdatedProductRequest.swift */; };
+		04C14BA12C29A72800C55BB4 /* NetworkApiTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C14BA02C29A72800C55BB4 /* NetworkApiTesting.swift */; };
 		04DB7B202C0BA51C00D6C3DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */; };
 		04DB7B242C0BA56E00D6C3DE /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB7B232C0BA56E00D6C3DE /* Connectivity.swift */; };
 		04EDC0EE2C15DECB00A9E1E7 /* AddVarientProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EDC0ED2C15DECB00A9E1E7 /* AddVarientProductViewController.swift */; };
@@ -123,6 +124,7 @@
 		04A714BC2C0BE187000F75D6 /* admin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = admin.json; path = ../../../../../../../Downloads/admin.json; sourceTree = "<group>"; };
 		04A714C12C0BE311000F75D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		04A809AC2C18B8F100129D0E /* UpdatedProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedProductRequest.swift; sourceTree = "<group>"; };
+		04C14BA02C29A72800C55BB4 /* NetworkApiTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkApiTesting.swift; sourceTree = "<group>"; };
 		04DB7B1F2C0BA51C00D6C3DE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04DB7B232C0BA56E00D6C3DE /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		04EDC0ED2C15DECB00A9E1E7 /* AddVarientProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVarientProductViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 		04073B882C0AF18E00F1C6C2 /* AdminShopifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				04C14B9E2C29A6EF00C55BB4 /* ServiceTesting */,
 				04073B892C0AF18E00F1C6C2 /* AdminShopifyTests.swift */,
 			);
 			path = AdminShopifyTests;
@@ -422,6 +425,22 @@
 			children = (
 			);
 			path = viewmodel;
+			sourceTree = "<group>";
+		};
+		04C14B9E2C29A6EF00C55BB4 /* ServiceTesting */ = {
+			isa = PBXGroup;
+			children = (
+				04C14B9F2C29A6FC00C55BB4 /* Network */,
+			);
+			path = ServiceTesting;
+			sourceTree = "<group>";
+		};
+		04C14B9F2C29A6FC00C55BB4 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				04C14BA02C29A72800C55BB4 /* NetworkApiTesting.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		04DB7B1E2C0BA4DD00D6C3DE /* Utilities */ = {
@@ -796,6 +815,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C14BA12C29A72800C55BB4 /* NetworkApiTesting.swift in Sources */,
 				04073B8A2C0AF18E00F1C6C2 /* AdminShopifyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
