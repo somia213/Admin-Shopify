@@ -125,7 +125,6 @@ class NetworkManager: NetworkServicing {
             }
     }
     
-    
     func updateResource(endpoint: TestEndpoint, rootOfJson: Root, productId: String, variantId: String? = nil, body: Data, completion: @escaping (Data?, Error?) -> Void) {
         let apiKey = Secrets.apiKey
         let password = Secrets.token

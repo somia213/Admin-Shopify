@@ -39,33 +39,45 @@ class DiscountCodeViewController: UIViewController {
     }
     
     @IBAction func addNewDiscountCode(_ sender: Any) {
-        let alertController = UIAlertController(title: "Add Discount Code", message: "Enter the discount code", preferredStyle: .alert)
-        
-        alertController.addTextField { textField in
-            textField.placeholder = "Discount Code"
-        }
-        
-        let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
-            guard let textField = alertController.textFields?.first, let discountCode = textField.text else { return }
-            
-            self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
-                switch result {
-                case .success:
-                        self?.dismiss(animated: true, completion: nil)
-                        self?.showSuccessImageAndNavigateBack()
-                case .failure(_):
-                    print("Failed to add discount code:")
+            let alertController = UIAlertController(title: "Add Discount Code", message: "Enter the discount code", preferredStyle: .alert)
+
+            alertController.addTextField { textField in
+                textField.placeholder = "Discount Code"
+            }
+
+            let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
+                guard let textField = alertController.textFields?.first, let discountCode = textField.text else { return }
+
+                self?.viewModel.postDiscountCode(code: discountCode) { [weak self] result in
+                    switch result {
+                    case .success:
+                        DispatchQueue.main.async {
+                            self?.showSuccessAlertAndDismiss()
+                        }
+                    case .failure(let error):
+                        print("Failed to add discount code: \(error.localizedDescription)")
+                    }
                 }
             }
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+            alertController.addAction(addAction)
+            alertController.addAction(cancelAction)
+
+            present(alertController, animated: true, completion: nil)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alertController.addAction(addAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
+        private func showSuccessAlertAndDismiss() {
+            let alertController = UIAlertController(title: "Success", message: "Discount code added successfully", preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                self?.dismiss(animated: true, completion: nil)
+            }
+            
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+        }
     
     private func showSuccessImageAndNavigateBack() {
         doneImage.isHidden = false

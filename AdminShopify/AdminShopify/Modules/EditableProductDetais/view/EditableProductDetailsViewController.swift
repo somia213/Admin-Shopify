@@ -110,33 +110,33 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     
     @IBAction func addVariant(_ sender: Any) {
         guard let variants = viewModel.product?.variants, variants.count > 1 else {
-            presentAddNewVariantViewController(with: viewModel.product?.variants.first)
-            return
-        }
-        
-        let alert = UIAlertController(title: "Select Variant", message: "Enter variant position to update", preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "Variant Position"
-            textField.keyboardType = .numberPad
-        }
-        
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { action in
-            if let positionStr = alert.textFields?.first?.text,
-               let position = Int(positionStr),
-               position > 0 && position <= variants.count {
-                let selectedVariant = variants[position - 1]
-                self.presentAddNewVariantViewController(with: selectedVariant)
-            } else {
-                print("Invalid input for variant position")
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
+                    presentAddNewVariantViewController(with: viewModel.product?.variants.first)
+                    return
+                }
+                
+                let alert = UIAlertController(title: "Select Variant", message: "Enter variant position to update", preferredStyle: .alert)
+                
+                alert.addTextField { textField in
+                    textField.placeholder = "Variant Position"
+                    textField.keyboardType = .numberPad
+                }
+                
+                alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { action in
+                    if let positionStr = alert.textFields?.first?.text,
+                       let position = Int(positionStr),
+                       position > 0 && position <= variants.count {
+                        let selectedVariant = variants[position - 1]
+                        self.presentAddNewVariantViewController(with: selectedVariant)
+                    } else {
+                        print("Invalid input for variant position")
+                    }
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                
+                present(alert, animated: true, completion: nil)
     }
-    
+
     
     func fetchProductDetails(productId: Int) {
         viewModel.fetchProduct(productId: productId) { [weak self] productData in

@@ -28,32 +28,15 @@ class AddNewVarientViewController: UIViewController , AddNewProductView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fetchProductDetails(productId: Int(viewModel.productIdString) ?? 0 )
-       // print("heeeeeeellllloooooo\(viewModel.productIdString )")
+        if let firstVariant = viewModel.newVariants.first {
+                AddNewVarientViewSize.text = firstVariant.option1
+                AddNewVarientPrice.text = firstVariant.price
+                AddNewVarientColor.text = firstVariant.option2
+                AddNewVarientQuantity.text = "\(firstVariant.inventory_quantity)"
+            }
+
             presenter = AddNewProductPresenter(view: self)
     }
-    
-    func fetchProductDetails(productId: Int) {
-        viewModel.fetchProduct(productId: productId) { [weak self] productData in
-            if let product = productData {
-                DispatchQueue.main.async { [weak self] in
-                    if let inventoryQuantity = productData?.variants.first?.inventory_quantity {
-                        self?.AddNewVarientQuantity.text = "\(inventoryQuantity)"
-                    } else {
-                        self?.AddNewVarientQuantity.text = "Not Found"
-                    }
-                    
-                    self?.AddNewVarientViewSize.text = productData?.variants.first?.option1
-                    self?.AddNewVarientPrice.text = productData?.variants.first?.price
-                    self?.AddNewVarientColor.text = productData?.variants.first?.option2
-                }
-            } else {
-                print("Failed to fetch product details.")
-            }
-        }
-    }
-
     
     @IBAction func doneBtn(_ sender: Any) {
         guard let updatedSize = AddNewVarientViewSize.text,

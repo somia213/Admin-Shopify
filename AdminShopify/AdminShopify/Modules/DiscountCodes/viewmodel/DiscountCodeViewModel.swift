@@ -36,81 +36,111 @@ class DiscountCodeViewModel {
     
     func postDiscountCode(code: String, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         let endpoint = TestEndpoint.specificDiscountOrder.rawValue.replacingOccurrences(of: "{priceRuleId}", with: "\(priceRuleId)")
-        
+
         let requestBody: [String: Any] = [
             "discount_code": [
                 "code": code
             ]
         ]
-        
+
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: requestBody)
-            
-            guard let endpointURL = URL(string: "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint)") else {
-                let error = NSError(domain: "YourDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid endpoint"])
-                print("Invalid endpoint: \(endpoint)")
+
+            let urlString = "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint)"
+            guard let url = URL(string: urlString) else {
+                let error = NSError(domain: "YourDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+                print("Invalid URL: \(urlString)")
                 DispatchQueue.main.async {
                     completionHandler(.failure(error))
                 }
                 return
             }
+
+            print("Posting to URL: \(url)")
+            print("HTTP Method: POST")
             
-            var request = URLRequest(url: endpointURL)
+            var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue(TOKEN, forHTTPHeaderField: "X-Shopify-Access-Token")
-            request.httpBody = jsonData
             
+            let base64EncodedCredentials = "\(API_KEY):\(TOKEN)".data(using: .utf8)?.base64EncodedString()
+            request.setValue("Basic \(base64EncodedCredentials)", forHTTPHeaderField: "Authorization")
+            
+            print("Headers: \(request.allHTTPHeaderFields ?? [:])")
+
+            if let requestBodyString = String(data: jsonData, encoding: .utf8) {
+                print("Request Body: \(requestBodyString)")
+            }
+            
+            request.httpBody = jsonData
+
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                // Handle response
                 if let error = error {
-                    print("Network request failed with error: \(error.localizedDescription)")
+                    print("Failed to add discount code: \(error.localizedDescription)")
                     DispatchQueue.main.async {
                         completionHandler(.failure(error))
                     }
                     return
                 }
-                
-                if let httpResponse = response as? HTTPURLResponse {
+
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    let error = NSError(domain: "YourDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
+                    print("Failed to add discount code. Invalid response format")
+                    DispatchQueue.main.async {
+                        completionHandler(.failure(error))
+                    }
+                    return
+                }
+
+                print("HTTP Response Status Code: \(httpResponse.statusCode)")
+
+                do {
+                    if let data = data {
+                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                        print("Response JSON: \(jsonResponse)")
+                    }
+
                     switch httpResponse.statusCode {
                     case 201:
                         print("Discount code added successfully")
                         DispatchQueue.main.async {
                             completionHandler(.success(()))
                         }
-                    case 404:
-                        let error = NSError(domain: "YourDomain", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Discount code not found"])
-                        print("Discount code not found. Status code: \(httpResponse.statusCode)")
-                        DispatchQueue.main.async {
-                            completionHandler(.failure(error))
-                        }
-                    case 401:
-                        let error = NSError(domain: "YourDomain", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Unauthorized access"])
-                        print("Unauthorized access. Status code: \(httpResponse.statusCode)")
+                    case 400..<500:
+                        let errorMessage = "Bad request: \(httpResponse.statusCode)"
+                        let error = NSError(domain: "YourDomain", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+                        print("Failed to add discount code. \(errorMessage)")
                         DispatchQueue.main.async {
                             completionHandler(.failure(error))
                         }
                     default:
-                        let error = NSError(domain: "YourDomain", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Failed to add discount code"])
-                        print("Failed to add discount code. Status code: \(httpResponse.statusCode)")
+                        let errorMessage = "Failed to add discount code. Status code: \(httpResponse.statusCode)"
+                        let error = NSError(domain: "YourDomain", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+                        print(errorMessage)
                         DispatchQueue.main.async {
                             completionHandler(.failure(error))
                         }
                     }
-                } else {
-                    let error = NSError(domain: "YourDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
-                    print("Failed to add discount code. Invalid response format")
+                } catch {
+                    let errorMessage = "Error parsing JSON response: \(error.localizedDescription)"
+                    let error = NSError(domain: "YourDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+                    print(errorMessage)
                     DispatchQueue.main.async {
                         completionHandler(.failure(error))
                     }
                 }
             }.resume()
         } catch {
-            print("Error occurred: \(error.localizedDescription)")
+            let errorMessage = "Error occurred: \(error.localizedDescription)"
+            let error = NSError(domain: "YourDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+            print(errorMessage)
             DispatchQueue.main.async {
                 completionHandler(.failure(error))
             }
         }
     }
+
 
     func deleteDiscountCode(discountCodeId: Int, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         let endpoint = ShopifyEndpoint.deleteDiscountCode(priceRuleId: priceRuleId, discountCodeId: discountCodeId)
