@@ -36,6 +36,7 @@ class NetworkApiTesting: XCTestCase {
         waitForExpectations(timeout: 10.0, handler: nil)
     }
     
+    
     func testPostDataToApi() throws {
         let expectation = self.expectation(description: "Post data to API")
         
@@ -45,7 +46,7 @@ class NetworkApiTesting: XCTestCase {
         let priceRule = GetPriceRule(
             id: 0,
             value_type: "percentage",
-            value: "10.0",
+            value: "-10.0",
             customer_selection: "all",
             target_type: "line_item",
             target_selection: "all",
@@ -62,7 +63,7 @@ class NetworkApiTesting: XCTestCase {
         )
         
         let priceRuleDict: [String: Any] = [
-                "price_rule": [
+            "price_rule": [
                 "title": priceRule.title,
                 "target_type": priceRule.target_type,
                 "target_selection": priceRule.target_selection,
@@ -81,21 +82,15 @@ class NetworkApiTesting: XCTestCase {
         
         networkManager.postDataToApi(endpoint: endpoint, rootOfJson: root, body: body) { data, error in
             if let error = error {
-                print("Error: \(error)")
+                XCTFail("Error posting data to API: \(error)")
             } else {
                 XCTAssertNotNil(data, "Data should not be nil")
                 
-                if let data = data {
-                    do {
-                        let responseString = String(data: data, encoding: .utf8)
-                        print("Response Body: \(responseString ?? "No response body")")
-                        
-                        let response = try JSONDecoder().decode(PriceRulesResponse.self, from: data)
-                        XCTAssertNotNil(response.price_rules, "Price rules response should not be nil")
-                        XCTAssertFalse(response.price_rules.isEmpty, "Price rules should not be empty")
-                    } catch {
-                        XCTFail("Decoding error: \(error)")
-                    }
+                do {
+                    let response = try JSONDecoder().decode(PriceRuleResponse.self, from: data!)
+                    XCTAssertNotNil(response.price_rule, "Price rule response should not be nil")
+                } catch {
+                    XCTFail("Decoding error: \(error)")
                 }
             }
             
@@ -104,11 +99,19 @@ class NetworkApiTesting: XCTestCase {
         
         waitForExpectations(timeout: 10.0, handler: nil)
     }
+
+    struct PriceRuleResponse: Codable {
+        let price_rule: GetPriceRule
+    }
+
+
+
+
     
     func testDeleteProductFromAPI() throws {
             let expectation = self.expectation(description: "Delete product from API")
             
-            let productIdToDelete = "8604100067576"  
+            let productIdToDelete = "8606381048056"
             
             let endpoint = ShopifyEndpoint.deleteProduct(productId: Int(productIdToDelete)!)
             
@@ -129,13 +132,13 @@ class NetworkApiTesting: XCTestCase {
     func testUpdateResource() {
             let endpoint = TestEndpoint.specificUpDateProduct
             let root = Root.postProduct
-            let productId = "8606359224568"
-            let variantId = "45371146502392"
+            let productId = "8606381048056"
+            let variantId = "45371238613240"
             let product = AddProductRequest(
                 product: ProductData(
                     title: "Test Product",
-                    body_html: "<p>This is a test product</p>",
-                    vendor: "Test Vendor",
+                    body_html: "testing</p>",
+                    vendor: "ADIDAS",
                     variants: [
                         VariantRequest(
                             title: "Test Variant",

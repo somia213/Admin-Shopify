@@ -174,7 +174,6 @@
 			children = (
 				04073B6E2C0AF18B00F1C6C2 /* AdminShopify */,
 				04073B882C0AF18E00F1C6C2 /* AdminShopifyTests */,
-				04073B922C0AF18E00F1C6C2 /* AdminShopifyUITests */,
 				04073B6D2C0AF18B00F1C6C2 /* Products */,
 				D7852775953376E6663C127C /* Pods */,
 				E903917D02189CDEC000CC27 /* Frameworks */,
@@ -208,6 +207,7 @@
 				04073B802C0AF18E00F1C6C2 /* Info.plist */,
 				04073B782C0AF18C00F1C6C2 /* AdminShopify.xcdatamodeld */,
 				04F8BEF62C13A08A0031979A /* Secrits.swift */,
+				04073B922C0AF18E00F1C6C2 /* AdminShopifyUITests */,
 			);
 			path = AdminShopify;
 			sourceTree = "<group>";
