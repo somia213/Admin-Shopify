@@ -81,15 +81,20 @@ class AddNewProductViewController: UIViewController, AddNewProductView, UIPicker
                 }
         
         guard let productRequest = viewModel.constructProduct(
-                title: title,
-                description: description,
-                vendor: vendor,
-                variants: viewModel.variants,
-                images: viewModel.images
-            ) else {
-                showErrorAlert(message: "Invalid data entered.")
-                return
-            }
+                      title: title,
+                      description: description,
+                      vendor: vendor,
+                      variants: viewModel.variants.map { variant in
+                          var updatedVariant = variant
+                          updatedVariant.inventory_management = "shopify"
+                          return updatedVariant
+                      },
+                      images: viewModel.images
+                  ) else {
+                  showErrorAlert(message: "Invalid data entered.")
+                  return
+              }
+              
         
         viewModel.addProduct(product: productRequest) { [weak self] result in
             switch result {

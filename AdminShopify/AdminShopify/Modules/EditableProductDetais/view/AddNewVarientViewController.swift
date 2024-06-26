@@ -74,7 +74,7 @@ class AddNewVarientViewController: UIViewController, AddNewProductView {
             if let error = error {
                 print("Failed to update variant: \(error.localizedDescription)")
             } else {
-                self.viewModel.updateVariantInventory(variantId: self.viewModel.newVariants.first?.id ?? 0, inventoryItemId: 47387928461560, quantity: updatedQuantity)  { data, error in
+                self.viewModel.updateVariantInventory(variantId: self.viewModel.newVariants.first?.id ?? 0, inventoryItemId:viewModel.newVariants.first?.inventory_item_id ?? 0, quantity: updatedQuantity)  { data, error in
                     if let error = error {
                         print("Failed to update quantity: \(error.localizedDescription)")
                     } else {

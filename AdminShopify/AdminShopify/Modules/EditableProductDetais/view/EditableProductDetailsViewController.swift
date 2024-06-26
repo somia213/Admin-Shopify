@@ -226,8 +226,6 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         }
     }
 
-
-
     func showAddImageAlert() {
         let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
         
