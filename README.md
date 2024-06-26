@@ -17,5 +17,6 @@
 
 <p align="center">
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/f66684b6-7511-4525-9217-9faca6167c1a" width="35%" />
-  <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/f113b46f-922e-4711-b58c-d18e7dd960c3" width="35%" />
+  <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/eac09343-c439-4fe4-8fc1-ad865488b4bb" width="35%" />
 </p>
+
