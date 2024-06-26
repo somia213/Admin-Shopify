@@ -1,6 +1,6 @@
 # Admin-Shopify
 
-## APP feature
+## APP features:
 
 - Admin can log in with a username and password.
 - Admin can see all brands and available products of each brand.
