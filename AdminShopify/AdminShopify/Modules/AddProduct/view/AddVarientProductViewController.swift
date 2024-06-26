@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AddVariantDelegate: AnyObject {
-    func addVariant(variant: VariantRequest) 
+    func addVariant(variant: VariantRequest)
     func addImage(src: String)
 }
 
@@ -119,4 +119,3 @@ class AddVarientProductViewController: UIViewController {
        }
     
 }
-

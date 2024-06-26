@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginButtonTapped(_ sender: UIButton) {
-        if Username.text == "admin" && Password.text == "1234" {
+        if Username.text == "admin" && Password.text == "admin1234" {
             let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
             tabBarVC.modalPresentationStyle = .fullScreen
             tabBarVC.modalTransitionStyle = .crossDissolve

@@ -87,4 +87,25 @@ class EditableProductDetailsViewModel {
             }
         }
     }
+    
+    func updateVariantInventory(variantId: Int, inventoryItemId: Int, quantity: Int, completion: @escaping (Data?, Error?) -> Void) {
+            let networkManager = NetworkManager.shared
+            
+            let endpoint = ShopifyEndpoint.setInventoryLevels(productId: variantId)
+            
+            let postData: [String: Any] = [
+                "location_id": 76326863096,
+                "inventory_item_id": inventoryItemId,
+                "available": quantity
+            ]
+            
+            guard let postDataJson = try? JSONSerialization.data(withJSONObject: postData) else {
+                print("Failed to serialize inventory update data.")
+                return
+            }
+            
+            networkManager.postDataToApi(endpoint: .updateVariantInventory, rootOfJson: .postInventoryQuantity, body: postDataJson) { (data, error) in
+                completion(data, error)
+            }
+        }
 }

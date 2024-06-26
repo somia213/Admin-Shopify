@@ -149,4 +149,3 @@ extension AddNewProductViewController: AddVariantDelegate {
         viewModel.addImage(src: src)
     }
 }
-

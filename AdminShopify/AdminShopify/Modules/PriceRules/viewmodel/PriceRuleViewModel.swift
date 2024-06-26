@@ -14,12 +14,19 @@ class PriceRulesViewModel {
     private var timer: Timer?
     
     var dataUpdated: (() -> Void)?
+    var noInternetConnection: (() -> Void)?
     
     init(networkManager: NetworkServicing = NetworkManager.shared) {
         self.networkManager = networkManager
     }
     
     func fetchPriceRules() {
+        guard Connectivity.connectivityInstance.isConnectedToInternet() else {
+            print("No internet connection.")
+            noInternetConnection?()
+            return
+        }
+        
         networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.getAllpriceRules) { [weak self] (response: PriceRulesResponse?) in
             guard let self = self else { return }
             if let response = response {

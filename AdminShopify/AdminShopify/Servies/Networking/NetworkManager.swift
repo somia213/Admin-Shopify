@@ -13,6 +13,7 @@ enum Root: String {
     case postPriceRule = "price_rule"
     case postDiscountCode = "discount_codes"
     case postVariant = "variants"
+    case postInventoryQuantity = "inventory_level"
     
 }
 
