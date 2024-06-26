@@ -57,12 +57,6 @@ class AddVarientProductViewController: UIViewController {
                 return
             }
         
-        let sizeCharacterSet = CharacterSet.letters
-            guard size.rangeOfCharacter(from: sizeCharacterSet.inverted) == nil else {
-                showAlert(message: "Invalid input for size. Only alphabetic characters are allowed.")
-                return
-            }
-        
         let imagesString = addImage.text ?? ""
         let quantityString = addQuantity.text ?? ""
         

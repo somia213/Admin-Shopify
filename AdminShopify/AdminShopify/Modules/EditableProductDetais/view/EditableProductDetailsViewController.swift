@@ -221,8 +221,8 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                 productAvailabilityInStore.text = "\(variant.inventory_quantity)"
         } else {
             print("No variant found for size \(selectedSize)")
-            productPrice.text = "Not Available"
-            productAvailabilityInStore.text = "Not Available"
+            productPrice.text = "222"
+            productAvailabilityInStore.text = "22"
         }
     }
 
@@ -400,7 +400,6 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                 return
             }
             
-            // Ensure position is valid
             guard position >= 0, position < product.images.count else {
                 print("Invalid position or product images are nil.")
                 return

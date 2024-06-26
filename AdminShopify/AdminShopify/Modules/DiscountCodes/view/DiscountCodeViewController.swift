@@ -37,7 +37,7 @@ class DiscountCodeViewController: UIViewController {
         }
         doneImage.isHidden = true
     }
-    
+        
     @IBAction func addNewDiscountCode(_ sender: Any) {
             let alertController = UIAlertController(title: "Add Discount Code", message: "Enter the discount code", preferredStyle: .alert)
 
@@ -68,16 +68,21 @@ class DiscountCodeViewController: UIViewController {
             present(alertController, animated: true, completion: nil)
         }
         
-        private func showSuccessAlertAndDismiss() {
-            let alertController = UIAlertController(title: "Success", message: "Discount code added successfully", preferredStyle: .alert)
+    private func showSuccessAlertAndDismiss() {
+        let alertController = UIAlertController(title: "Success", message: "Discount code added successfully", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.viewModel.fetchDiscountCodes()
             
-            let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-                self?.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self?.discountTable.reloadData()
             }
-            
-            alertController.addAction(okAction)
-            present(alertController, animated: true, completion: nil)
         }
+        
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
     
     private func showSuccessImageAndNavigateBack() {
         doneImage.isHidden = false
@@ -89,7 +94,6 @@ class DiscountCodeViewController: UIViewController {
                     self.doneImage.alpha = 0.0
                 }) { _ in
                     self.doneImage.isHidden = true
-                    self.navigateBack()
                 }
             }
         }
