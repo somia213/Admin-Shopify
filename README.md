@@ -9,3 +9,9 @@
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/6f1f32d4-15ed-4bda-996b-d21dd7f95786" width="35%" />
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/07e7d79f-395f-41eb-88a5-73a8d16d45ec" width="35%" />
 </p>
+
+<p align="center">
+  <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/50ce0388-f939-4527-8537-220413ba1b85" width="35%" />
+  <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/07e7d79f-395f-41eb-88a5-73a8d16d45ec" width="35%" />
+</p>
+
