@@ -13,6 +13,7 @@ enum Root: String {
     case postPriceRule = "price_rule"
     case postDiscountCode = "discount_codes"
     case postVariant = "variants"
+    case postInventoryQuantity = "inventory_level"
     
 }
 
@@ -59,32 +60,32 @@ class NetworkManager: NetworkServicing {
         
         static let shared = NetworkManager()
         
- func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
-            AF.request(endpoint.url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
-                .response { response in
-                    switch response.result {
-                    case .success(let data):
-                        guard let data = data else {
-                            print("No data received from the server.")
-                            completionHandler(nil)
-                            return
-                        }
-                        print(String(data: data, encoding: .utf8) ?? "Unable to print response data.")
-                        do {
-                            let result = try JSONDecoder().decode(T.self, from: data)
-                            completionHandler(result)
-                        } catch {
-                            print("Decoding error: \(error)")
-                            completionHandler(nil)
-                        }
-                        
-                    case .failure(let error):
-                        print("Request error: \(error)")
+    func fetchDataFromAPI<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (T?) -> Void) {
+        AF.request(endpoint.url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    guard let data = data else {
+                        print("No data received from the server.")
+                        completionHandler(nil)
+                        return
+                    }
+                    print(String(data: data, encoding: .utf8) ?? "Unable to print response data.")
+                    do {
+                        let result = try JSONDecoder().decode(T.self, from: data)
+                        completionHandler(result)
+                    } catch {
+                        print("Decoding error: \(error)")
                         completionHandler(nil)
                     }
+                    
+                case .failure(let error):
+                    print("Request error: \(error)")
+                    completionHandler(nil)
                 }
-        }
-        
+            }
+    }
+
     
     func postDataToApi(endpoint: TestEndpoint, rootOfJson: Root, body: Data, completion: @escaping (Data?, Error?) -> Void) {
         let urlString = "https://\(API_KEY):\(TOKEN)\(baseUrl)\(endpoint.rawValue)"
@@ -138,7 +139,7 @@ class NetworkManager: NetworkServicing {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "PUT" // Adjust HTTP method as needed (PUT, PATCH, etc.)
+        request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Basic \(apiKey):\(password)", forHTTPHeaderField: "Authorization")
         request.httpBody = body

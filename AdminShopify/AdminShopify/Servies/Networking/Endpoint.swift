@@ -37,7 +37,7 @@ enum ShopifyEndpoint {
     case postDiscountCode(priceRuleId: Int)
     case deleteDiscountCode(priceRuleId: Int, discountCodeId: Int)
     case deleteProductImage(productId: Int, imageId: Int)
-
+    case setInventoryLevels(productId: Int)
     
 }
 
@@ -72,6 +72,8 @@ extension ShopifyEndpoint: Endpoint {
             return "/admin/api/2024-04/price_rules/\(priceRuleId)/discount_codes/\(discountCodeId).json"
         case .deleteProductImage(let productId, let imageId):
             return "/admin/api/2024-04/products/\(productId)/images/\(imageId).json"
+            case .setInventoryLevels(let productId):
+            return "/admin/api/2024-04/inventory_levels/set.json?inventory_item_id=\(productId)"
         }
     }
 }

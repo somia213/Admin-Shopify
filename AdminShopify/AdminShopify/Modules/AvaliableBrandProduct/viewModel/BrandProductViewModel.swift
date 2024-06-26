@@ -14,12 +14,19 @@ class BrandProductViewModel {
     var brandTitle: String?
 
     var dataUpdated: (() -> Void)?
+    var noInternetConnection: (() -> Void)?
 
     init(networkManager: NetworkServicing = NetworkManager()) {
         self.networkManager = networkManager
     }
 
     func fetchData(forBrand brand: String) {
+        guard Connectivity.connectivityInstance.isConnectedToInternet() else {
+            print("No internet connection.")
+            noInternetConnection?()
+            return
+        }
+
         networkManager.fetchDataFromAPI(endpoint: ShopifyEndpoint.productsByBrand(brand: brand)) { [weak self] (response: BrandProductResponse?) in
             guard let self = self else { return }
             if let response = response {

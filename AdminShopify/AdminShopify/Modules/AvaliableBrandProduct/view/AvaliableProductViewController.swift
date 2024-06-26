@@ -7,14 +7,12 @@
 
 import UIKit
 
-class AvaliableProductViewController: UIViewController , AddNewProductView {
+class AvaliableProductViewController: UIViewController, AddNewProductView {
 
     @IBOutlet weak var avaliableProductTableView: UITableView!
-    
     @IBOutlet weak var indecatorView: UIActivityIndicatorView!
     
     var brandTitle: String?
-    
     var presenter: AddNewProductPresenter!
     var viewModel: BrandProductViewModel!
 
@@ -26,6 +24,12 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
 
         presenter = AddNewProductPresenter(view: self)
         viewModel = BrandProductViewModel()
+        
+        viewModel.noInternetConnection = { [weak self] in
+            DispatchQueue.main.async {
+                self?.showNoInternetAlert()
+            }
+        }
         
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
@@ -41,6 +45,10 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        indecatorView.startAnimating()
+        
         if let brandTitle = brandTitle {
             viewModel.fetchData(forBrand: brandTitle)
         }
@@ -49,15 +57,22 @@ class AvaliableProductViewController: UIViewController , AddNewProductView {
     @IBAction func backBtn(_ sender: Any) {
         navigateBack()
     }
+    
     func navigateBack() {
-           dismiss(animated: true, completion: nil)
-       }
+        dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func addProduct(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let addProduct = storyboard.instantiateViewController(withIdentifier: "AddNewProductViewController") as! AddNewProductViewController
-               addProduct.modalPresentationStyle = .fullScreen
-                self.present(addProduct, animated: true, completion: nil)
+        let addProduct = storyboard.instantiateViewController(withIdentifier: "AddNewProductViewController") as! AddNewProductViewController
+        addProduct.modalPresentationStyle = .fullScreen
+        self.present(addProduct, animated: true, completion: nil)
+    }
+    
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -69,7 +84,7 @@ extension AvaliableProductViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allProductCell", for: indexPath) as! AllProductsTableViewCell
         
-        let products = viewModel.products 
+        let products = viewModel.products
         let product = products[indexPath.row]
         if let imageUrlString = product.images.first?.src, let imageUrl = URL(string: imageUrlString) {
             cell.productItemImg.kf.setImage(with: imageUrl)
@@ -90,7 +105,6 @@ extension AvaliableProductViewController: UITableViewDataSource {
             cell.productItemPrice.text = "Price Unavailable"
         }
         return cell
-        
     }
 }
 
@@ -141,9 +155,3 @@ extension AvaliableProductViewController: UITableViewDelegate {
         }
     }
 }
-
-
-
-
-
-

@@ -24,6 +24,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
     
     var viewModel = EditableProductDetailsViewModel()
     var presenter: AddNewProductPresenter!
+    var fetchTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +65,14 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         startTimer()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.viewWillAppear(animated)
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -84,6 +93,12 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                     self?.viewModel.arrProductImg = product.images.map { $0.src }
                     self?.imgCollectionView.reloadData()
                     self?.pageController.numberOfPages = self?.viewModel.arrProductImg.count ?? 0
+                    
+                    if let quantity = product.variants.first?.inventory_quantity {
+                        self?.productAvailabilityInStore.text = "\(quantity)"
+                    } else {
+                        self?.productAvailabilityInStore.text = "Not Available"
+                    }
                 }
             } else {
                 print("Failed to fetch product details.")
@@ -202,15 +217,14 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         }
 
         if let variant = product.variants.first(where: { $0.option1 == selectedSize }) {
-            productPrice.text = "\(variant.price)"
-            productAvailabilityInStore.text = "\(variant.inventory_quantity)"
+                productPrice.text = "\(variant.price)"
+                productAvailabilityInStore.text = "\(variant.inventory_quantity)"
         } else {
             print("No variant found for size \(selectedSize)")
-            productPrice.text = "" // ----------->
-            productAvailabilityInStore.text = "" // ------------>
+            productPrice.text = "222"
+            productAvailabilityInStore.text = "22"
         }
     }
-
 
     func showAddImageAlert() {
         let alert = UIAlertController(title: "Add Image", message: "Enter image URL", preferredStyle: .alert)
@@ -384,7 +398,6 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
                 return
             }
             
-            // Ensure position is valid
             guard position >= 0, position < product.images.count else {
                 print("Invalid position or product images are nil.")
                 return
@@ -559,6 +572,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         updatePriceAndQuantityForSelectedSize()
     }
 
+
     
     func updateColorOptionsForSelectedSize() {
         guard let product = viewModel.product,
@@ -575,6 +589,7 @@ class EditableProductDetailsViewController: UIViewController, AddNewProductView 
         
         availableColors.forEach { addColor(color: $0) }
     }
+
     
     func addColor(color: String) {
         let newColorView = UIView()

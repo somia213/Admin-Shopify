@@ -10,7 +10,6 @@ import UIKit
 class PriceRulesViewController: UIViewController {
 
     @IBOutlet weak var priceRulesTable: UITableView!
-    
     @IBOutlet weak var indecatorView: UIActivityIndicatorView!
         
     var viewModel: PriceRulesViewModel!
@@ -22,6 +21,11 @@ class PriceRulesViewController: UIViewController {
         indecatorView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         
         viewModel = PriceRulesViewModel()
+        viewModel.noInternetConnection = { [weak self] in
+            DispatchQueue.main.async {
+                self?.showNoInternetAlert()
+            }
+        }
         
         viewModel.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
@@ -34,15 +38,14 @@ class PriceRulesViewController: UIViewController {
         let cellNib = UINib(nibName: "PriceRulesTableViewCell", bundle: nil)
         priceRulesTable.register(cellNib, forCellReuseIdentifier: "priceRulesCell")
         priceRulesTable.backgroundColor = UIColor.systemGray6
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        indecatorView.startAnimating()
         viewModel.fetchPriceRules()
     }
-    
     
     @IBAction func addNewPriceRule(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -53,7 +56,6 @@ class PriceRulesViewController: UIViewController {
 
         self.present(addPriceRuleVC, animated: true, completion: nil)
     }
-    
     
     private func showAlertToDeletePriceRule(at indexPath: IndexPath) {
         guard indexPath.row < viewModel.priceRules.count else {
@@ -90,6 +92,12 @@ class PriceRulesViewController: UIViewController {
         alertController.addAction(deleteAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -139,7 +147,6 @@ extension PriceRulesViewController: UITableViewDelegate {
             showAlertToDeletePriceRule(at: indexPath)
         }
     }
-    
     
     private func createNoDataLabel() -> UILabel {
         let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: priceRulesTable.bounds.size.width, height: priceRulesTable.bounds.size.height))

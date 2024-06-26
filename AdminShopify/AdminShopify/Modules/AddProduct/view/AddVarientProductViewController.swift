@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AddVariantDelegate: AnyObject {
-    func addVariant(variant: VariantRequest) 
+    func addVariant(variant: VariantRequest)
     func addImage(src: String)
 }
 
@@ -57,12 +57,6 @@ class AddVarientProductViewController: UIViewController {
                 return
             }
         
-        let sizeCharacterSet = CharacterSet.letters
-            guard size.rangeOfCharacter(from: sizeCharacterSet.inverted) == nil else {
-                showAlert(message: "Invalid input for size. Only alphabetic characters are allowed.")
-                return
-            }
-        
         let imagesString = addImage.text ?? ""
         let quantityString = addQuantity.text ?? ""
         
@@ -97,7 +91,6 @@ class AddVarientProductViewController: UIViewController {
                         inventory_quantity: quantity,
                         old_inventory_quantity: quantity,
                         sku: sku
-                        // inventory_management: "shopify"
                     )
                     
                     delegate?.addVariant(variant: variant)
@@ -120,4 +113,3 @@ class AddVarientProductViewController: UIViewController {
        }
     
 }
-

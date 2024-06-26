@@ -45,7 +45,7 @@ struct VariantRequest: Codable {
     let inventory_quantity: Int?
     let old_inventory_quantity: Int?
     let sku: String
-  //  let inventory_management: String
+    var inventory_management: String = "shopify"
 }
 
 struct OptionRequest: Codable {
