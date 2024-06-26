@@ -1,5 +1,17 @@
 # Admin-Shopify
 
+## APP feature
+
+- Admin can log in with a username and password.
+- Admin can see all brands and available products of each brand.
+- Admin can click on any product and see its details, such as title, description, images, and variants.
+- Admin can add an image to a product or delete it, and can update the title, description, and variants (color, size, price, quantity).
+- Admin can delete a product.
+- Admin can see all products and search by category name.
+- Admin can add a new product with multiple variants.
+- Admin can add a price rule with multiple discount codes.
+- Admin can delete a price rule and discount codes.
+
 <p align="center">
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/60c13c9c-cbff-4a1a-8f83-23d31a46ae67" width="35%" />
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/a2765eca-f69d-489f-918e-ff5ccd9caa9e" width="35%" />
