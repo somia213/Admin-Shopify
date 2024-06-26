@@ -12,6 +12,17 @@
 - Admin can add a price rule with multiple discount codes.
 - Admin can delete a price rule and discount codes.
 
+  ## Tools & Technology:
+
+- Swift
+- UIKit
+- MVVM Architecture Pattern
+- Shopify API as backend API
+- Unit Testing
+- CocoaPods (Alamofire, Kingfisher, Reachability,Lottifiles)
+- Project Management Tools (Trello, GitHub)
+
+
 <p align="center">
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/60c13c9c-cbff-4a1a-8f83-23d31a46ae67" width="35%" />
   <img src="https://github.com/somia213/Admin-Shopify/assets/105312434/a2765eca-f69d-489f-918e-ff5ccd9caa9e" width="35%" />
